@@ -1,9 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q00", "..\Q00\Q00.csproj", "{F74BDC15-D1B3-40C5-8026-17ADE8AAE4AD}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q00", "Q00\Q00.csproj", "{F74BDC15-D1B3-40C5-8026-17ADE8AAE4AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q01", "Q01\Q01.csproj", "{97621414-97DF-4741-A2DA-400B967446C9}"
 EndProject
@@ -12,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q03", "Q03\Q03.csproj", "{5CCCD9F9-2281-4DA6-A47C-C223F4B8E94C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q04", "Q04\Q04.csproj", "{26567E7E-3F45-412F-A6EB-ACE09F410348}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q05", "Q05\Q05.csproj", "{3321ABD6-BE53-4126-85D7-03B8613C575D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,11 +39,9 @@ Global
 		{26567E7E-3F45-412F-A6EB-ACE09F410348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26567E7E-3F45-412F-A6EB-ACE09F410348}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26567E7E-3F45-412F-A6EB-ACE09F410348}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E19AF967-FCDC-4A47-A1EA-8F601325974E}
+		{3321ABD6-BE53-4126-85D7-03B8613C575D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3321ABD6-BE53-4126-85D7-03B8613C575D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3321ABD6-BE53-4126-85D7-03B8613C575D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3321ABD6-BE53-4126-85D7-03B8613C575D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
