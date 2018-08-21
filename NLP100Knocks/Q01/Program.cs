@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Q01
 {
@@ -16,12 +13,13 @@ namespace Q01
         static void Main(string[] args)
         {
             string text = "パタトクカシーー";
-            int[] index = new[] {1, 3, 5, 7};
+            int[] index = {1, 3, 5, 7};
             StringBuilder result = new StringBuilder();
             foreach (var item in index)
             {
                 result.Append(text[item - 1]);
             }
+
             Console.WriteLine(result.ToString());
             Console.ReadKey();
         }
