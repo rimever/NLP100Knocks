@@ -20,7 +20,6 @@ namespace Q08
             string decrypt = DecryptCipher(encrypt);
             Console.WriteLine(decrypt);
             System.Diagnostics.Debug.Assert(text == decrypt, "可逆性あり");                           
-            Console.WriteLine("Hello World!");
         }
 
         private static string DecryptCipher(string text)
