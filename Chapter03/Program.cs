@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
 namespace Chapter03
@@ -20,7 +21,30 @@ namespace Chapter03
             Question21(json);
             Console.WriteLine("Quesution22");
             Question22(json);
+            Console.WriteLine("Quesution23");
+            Question23(json);
         }
+        /// <summary>
+        /// 記事中に含まれるセクション名とそのレベル（例えば"== セクション名 =="なら1）を表示せよ．
+        /// </summary>
+        /// <param name="json">Json.</param>
+        private static void Question23(JObject json)
+        {
+            var text = json.GetValue("text").ToString();
+            foreach (var line in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+            {
+                var equalPattern = "==+";
+                var notEqualPattern = @"[^=]+";
+                var pattern = $@"{equalPattern}{notEqualPattern}{equalPattern}";
+                var match = Regex.Match(line, pattern);
+                if (match.Success) {
+                    var sectionName = Regex.Match(match.Value, notEqualPattern).Value.Trim();
+                    var level = Regex.Match(match.Value, equalPattern).Value.Length;
+                    Console.WriteLine($"{level} {sectionName}");
+                }
+            }
+        }
+
         /// <summary>
         /// 記事のカテゴリ名を（行単位ではなく名前で）抽出せよ．
         /// </summary>
