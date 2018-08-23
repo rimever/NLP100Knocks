@@ -23,7 +23,26 @@ namespace Chapter03
             Question22(json);
             Console.WriteLine("Quesution23");
             Question23(json);
+            Console.WriteLine("Quesution24");
+            Question24(json);
         }
+        /// <summary>
+        /// 記事から参照されているメディアファイルをすべて抜き出せ．
+        /// </summary>
+        /// <param name="json">Json.</param>
+        private static void Question24(JObject json)
+        {
+            var text = json.GetValue("text").ToString();
+            foreach (var line in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+            {
+                const string MediaFilePrefix = "ファイル:";
+                if (line.Contains(MediaFilePrefix)) {
+                    int startIndex = line.IndexOf(MediaFilePrefix, 0, StringComparison.InvariantCulture) + MediaFilePrefix.Length;
+                    Console.WriteLine(line.Substring(startIndex, line.IndexOf("|",startIndex, StringComparison.InvariantCulture) - startIndex));
+                }
+            }
+        }
+
         /// <summary>
         /// 記事中に含まれるセクション名とそのレベル（例えば"== セクション名 =="なら1）を表示せよ．
         /// </summary>
