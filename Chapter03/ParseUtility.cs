@@ -112,5 +112,37 @@ namespace Chapter03
         {
             return text.Replace("'", String.Empty);
         }
+
+        public static string RemoveInnerLinkMarkup(string text)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            int bracketStartIndex = -1;
+            for (int i = 0; i < text.Length; i++)
+            {
+                string rest = text.Substring(i);
+                if (rest.StartsWith(StartBracket))
+                {
+                    bracketStartIndex = i;
+                    i += StartBracket.Length - 1;
+                }else if (rest.StartsWith(EndBracket))
+                {
+                    string value = text.Substring(bracketStartIndex + StartBracket.Length,
+                        i - bracketStartIndex - StartBracket.Length);
+                    int sepratorIndex = value.IndexOf(Separator, StringComparison.Ordinal);
+                    if (sepratorIndex != -1)
+                    {
+                        value = value.Substring(sepratorIndex + 1);
+                    }
+                    stringBuilder.Append(value);
+                    bracketStartIndex = -1;
+                    i += EndBracket.Length - 1;
+                }
+                else if (bracketStartIndex == -1)
+                {
+                    stringBuilder.Append(text[i]);
+                }
+            }
+            return stringBuilder.ToString();
+        }
     }
 }

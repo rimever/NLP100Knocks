@@ -12,8 +12,6 @@ namespace Chapter03
     /// </summary>
     class MainClass
     {
-        private const string EndBracket = "}}";
-
         public static void Main(string[] args)
         {
             string path = "../../jawiki-country.json";
@@ -33,8 +31,35 @@ namespace Chapter03
             Question25(json);
             Console.WriteLine("Quesution26");
             Question26(json);
+            Console.WriteLine("Quesution27");
+            Question27(json);
             Console.ReadKey();
         }
+
+        private static void Question27(JObject json)
+        {
+            var text = json.GetValue("text").ToString();
+            var basicInfomation = string.Empty;
+            const string basicPrefix = "基礎情報";
+            var blocks = ParseUtility.ParseBetweenBrace(text);
+            foreach (var line in blocks)
+            {
+                if (line.StartsWith(basicPrefix))
+                {
+                    basicInfomation = line;
+                    break;
+                }
+            }
+
+            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            foreach (var item in hash)
+            {
+                string value = ParseUtility.RemoveStrongMarkup(item.Value);
+                value = ParseUtility.RemoveInnerLinkMarkup(value);
+                Console.WriteLine($"{item.Key} = {value}");
+            }
+        }
+
         /// <summary>
         /// 25の処理時に，テンプレートの値からMediaWikiの強調マークアップ（弱い強調，強調，強い強調のすべて）を除去してテキストに変換せよ
         /// </summary>

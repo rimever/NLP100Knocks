@@ -35,5 +35,12 @@ namespace Chapter03.Tests
             var actual = ParseUtility.RemoveStrongMarkup(text);
             Assert.AreEqual(actual, "他との区別|強調|斜体と強調");
         }
+        [Test]
+        public void RemoveInnerLink()
+        {
+            string text = "test[[記事名]] [[記事名|表示文字]] [[記事名#節名|表示文字]]end";
+            var actual = ParseUtility.RemoveInnerLinkMarkup(text);
+            Assert.AreEqual(actual, "test記事名 表示文字 表示文字end");
+        }
     }
 }
