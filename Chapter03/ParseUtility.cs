@@ -55,18 +55,23 @@ namespace Chapter03
             int braceCount = 0;
             int firstSeparatorIndex = -1;
             int bracketCount = 0;
+            
 
             void StoreDictionary(string keyAndValue)
             {
-                var splits = keyAndValue.Split('=');
-                results.Add(splits[0].Trim(), splits[1].Trim());
+                // a = <ref name = test>というケースがあるのでsplitしない
+                var index = keyAndValue.IndexOf("=", StringComparison.Ordinal);
+                results.Add(keyAndValue.Substring(0, index).Trim(),
+                    keyAndValue.Substring(index + 1, keyAndValue.Length - index - 1).Trim());
             }
 
             for (int nowIndex = 0; nowIndex < text.Length; nowIndex++)
             {
-                if (text.Substring(nowIndex).StartsWith(Separator))
+                string rest = text.Substring(nowIndex);
+                if (rest.StartsWith(Separator))
                 {
-                    if (braceCount == 0 && bracketCount == 0)
+                    if (braceCount == 0
+                        && bracketCount == 0)
                     {
                         if (firstSeparatorIndex != -1)
                         {
@@ -77,19 +82,19 @@ namespace Chapter03
                         firstSeparatorIndex = nowIndex + Separator.Length;
                     }
                 }
-                else if (text.Substring(nowIndex).StartsWith(StartBrace))
+                else if (rest.StartsWith(StartBrace))
                 {
                     braceCount++;
                 }
-                else if (text.Substring(nowIndex).StartsWith(EndBrace))
+                else if (rest.StartsWith(EndBrace))
                 {
                     braceCount--;
                 }
-                else if (text.Substring(nowIndex).StartsWith(StartBracket))
+                else if (rest.StartsWith(StartBracket))
                 {
                     bracketCount++;
                 }
-                else if (text.Substring(nowIndex).StartsWith(EndBracket))
+                else if (rest.StartsWith(EndBracket))
                 {
                     bracketCount--;
                 }
@@ -97,6 +102,15 @@ namespace Chapter03
 
             StoreDictionary(text.Substring(firstSeparatorIndex));
             return results;
+        }
+        /// <summary>
+        /// 強調表現を表すマークアップを取り除いて、テキストに変換
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string RemoveStrongMarkup(string text)
+        {
+            return text.Replace("'", String.Empty);
         }
     }
 }

@@ -31,7 +31,36 @@ namespace Chapter03
             Question24(json);
             Console.WriteLine("Quesution25");
             Question25(json);
+            Console.WriteLine("Quesution26");
+            Question26(json);
             Console.ReadKey();
+        }
+        /// <summary>
+        /// 25の処理時に，テンプレートの値からMediaWikiの強調マークアップ（弱い強調，強調，強い強調のすべて）を除去してテキストに変換せよ
+        /// </summary>
+        /// <param name="json"></param>
+        private static void Question26(JObject json)
+        {
+            var text = json.GetValue("text").ToString();
+            var basicInfomation = string.Empty;
+            const string basicPrefix = "基礎情報";
+            var blocks = ParseUtility.ParseBetweenBrace(text);
+            foreach (var line in blocks)
+            {
+                if (line.StartsWith(basicPrefix))
+                {
+                    basicInfomation = line;
+                    break;
+                }
+            }
+
+            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            foreach (var item in hash)
+            {
+                string value = ParseUtility.RemoveStrongMarkup(item.Value);
+                Console.WriteLine($"{item.Key} = {value}");
+            }
+
         }
 
         /// <summary>
@@ -69,11 +98,11 @@ namespace Chapter03
             var text = json.GetValue("text").ToString();
             foreach (var line in text.Split(new[] { '\n' }, StringSplitOptions.None))
             {
-                const string MediaFilePrefix = "ファイル:";
-                if (line.Contains(MediaFilePrefix))
+                const string mediaFilePrefix = "ファイル:";
+                if (line.Contains(mediaFilePrefix))
                 {
-                    int startIndex = line.IndexOf(MediaFilePrefix, 0, StringComparison.InvariantCulture) +
-                                     MediaFilePrefix.Length;
+                    int startIndex = line.IndexOf(mediaFilePrefix, 0, StringComparison.InvariantCulture) +
+                                     mediaFilePrefix.Length;
                     Console.WriteLine(line.Substring(startIndex,
                         line.IndexOf("|", startIndex, StringComparison.InvariantCulture) - startIndex));
                 }

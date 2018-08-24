@@ -23,9 +23,17 @@ namespace Chapter03.Tests
         [Test]
         public void ParseKeyValue()
         {
-            IDictionary<string,string> result = ParseUtility.ParseKeyValue("基礎情報|a = b{{test}}|c = d[[e{{f}}g]]");
+            IDictionary<string,string> result = ParseUtility.ParseKeyValue("基礎情報|a = b{{test}}|c = d[[e{{f}}g]]|h = <i = ttt>");
             Assert.AreEqual(result["a"], "b{{test}}");
             Assert.AreEqual(result["c"], "d[[e{{f}}g]]");
+            Assert.AreEqual(result["h"], "<i = ttt>");
+        }
+        [Test]
+        public void RemoveStrongMarkup()
+        {
+            string text = @"''他との区別''|'''強調'''|'''''斜体と強調'''''";
+            var actual = ParseUtility.RemoveStrongMarkup(text);
+            Assert.AreEqual(actual, "他との区別|強調|斜体と強調");
         }
     }
 }
