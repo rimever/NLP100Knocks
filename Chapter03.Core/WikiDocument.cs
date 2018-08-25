@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
 namespace Chapter03.Core
@@ -11,6 +11,7 @@ namespace Chapter03.Core
     public class WikiDocument
     {
         private const string CategoryPrefix = "Category:";
+
         private static readonly string FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             @"..\..\..\Chapter03.Core\jawiki-country.json");
 
@@ -19,8 +20,9 @@ namespace Chapter03.Core
         /// </summary>
         public WikiDocument()
         {
-            System.Diagnostics.Debug.Assert(File.Exists(FileName), Path.GetFullPath(FileName));
+            Debug.Assert(File.Exists(FileName), Path.GetFullPath(FileName));
         }
+
         /// <summary>
         /// 指定名の国の記事を取得する。
         /// </summary>
@@ -40,6 +42,7 @@ namespace Chapter03.Core
 
             throw new InvalidOperationException($"{countryName}の記事は見つかりませんでした。");
         }
+
         /// <summary>
         /// 国情報を行単位で取得します。
         /// </summary>
@@ -47,11 +50,12 @@ namespace Chapter03.Core
         /// <returns></returns>
         public IEnumerable<string> EnumerableCountryLines(string countryText)
         {
-            foreach (var line in countryText.Split(new[] { '\n' }, StringSplitOptions.None))
+            foreach (var line in countryText.Split(new[] {'\n'}, StringSplitOptions.None))
             {
                 yield return line;
             }
         }
+
         /// <summary>
         /// 国のカテゴリ情報を取得します。
         /// </summary>
@@ -67,6 +71,7 @@ namespace Chapter03.Core
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -83,7 +88,79 @@ namespace Chapter03.Core
             {
                 result = result.Substring(0, result.IndexOf(separator, StringComparison.InvariantCulture));
             }
+
             return result;
+        }
+
+        /// <summary>
+        /// セクションをパースします。
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns>セクションでなければnullを返します</returns>
+        public Section ParseSection(string line)
+        {
+            var equalPattern = "==+";
+            var notEqualPattern = @"[^=]+";
+            var pattern = $@"{equalPattern}{notEqualPattern}{equalPattern}";
+            var match = Regex.Match(line, pattern);
+            if (match.Success)
+            {
+                var sectionName = Regex.Match(match.Value, notEqualPattern).Value.Trim();
+                var level = Regex.Match(match.Value, equalPattern).Value.Length;
+                return new Section
+                {
+                    Level = level,
+                    Name = sectionName
+                };
+            }
+
+            return null;
+        }
+
+        public IEnumerable EnumerableCountryFile(string text)
+        {
+            const string mediaFilePrefix = "ファイル:";
+            foreach (var line in EnumerableCountryLines(text))
+            {
+                if (!line.Contains(mediaFilePrefix))
+                {
+                    continue;
+                }
+
+                int startIndex = line.IndexOf(mediaFilePrefix, 0, StringComparison.InvariantCulture) +
+                                 mediaFilePrefix.Length;
+                var fileName = line.Substring(startIndex,
+                    line.IndexOf("|", startIndex, StringComparison.InvariantCulture) - startIndex);
+                yield return fileName;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string GetBasicInfomation(string text)
+        {
+            var basicInfomation = String.Empty;
+            const string basicPrefix = "基礎情報";
+            var blocks = ParseUtility.ParseBetweenBrace(text);
+            foreach (var line in blocks)
+            {
+                if (line.StartsWith(basicPrefix))
+                {
+                    basicInfomation = line;
+                    break;
+                }
+            }
+
+            return basicInfomation;
+        }
+
+        public class Section
+        {
+            public string Name { get; set; }
+            public int Level { get; set; }
         }
     }
 }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chapter03.Core;
+﻿using Chapter03.Core;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace Chapter03.Tests
 {
@@ -18,9 +12,10 @@ namespace Chapter03.Tests
         [Test]
         public void Answer20()
         {
-            Resolver resolver =  new Resolver();
+            Resolver resolver = new Resolver();
             resolver.Answer20();
         }
+
         /// <summary>
         /// <seealso cref="Resolver.Answer21"/>を検証します。
         /// </summary>
@@ -30,6 +25,7 @@ namespace Chapter03.Tests
             Resolver resolver = new Resolver();
             resolver.Answer21();
         }
+
         /// <summary>
         /// <seealso cref="Resolver.Answer22"/>を検証します。
         /// </summary>
@@ -38,6 +34,56 @@ namespace Chapter03.Tests
         {
             Resolver resolver = new Resolver();
             resolver.Answer22();
+        }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer23"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer23()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer23();
+        }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer24"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer24()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer24();
+        }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer25"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer25()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer25();
+        }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer26"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer26()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer26();
+        }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer27"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer27()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer27();
         }
     }
 }

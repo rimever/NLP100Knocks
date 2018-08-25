@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -13,19 +12,24 @@ namespace Q09
     {
         public static void Main(string[] args)
         {
-            string text = "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind .";
-            Console.WriteLine(string.Join(" ", text.Split(' ').Select((arg) => Randomize(arg))));
+            string text =
+                "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind .";
+            Console.WriteLine(string.Join(" ", text.Split(' ').Select(arg => Randomize(arg))));
         }
+
         /// <summary>
         /// 単語の先頭と末尾の文字は残し，それ以外の文字の順序をランダムに並び替えます。
         /// ただし、長さが4以下の単語は並び替えません。
         /// </summary>
         /// <returns>The randomize.</returns>
         /// <param name="word">Word.</param>
-        private static string Randomize(string word) {
-            if (word.Length <= 4) {
+        private static string Randomize(string word)
+        {
+            if (word.Length <= 4)
+            {
                 return word;
             }
+
             StringBuilder stringBuilder = new StringBuilder();
             Random random = new Random();
             var indicies = Enumerable.Range(1, word.Length - 2).ToList();
@@ -35,8 +39,8 @@ namespace Q09
                 stringBuilder.Append(word[indicies[value]]);
                 indicies.RemoveAt(value);
             }
+
             return word[0] + stringBuilder.ToString() + word[word.Length - 1];
         }
-
     }
 }

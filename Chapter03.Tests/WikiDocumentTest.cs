@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Chapter03.Core;
 using NUnit.Framework;
 
@@ -17,6 +13,7 @@ namespace Chapter03.Tests
             WikiDocument wikiDocument = new WikiDocument();
             Assert.NotNull(wikiDocument);
         }
+
         [Test]
         public void GetCountry()
         {

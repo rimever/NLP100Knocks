@@ -25,6 +25,7 @@ namespace Chapter03.Core
                     {
                         firstBracketIndex = nowIndex + StartBrace.Length;
                     }
+
                     bracketCount++;
                     continue;
                 }
@@ -36,12 +37,13 @@ namespace Chapter03.Core
                     {
                         string between = text.Substring(firstBracketIndex, nowIndex - firstBracketIndex);
                         results.Add(between);
-
                     }
                 }
             }
+
             return results;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -53,7 +55,7 @@ namespace Chapter03.Core
             int braceCount = 0;
             int firstSeparatorIndex = -1;
             int bracketCount = 0;
-            
+
 
             void StoreDictionary(string keyAndValue)
             {
@@ -75,8 +77,8 @@ namespace Chapter03.Core
                         {
                             string between = text.Substring(firstSeparatorIndex, nowIndex - firstSeparatorIndex);
                             StoreDictionary(between);
-
                         }
+
                         firstSeparatorIndex = nowIndex + Separator.Length;
                     }
                 }
@@ -101,6 +103,7 @@ namespace Chapter03.Core
             StoreDictionary(text.Substring(firstSeparatorIndex));
             return results;
         }
+
         /// <summary>
         /// 強調表現を表すマークアップを取り除いて、テキストに変換
         /// </summary>
@@ -122,7 +125,8 @@ namespace Chapter03.Core
                 {
                     bracketStartIndex = i;
                     i += StartBracket.Length - 1;
-                }else if (rest.StartsWith(EndBracket))
+                }
+                else if (rest.StartsWith(EndBracket))
                 {
                     string value = text.Substring(bracketStartIndex + StartBracket.Length,
                         i - bracketStartIndex - StartBracket.Length);
@@ -131,6 +135,7 @@ namespace Chapter03.Core
                     {
                         value = value.Substring(sepratorIndex + 1);
                     }
+
                     stringBuilder.Append(value);
                     bracketStartIndex = -1;
                     i += EndBracket.Length - 1;
@@ -140,6 +145,7 @@ namespace Chapter03.Core
                     stringBuilder.Append(text[i]);
                 }
             }
+
             return stringBuilder.ToString();
         }
     }

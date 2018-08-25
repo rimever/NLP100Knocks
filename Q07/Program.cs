@@ -15,6 +15,7 @@ namespace Q07
             var z = 22.4;
             Console.WriteLine(BuildText(x, y, z));
         }
+
         /// <summary>
         /// 文字列やを返す関数。
         /// </summary>

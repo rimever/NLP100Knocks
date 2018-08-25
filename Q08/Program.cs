@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace Q08
@@ -19,7 +20,7 @@ namespace Q08
             Console.WriteLine(encrypt);
             string decrypt = DecryptCipher(encrypt);
             Console.WriteLine(decrypt);
-            System.Diagnostics.Debug.Assert(text == decrypt, "可逆性あり");                           
+            Debug.Assert(text == decrypt, "可逆性あり");
         }
 
         private static string DecryptCipher(string text)
@@ -28,17 +29,18 @@ namespace Q08
             for (int i = 0; i < text.Length; i++)
             {
                 var value = text[i];
-                int num = 219 - (int)value;
-                if (num >= (int)'a' 
-                    && num <= (int)'z')
+                int num = 219 - value;
+                if (num >= 'a'
+                    && num <= 'z')
                 {
-                    result.Append((char)num);
+                    result.Append((char) num);
                 }
                 else
                 {
                     result.Append(value);
                 }
             }
+
             return result.ToString();
         }
 
@@ -47,18 +49,23 @@ namespace Q08
         /// </summary>
         /// <returns>The cipher.</returns>
         /// <param name="text">Text.</param>
-        private static string cipher(string text) {
+        private static string cipher(string text)
+        {
             StringBuilder result = new StringBuilder();
-            for (int i = 0; i < text.Length; i++) {
+            for (int i = 0; i < text.Length; i++)
+            {
                 var value = text[i];
                 if (value >= 'a' && value <= 'z')
                 {
-                    int num = (int)value;
-                    result.Append((char)(219 - num));
-                }else {
+                    int num = value;
+                    result.Append((char) (219 - num));
+                }
+                else
+                {
                     result.Append(value);
-                } 
+                }
             }
+
             return result.ToString();
         }
     }

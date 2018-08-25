@@ -19,8 +19,8 @@ namespace Q05
             {
                 string value = $"[{string.Join(",", ngram)}]";
                 wordNgramResult += value + " ";
-
             }
+
             Console.WriteLine(wordNgramResult);
         }
 
@@ -31,8 +31,10 @@ namespace Q05
             {
                 text = text.Substring(0, text.Length);
             }
+
             var words = text.Split(' ');
-            for (int i = 0; i <= words.Length - v; i++) {
+            for (int i = 0; i <= words.Length - v; i++)
+            {
                 yield return words.Skip(i).Take(v);
             }
         }
@@ -43,11 +45,14 @@ namespace Q05
             {
                 text = text.Substring(0, text.Length);
             }
+
             text = text.Replace(" ", string.Empty);
             var result = new List<string>();
-            for (int i = 0; i < text.Length - v; i++) {
+            for (int i = 0; i < text.Length - v; i++)
+            {
                 result.Add(text.Substring(i, v));
             }
+
             return result;
         }
     }

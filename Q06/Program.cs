@@ -14,7 +14,7 @@ namespace Q06
         {
             var textA = "paraparaparadise";
             var textB = "paragraph";
-                var a = CreateTextNgram(textA,2);
+            var a = CreateTextNgram(textA, 2);
             var b = CreateTextNgram(textB, 2);
             Console.WriteLine("和集合");
             Console.WriteLine(string.Join(" ", a.Union(b)));
@@ -26,18 +26,21 @@ namespace Q06
             Console.WriteLine($"{textA}には,{resultA}");
             Console.WriteLine($"{textB}には,{resultB}");
         }
+
         private static IList<string> CreateTextNgram(string text, int v)
         {
             if (text.EndsWith("."))
             {
                 text = text.Substring(0, text.Length);
             }
+
             text = text.Replace(" ", string.Empty);
             var result = new List<string>();
             for (int i = 0; i < text.Length - v; i++)
             {
                 result.Add(text.Substring(i, v));
             }
+
             return result;
         }
     }
