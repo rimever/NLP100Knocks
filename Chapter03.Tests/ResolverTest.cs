@@ -85,5 +85,25 @@ namespace Chapter03.Tests
             Resolver resolver = new Resolver();
             resolver.Answer27();
         }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer28"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer28()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer28();
+        }
+
+        /// <summary>
+        /// <seealso cref="Resolver.Answer29"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer29()
+        {
+            Resolver resolver = new Resolver();
+            resolver.Answer29();
+        }
     }
 }

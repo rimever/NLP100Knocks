@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
@@ -157,9 +160,46 @@ namespace Chapter03.Core
             return basicInfomation;
         }
 
+        /// <summary>
+        /// 指定されたファイルを取得します。
+        /// </summary>
+        /// <param name="fileName"></param>
+        public static void JumpImageFilePage(string fileName)
+        {
+            string url =
+                $"https://commons.wikimedia.org/w/api.php?action=query&format=json&titles=File:{fileName}&prop=imageinfo&&iiprop=url";
+            Encoding encoding = Encoding.UTF8;
+
+            WebRequest webRequest = WebRequest.Create(url);
+            WebResponse webResponse = webRequest.GetResponse();
+
+            using (Stream stream = webResponse.GetResponseStream())
+            {
+                Debug.Assert(stream != null, nameof(stream) + " != null");
+                using (StreamReader streamReader = new StreamReader(stream, encoding))
+                {
+                    string html = streamReader.ReadToEnd();
+                    JObject json = JObject.Parse(html);
+                    var imageUrl = json["query"]["pages"].Children().First().Children().First()["imageinfo"].Children()
+                        .First()["url"];
+                    Process.Start(imageUrl.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// セクション情報
+        /// </summary>
         public class Section
         {
+            /// <summary>
+            /// セクション名
+            /// </summary>
             public string Name { get; set; }
+
+            /// <summary>
+            /// セクションレベル
+            /// </summary>
             public int Level { get; set; }
         }
     }

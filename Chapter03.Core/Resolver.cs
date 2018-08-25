@@ -122,5 +122,38 @@ namespace Chapter03.Core
                 Console.WriteLine($"{item.Key} = {value}");
             }
         }
+
+        /// <summary>
+        /// 27の処理に加えて，テンプレートの値からMediaWikiマークアップを可能な限り除去し，国の基本情報を整形せよ．
+        /// </summary>
+        public void Answer28()
+        {
+            var text = _countryText;
+            string basicInfomation = WikiDocument.GetBasicInfomation(text);
+            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            foreach (var item in hash)
+            {
+                string value = ParseUtility.RemoveStrongMarkup(item.Value);
+                value = ParseUtility.RemoveMediaLinkMarkup(value);
+                Console.WriteLine($"{item.Key} = {value}");
+            }
+        }
+
+        /// <summary>
+        /// テンプレートの内容を利用し，国旗画像のURLを取得せよ．（ヒント: MediaWiki APIのimageinfoを呼び出して，ファイル参照をURLに変換すればよい）
+        /// </summary>
+        public void Answer29()
+        {
+            var text = _countryText;
+            string basicInfomation = WikiDocument.GetBasicInfomation(text);
+            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            foreach (var item in hash)
+            {
+                if (item.Key == "国旗画像")
+                {
+                    WikiDocument.JumpImageFilePage(item.Value);
+                }
+            }
+        }
     }
 }

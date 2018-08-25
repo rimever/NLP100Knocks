@@ -10,6 +10,42 @@ namespace Chapter03.Tests
     [TestFixture]
     public class ParseUtilityTest
     {
+        /// <summary>
+        /// <seealso cref="ParseUtility.RemoveMediaLinkMarkup"/>をテストします。
+        /// </summary>
+        /// <returns></returns>
+        [TestCaseSource(nameof(RemoveMediaLinkMarkupTestCaseDatas))]
+        public string RemoveMediaLinkMarkup(string text)
+        {
+            return ParseUtility.RemoveMediaLinkMarkup(text);
+        }
+
+        /// <summary>
+        /// <seealso cref="RemoveMediaLinkMarkup"/>のテストケースです。
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<TestCaseData> RemoveMediaLinkMarkupTestCaseDatas()
+        {
+            yield return new TestCaseData("[[記事名]]")
+                .Returns("記事名")
+                .SetName($"{nameof(RemoveMediaLinkMarkup)} 内部リンク1");
+            yield return new TestCaseData("[[記事名|表示文字]]")
+                .Returns("表示文字")
+                .SetName($"{nameof(RemoveMediaLinkMarkup)} 内部リンク2");
+            yield return new TestCaseData("[[記事名#節名|表示文字]]")
+                .Returns("表示文字")
+                .SetName($"{nameof(RemoveMediaLinkMarkup)} 内部リンク3");
+            yield return new TestCaseData("[[ファイル:Wikipedia-logo-v2-ja.png|thumb|説明文]]")
+                .Returns("説明文")
+                .SetName($"{nameof(RemoveMediaLinkMarkup)} ファイル");
+            yield return new TestCaseData("[http://www.example.org]")
+                .Returns("http://www.example.org")
+                .SetName($"{nameof(RemoveMediaLinkMarkup)} 外部リンク1");
+            yield return new TestCaseData("[http://www.example.org 表示文字]")
+                .Returns("表示文字")
+                .SetName($"{nameof(RemoveMediaLinkMarkup)} 外部リンク2");
+        }
+
         [Test]
         public void ParseBetweenBrace()
         {
