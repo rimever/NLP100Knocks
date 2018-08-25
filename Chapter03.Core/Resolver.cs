@@ -85,7 +85,7 @@ namespace Chapter03.Core
         {
             var text = _countryText;
             string basicInfomation = WikiDocument.GetBasicInfomation(text);
-            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            var hash = WikiDocument.ParseKeyValue(basicInfomation);
             foreach (var item in hash)
             {
                 Console.WriteLine($"{item.Key} = {item.Value}");
@@ -99,10 +99,10 @@ namespace Chapter03.Core
         {
             var text = _countryText;
             string basicInfomation = WikiDocument.GetBasicInfomation(text);
-            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            var hash = WikiDocument.ParseKeyValue(basicInfomation);
             foreach (var item in hash)
             {
-                string value = ParseUtility.RemoveStrongMarkup(item.Value);
+                string value = WikiDocument.RemoveStrongMarkup(item.Value);
                 Console.WriteLine($"{item.Key} = {value}");
             }
         }
@@ -114,11 +114,11 @@ namespace Chapter03.Core
         {
             var text = _countryText;
             string basicInfomation = WikiDocument.GetBasicInfomation(text);
-            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            var hash = WikiDocument.ParseKeyValue(basicInfomation);
             foreach (var item in hash)
             {
-                string value = ParseUtility.RemoveStrongMarkup(item.Value);
-                value = ParseUtility.RemoveInnerLinkMarkup(value);
+                string value = WikiDocument.RemoveStrongMarkup(item.Value);
+                value = WikiDocument.RemoveInnerLinkMarkup(value);
                 Console.WriteLine($"{item.Key} = {value}");
             }
         }
@@ -130,11 +130,11 @@ namespace Chapter03.Core
         {
             var text = _countryText;
             string basicInfomation = WikiDocument.GetBasicInfomation(text);
-            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            var hash = WikiDocument.ParseKeyValue(basicInfomation);
             foreach (var item in hash)
             {
-                string value = ParseUtility.RemoveStrongMarkup(item.Value);
-                value = ParseUtility.RemoveMediaLinkMarkup(value);
+                string value = WikiDocument.RemoveStrongMarkup(item.Value);
+                value = WikiDocument.RemoveMediaLinkMarkup(value);
                 Console.WriteLine($"{item.Key} = {value}");
             }
         }
@@ -146,7 +146,7 @@ namespace Chapter03.Core
         {
             var text = _countryText;
             string basicInfomation = WikiDocument.GetBasicInfomation(text);
-            var hash = ParseUtility.ParseKeyValue(basicInfomation);
+            var hash = WikiDocument.ParseKeyValue(basicInfomation);
             foreach (var item in hash)
             {
                 if (item.Key == "国旗画像")
