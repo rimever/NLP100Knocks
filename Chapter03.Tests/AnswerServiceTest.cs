@@ -4,105 +4,105 @@ using NUnit.Framework;
 namespace Chapter03.Tests
 {
     [TestFixture]
-    public class ResolverTest
+    public class AnswerServiceTest
     {
         /// <summary>
-        /// <seealso cref="Resolver.Answer20"/>を検証します。
+        /// <seealso cref="AnswerService.Answer20"/>を検証します。
         /// </summary>
         [Test]
         public void Answer20()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer20();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer21"/>を検証します。
+        /// <seealso cref="AnswerService.Answer21"/>を検証します。
         /// </summary>
         [Test]
         public void Answer21()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer21();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer22"/>を検証します。
+        /// <seealso cref="AnswerService.Answer22"/>を検証します。
         /// </summary>
         [Test]
         public void Answer22()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer22();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer23"/>を検証します。
+        /// <seealso cref="AnswerService.Answer23"/>を検証します。
         /// </summary>
         [Test]
         public void Answer23()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer23();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer24"/>を検証します。
+        /// <seealso cref="AnswerService.Answer24"/>を検証します。
         /// </summary>
         [Test]
         public void Answer24()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer24();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer25"/>を検証します。
+        /// <seealso cref="AnswerService.Answer25"/>を検証します。
         /// </summary>
         [Test]
         public void Answer25()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer25();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer26"/>を検証します。
+        /// <seealso cref="AnswerService.Answer26"/>を検証します。
         /// </summary>
         [Test]
         public void Answer26()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer26();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer27"/>を検証します。
+        /// <seealso cref="AnswerService.Answer27"/>を検証します。
         /// </summary>
         [Test]
         public void Answer27()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer27();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer28"/>を検証します。
+        /// <seealso cref="AnswerService.Answer28"/>を検証します。
         /// </summary>
         [Test]
         public void Answer28()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer28();
         }
 
         /// <summary>
-        /// <seealso cref="Resolver.Answer29"/>を検証します。
+        /// <seealso cref="AnswerService.Answer29"/>を検証します。
         /// </summary>
         [Test]
         public void Answer29()
         {
-            Resolver resolver = new Resolver();
+            AnswerService resolver = new AnswerService();
             resolver.Answer29();
         }
     }

@@ -6,8 +6,8 @@ namespace Chapter03.Q26
     {
         static void Main(string[] args)
         {
-            Resolver resolver = new Resolver();
-            resolver.Answer26();
+            AnswerService answerService = new AnswerService();
+            answerService.Answer26();
         }
     }
 }

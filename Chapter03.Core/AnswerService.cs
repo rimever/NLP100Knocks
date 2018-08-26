@@ -2,7 +2,7 @@
 
 namespace Chapter03.Core
 {
-    public class Resolver
+    public class AnswerService
     {
         private readonly string _countryText;
         private readonly WikiDocument _wikiDocument = new WikiDocument();
@@ -10,7 +10,7 @@ namespace Chapter03.Core
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Resolver()
+        public AnswerService()
         {
             _countryText = _wikiDocument.GetCountryText("イギリス");
         }

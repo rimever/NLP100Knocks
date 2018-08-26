@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Resolver.cs" />
+    <Compile Include="AnswerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WikiDocument.cs" />
   </ItemGroup>

@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResolverTest.cs" />
+    <Compile Include="AnswerServiceTest.cs" />
     <Compile Include="WikiDocumentTest.cs" />
   </ItemGroup>
   <ItemGroup>
