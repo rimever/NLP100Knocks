@@ -46,8 +46,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnswerServiceTest.cs" />
     <Compile Include="MorphologicalAnalyzerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -15,8 +15,6 @@ namespace Chapter04.Core
 
 なお，問題37, 38, 39はmatplotlibもしくはGnuplotを用いるとよい．
 
-30. 形態素解析結果の読み込み
-形態素解析結果（neko.txt.mecab）を読み込むプログラムを実装せよ．ただし，各形態素は表層形（surface），基本形（base），品詞（pos），品詞細分類1（pos1）をキーとするマッピング型に格納し，1文を形態素（マッピング型）のリストとして表現せよ．第4章の残りの問題では，ここで作ったプログラムを活用せよ．
 
 31. 動詞
 動詞の表層形をすべて抽出せよ．
@@ -45,5 +43,29 @@ namespace Chapter04.Core
 39. Zipfの法則
 単語の出現頻度順位を横軸，その出現頻度を縦軸として，両対数グラフをプロットせよ．
          */
+        private readonly MorphologicalAnalyzer _analyzer = new MorphologicalAnalyzer();
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public AnswerService()
+        {
+            _analyzer.Execute();
+        }
+        /// <summary>
+        /// 30. 形態素解析結果の読み込み
+        /// 形態素解析結果（neko.txt.mecab）を読み込むプログラムを実装せよ．
+        /// ただし，各形態素は表層形（surface），基本形（base），品詞（pos），品詞細分類1（pos1）をキーとするマッピング型に格納し，1文を形態素（マッピング型）のリストとして表現せよ．
+        /// 第4章の残りの問題では，ここで作ったプログラムを活用せよ．
+        /// </summary>
+        /// <remarks>
+        /// 問題ではマッピング型と表しているが、ここではオブジェクトとして扱っている。
+        /// </remarks>
+        public void Answer30()
+        {
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                Console.WriteLine($"表層形 = {word.Surface}, 基本形 = {word.Base}, 品詞 = {word.Pos}, 品詞細分類1 = {word.Pos1}");
+            }
+        }
     }
 }
