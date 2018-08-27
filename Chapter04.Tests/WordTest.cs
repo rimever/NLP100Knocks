@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chapter04.Core;
+﻿using Chapter04.Core;
 using NUnit.Framework;
 
 namespace Chapter04.Tests
@@ -21,7 +16,7 @@ namespace Chapter04.Tests
             Word word = new Word(testData.Split(','));
 
             Assert.AreEqual(word.Surface, "なかっ");
-            Assert.AreEqual(word.Base,"ない");
+            Assert.AreEqual(word.Base, "ない");
             Assert.AreEqual(word.Pos, "形容詞");
             Assert.AreEqual(word.Pos1, "自立");
         }

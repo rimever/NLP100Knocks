@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chapter04.Core;
+﻿using Chapter04.Core;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace Chapter04.Tests
 {
     /// <summary>
     /// <seealso cref="AnswerService"/>をテストするクラスです。
     /// </summary>
-    [TestFixture()]
+    [TestFixture]
     public class AnswerServiceTest
     {
         /// <summary>
@@ -23,6 +17,16 @@ namespace Chapter04.Tests
         {
             AnswerService answerService = new AnswerService();
             answerService.Answer30();
+        }
+
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer31"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer31()
+        {
+            AnswerService answerService = new AnswerService();
+            answerService.Answer31();
         }
     }
 }

@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chapter04.Core
 {
+    /// <summary>
+    /// 第4章: 形態素解析
+    /// 夏目漱石の小説『吾輩は猫である』の文章（neko.txt）をMeCabを使って形態素解析し，その結果をneko.txt.mecabというファイルに保存せよ．
+    /// このファイルを用いて，以下の問に対応するプログラムを実装せよ．
+    /// なお，問題37, 38, 39はmatplotlibもしくはGnuplotを用いるとよい．
+    /// </summary>
     public class AnswerService
     {
         /*
-         *第4章: 形態素解析
-
-夏目漱石の小説『吾輩は猫である』の文章（neko.txt）をMeCabを使って形態素解析し，その結果をneko.txt.mecabというファイルに保存せよ．このファイルを用いて，以下の問に対応するプログラムを実装せよ．
-
-なお，問題37, 38, 39はmatplotlibもしくはGnuplotを用いるとよい．
 
 
-31. 動詞
-動詞の表層形をすべて抽出せよ．
 
 32. 動詞の原形
 動詞の原形をすべて抽出せよ．
@@ -44,6 +39,7 @@ namespace Chapter04.Core
 単語の出現頻度順位を横軸，その出現頻度を縦軸として，両対数グラフをプロットせよ．
          */
         private readonly MorphologicalAnalyzer _analyzer = new MorphologicalAnalyzer();
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -51,6 +47,7 @@ namespace Chapter04.Core
         {
             _analyzer.Execute();
         }
+
         /// <summary>
         /// 30. 形態素解析結果の読み込み
         /// 形態素解析結果（neko.txt.mecab）を読み込むプログラムを実装せよ．
@@ -65,6 +62,23 @@ namespace Chapter04.Core
             foreach (var word in _analyzer.EnumerableWords())
             {
                 Console.WriteLine($"表層形 = {word.Surface}, 基本形 = {word.Base}, 品詞 = {word.Pos}, 品詞細分類1 = {word.Pos1}");
+            }
+        }
+
+        /// <summary>
+        /// 31. 動詞
+        /// 動詞の表層形をすべて抽出せよ．
+        /// </summary>
+        public void Answer31()
+        {
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                if (word.Pos != "動詞")
+                {
+                    continue;
+                }
+
+                Console.WriteLine($"{word.Surface}");
             }
         }
     }

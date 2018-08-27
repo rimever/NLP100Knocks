@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Chapter04.Core;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace Chapter04.Tests
 {
@@ -26,15 +21,6 @@ namespace Chapter04.Tests
         }
 
         /// <summary>
-        /// <seealso cref="MorphologicalAnalyzer.Execute"/>をテストします。
-        /// </summary>
-        [Test]
-        public void Execute()
-        {
-            var morphologicalAnalyzer = new MorphologicalAnalyzer();
-            morphologicalAnalyzer.Execute();
-        }
-        /// <summary>
         /// <seealso cref="MorphologicalAnalyzer.EnumerableWords"/>をテストします。        
         /// </summary>
         [Test]
@@ -43,6 +29,16 @@ namespace Chapter04.Tests
             var morphologicalAnalyzer = new MorphologicalAnalyzer();
             morphologicalAnalyzer.Execute();
             Assert.IsTrue(morphologicalAnalyzer.EnumerableWords().Any());
+        }
+
+        /// <summary>
+        /// <seealso cref="MorphologicalAnalyzer.Execute"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Execute()
+        {
+            var morphologicalAnalyzer = new MorphologicalAnalyzer();
+            morphologicalAnalyzer.Execute();
         }
     }
 }

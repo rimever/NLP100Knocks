@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chapter04.Core
+﻿namespace Chapter04.Core
 {
     public class Word
     {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="splits"></param>
+        public Word(string[] splits)
+        {
+            Surface = splits[0];
+            Base = splits[7];
+            Pos = splits[1];
+            Pos1 = splits[2];
+        }
+
         /// <summary>
         /// 表層形
         /// </summary>
@@ -27,17 +33,5 @@ namespace Chapter04.Core
         /// 品詞細分類
         /// </summary>
         public string Pos1 { get; set; }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="splits"></param>
-        public Word(string[] splits)
-        {
-            Surface = splits[0];
-            Base = splits[7];
-            Pos = splits[1];
-            Pos1 = splits[2];
-        }
     }
 }
