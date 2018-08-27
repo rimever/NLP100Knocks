@@ -28,5 +28,14 @@ namespace Chapter04.Tests
             AnswerService answerService = new AnswerService();
             answerService.Answer31();
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer32"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer32()
+        {
+            AnswerService answerService = new AnswerService();
+            answerService.Answer32();
+        }
     }
 }

@@ -14,8 +14,6 @@ namespace Chapter04.Core
 
 
 
-32. 動詞の原形
-動詞の原形をすべて抽出せよ．
 
 33. サ変名詞
 サ変接続の名詞をすべて抽出せよ．
@@ -79,6 +77,22 @@ namespace Chapter04.Core
                 }
 
                 Console.WriteLine($"{word.Surface}");
+            }
+        }
+        /// <summary>
+        /// 32. 動詞の原形
+        /// 動詞の原形をすべて抽出せよ．
+        /// </summary>
+        public void Answer32()
+        {
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                if (word.Pos != "動詞")
+                {
+                    continue;
+                }
+
+                Console.WriteLine($"{word.Base}");
             }
         }
     }
