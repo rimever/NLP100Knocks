@@ -15,8 +15,6 @@ namespace Chapter04.Core
 
 
 
-33. サ変名詞
-サ変接続の名詞をすべて抽出せよ．
 
 34. 「AのB」
 2つの名詞が「の」で連結されている名詞句を抽出せよ．
@@ -79,6 +77,7 @@ namespace Chapter04.Core
                 Console.WriteLine($"{word.Surface}");
             }
         }
+
         /// <summary>
         /// 32. 動詞の原形
         /// 動詞の原形をすべて抽出せよ．
@@ -93,6 +92,23 @@ namespace Chapter04.Core
                 }
 
                 Console.WriteLine($"{word.Base}");
+            }
+        }
+
+        /// <summary>
+        /// 33. サ変名詞
+        /// サ変接続の名詞をすべて抽出せよ．
+        /// </summary>
+        public void Answer33()
+        {
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                if (word.Pos1 != "サ変接続")
+                {
+                    continue;
+                }
+
+                Console.WriteLine($"表層形 = {word.Surface}, 基本形 = {word.Base}, 品詞 = {word.Pos}, 品詞細分類1 = {word.Pos1}");
             }
         }
     }
