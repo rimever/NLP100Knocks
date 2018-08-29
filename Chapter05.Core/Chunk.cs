@@ -8,6 +8,11 @@ namespace Chapter05.Core
     public class Chunk
     {
         /// <summary>
+        /// ID
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// 形態素リスト
         /// </summary>
         public IList<Morph> Morphs { get; set; } = new List<Morph>();

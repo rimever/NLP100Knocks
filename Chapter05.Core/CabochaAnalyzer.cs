@@ -35,9 +35,14 @@ namespace Chapter05.Core
             var xml = XDocument.Load(CabochaFileName);
             foreach (var sentence in xml.Root.Elements("sentence"))
             {
+                List<Chunk> list = EnumerableChunk(sentence).ToList();
+                foreach (var chunk in list)
+                {
+                    chunk.Srcs = list.Where(c => c.Dst == chunk.Id).Select(c => c.Id).ToList();
+                }
                 yield return new Sentence
                 {
-                    Chunks = EnumerableChunk(sentence).ToList()
+                    Chunks = list
                 };
             }
         }
@@ -49,8 +54,8 @@ namespace Chapter05.Core
                 var morphs = EnumerableMorphs(chunk).ToList();
                 yield return new Chunk
                 {
+                    Id = int.Parse(chunk.Attribute("id").Value),
                     Dst = int.Parse(chunk.Attribute("link").Value),
-                    Srcs = morphs.Select(m => m.Id).ToList(),
                     Morphs = morphs
                 };
             }
