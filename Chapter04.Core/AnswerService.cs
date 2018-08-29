@@ -177,7 +177,7 @@ namespace Chapter04.Core
         /// </summary>
         public void Answer37()
         {
-            using (FormQ37 form = new FormQ37())
+            using (FormQ37 form = new FormQ37(_analyzer))
             {
                 form.ShowDialog();
             }
@@ -188,7 +188,7 @@ namespace Chapter04.Core
         /// </summary>
         public void Answer38()
         {
-            using (FormQ38 form = new FormQ38())
+            using (FormQ38 form = new FormQ38(_analyzer))
             {
                 form.ShowDialog();
             }
@@ -199,7 +199,7 @@ namespace Chapter04.Core
         /// </summary>
         public void Answer39()
         {
-            using (FormQ39 form = new FormQ39())
+            using (FormQ39 form = new FormQ39(_analyzer))
             {
                 form.ShowDialog();
             }

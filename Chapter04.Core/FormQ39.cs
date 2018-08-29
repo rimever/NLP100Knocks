@@ -18,13 +18,15 @@ namespace Chapter04.Core
         public FormQ39()
         {
             InitializeComponent();
-            Load += OnLoad;
         }
-
-        private void OnLoad(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="analyzer"></param>
+        public FormQ39(MorphologicalAnalyzer analyzer)
         {
-            _analyzer.Execute();
-            IDictionary<string, List<Word>> result = _analyzer.GetGroupByWord();
+            InitializeComponent();
+            IDictionary<string, List<Word>> result = analyzer.GetGroupByWord();
 
             ChartArea chartArea = new ChartArea("base")
             {
@@ -43,7 +45,7 @@ namespace Chapter04.Core
             chart.Series.Clear();
             chart.ChartAreas.Clear();
             chart.ChartAreas.Add(chartArea);
-            foreach (var item in result.OrderByDescending(pair => pair.Value.Count).Select((value, index) => new {value, index}))
+            foreach (var item in result.OrderByDescending(pair => pair.Value.Count).Select((value, index) => new { value, index }))
             {
                 series.Points.AddXY(item.index + 1, item.value.Value.Count);
             }

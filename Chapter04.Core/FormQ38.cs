@@ -19,13 +19,15 @@ namespace Chapter04.Core
         public FormQ38()
         {
             InitializeComponent();
-            Load += FormOnLoad;
         }
-
-        private void FormOnLoad(object sender, EventArgs e)
+        /// <summary>
+        /// 解析を開始します。
+        /// </summary>
+        /// <param name="analyzer"></param>
+        public FormQ38(MorphologicalAnalyzer analyzer)
         {
-            _analyzer.Execute();
-            IDictionary<string, List<Word>> result = _analyzer.GetGroupByWord();
+            InitializeComponent();
+            IDictionary<string, List<Word>> result = analyzer.GetGroupByWord();
             var resultByGroup = result.GroupBy(pair => pair.Value.Count);
             ChartArea chartArea = new ChartArea("base")
             {
@@ -50,7 +52,6 @@ namespace Chapter04.Core
 
         }
 
-        private readonly MorphologicalAnalyzer _analyzer = new MorphologicalAnalyzer();
 
     }
 }

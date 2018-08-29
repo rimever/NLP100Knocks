@@ -11,15 +11,16 @@ namespace Chapter04.Core
         public FormQ37()
         {
             InitializeComponent();
-            Load += FormMain_Load;
         }
-        private readonly MorphologicalAnalyzer _analyzer = new MorphologicalAnalyzer();
-
-
-        private void FormMain_Load(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="analyzer"></param>
+        public FormQ37(MorphologicalAnalyzer analyzer)
         {
-            _analyzer.Execute();
-            IDictionary<string, List<Word>> result = _analyzer.GetGroupByWord();
+            InitializeComponent();
+
+            IDictionary<string, List<Word>> result = analyzer.GetGroupByWord();
 
             ChartArea chartArea = new ChartArea("base")
             {
