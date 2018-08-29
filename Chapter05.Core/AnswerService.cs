@@ -60,6 +60,7 @@ namespace Chapter05.Core
                 }
             }
         }
+                    const string signPosName = "記号";
         /// <summary>
         ///         42. 係り元と係り先の文節の表示
         /// 係り元の文節と係り先の文節のテキストをタブ区切り形式ですべて抽出せよ．ただし，句読点などの記号は出力しないようにせよ．
@@ -71,7 +72,6 @@ namespace Chapter05.Core
                 foreach (var chunk in sentence.Chunks)
                 {
                     var fromChunks = sentence.Chunks.Where(c => chunk.Srcs.Contains(c.Id)).ToList();
-                    const string signPosName = "記号";
 
                     string now = string.Join(string.Empty,
                         chunk.Morphs.Where(m => m.Pos != signPosName).Select(m => m.Surface));
@@ -88,6 +88,28 @@ namespace Chapter05.Core
 
                         Console.WriteLine($"{from}  {now}  {to}");
                     }
+                }
+            }
+        }
+        /// <summary>
+        /// 43. 名詞を含む文節が動詞を含む文節に係るものを抽出
+        /// 名詞を含む文節が，動詞を含む文節に係るとき，これらをタブ区切り形式で抽出せよ．
+        /// ただし，句読点などの記号は出力しないようにせよ．
+        /// </summary>
+        public void Answer43()
+        {
+            foreach (var sentence in _analyzer.Sentences)
+            {
+                foreach (var chunk in sentence.Chunks)
+                {
+                    if (chunk.Dst == -1) { continue;}
+                    if (chunk.Morphs.All(m => m.Pos != "名詞")) { continue;}
+                    if (sentence.Chunks[chunk.Dst].Morphs.All(m => m.Pos != "動詞")) { continue; }
+                    string from = string.Join(string.Empty, chunk.Morphs.Where(m => m.Pos != signPosName).Select(m => m.Surface));
+                    string to = string.Join(string.Empty,
+                        sentence.Chunks[chunk.Dst].Morphs.Where(m => m.Pos != signPosName)
+                            .Select(m => m.Surface));
+                    Console.WriteLine($"{from} -> {to}");
                 }
             }
         }
