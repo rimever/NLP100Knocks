@@ -38,13 +38,22 @@ namespace Chapter04.Tests
             answerService.Answer32();
         }
         /// <summary>
-        /// <seealso cref="AnswerService.Answer32"/>を検証します。
+        /// <seealso cref="AnswerService.Answer33"/>を検証します。
         /// </summary>
         [Test]
         public void Answer33()
         {
             AnswerService answerService = new AnswerService();
             answerService.Answer33();
+        }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer34"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer34()
+        {
+            AnswerService answerService = new AnswerService();
+            answerService.Answer34();
         }
     }
 }

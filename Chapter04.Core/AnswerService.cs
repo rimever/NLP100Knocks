@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Chapter04.Core
 {
@@ -109,6 +110,43 @@ namespace Chapter04.Core
                 }
 
                 Console.WriteLine($"表層形 = {word.Surface}, 基本形 = {word.Base}, 品詞 = {word.Pos}, 品詞細分類1 = {word.Pos1}");
+            }
+        }
+        /// <summary>
+        /// 34. 「AのB」
+        /// 2つの名詞が「の」で連結されている名詞句を抽出せよ．
+        /// </summary>
+        public void Answer34()
+        {
+            IList<Word> combinationWords = new List<Word>();
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                if (combinationWords.Count == 0)
+                {
+                    if (word.Pos == "名詞")
+                    {
+                        combinationWords.Add(word);
+                    }
+                }
+                else if (combinationWords.Count == 1)
+                {
+                    if (word.Base == "の")
+                    {
+                        combinationWords.Add(word);
+                    }
+                    else
+                    {
+                        combinationWords.Clear();
+                    }
+                }
+                else if (combinationWords.Count == 2)
+                {
+                    if (word.Pos == "名詞")
+                    {
+                        Console.WriteLine($"{combinationWords[0].Surface}{combinationWords[1].Surface}{word.Surface}");
+                    }
+                    combinationWords.Clear();
+                }
             }
         }
     }
