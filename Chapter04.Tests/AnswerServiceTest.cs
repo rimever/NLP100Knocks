@@ -55,5 +55,23 @@ namespace Chapter04.Tests
             AnswerService answerService = new AnswerService();
             answerService.Answer34();
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer35"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer35()
+        {
+            AnswerService answerService = new AnswerService();
+            answerService.Answer35();
+        }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer36"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer36()
+        {
+            AnswerService answerService = new AnswerService();
+            answerService.Answer36();
+        }
     }
 }

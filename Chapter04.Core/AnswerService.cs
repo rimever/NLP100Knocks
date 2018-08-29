@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chapter04.Core
 {
@@ -17,14 +18,9 @@ namespace Chapter04.Core
 
 
 
-34. 「AのB」
-2つの名詞が「の」で連結されている名詞句を抽出せよ．
 
-35. 名詞の連接
-名詞の連接（連続して出現する名詞）を最長一致で抽出せよ．
 
-36. 単語の出現頻度
-文章中に出現する単語とその出現頻度を求め，出現頻度の高い順に並べよ．
+
 
 37. 頻度上位10語
 出現頻度が高い10語とその出現頻度をグラフ（例えば棒グラフなど）で表示せよ．
@@ -147,6 +143,55 @@ namespace Chapter04.Core
                     }
                     combinationWords.Clear();
                 }
+            }
+        }
+        /// <summary>
+        /// 35. 名詞の連接
+        /// 名詞の連接（連続して出現する名詞）を最長一致で抽出せよ．
+        /// </summary>
+        public void Answer35()
+        {
+            IList<Word> max = new List<Word>();
+            IList<Word> now = new List<Word>();
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                bool isCombo = word.Pos == "名詞";
+                if (isCombo)
+                {
+                    now.Add(word);
+                }
+                if (now.Count > max.Count)
+                {
+                    max = new List<Word>(now.Select(s => s));
+                }
+                if (!isCombo)
+                {
+                    now.Clear();
+                }
+            }
+
+            Console.WriteLine($"{string.Join(string.Empty, max.Select(s => s.Surface))}:{max.Count}回");
+        }
+        /// <summary>
+        /// 36. 単語の出現頻度
+        /// 文章中に出現する単語とその出現頻度を求め，出現頻度の高い順に並べよ．
+        /// </summary>
+        public void Answer36()
+        {
+            IDictionary<string,List<Word>> result = new Dictionary<string, List<Word>>();
+            foreach (var word in _analyzer.EnumerableWords())
+            {
+                if (!result.ContainsKey(word.Base))
+                {
+                    result.Add(word.Base, new List<Word>());
+                }
+                result[word.Base].Add(word);
+            }
+
+            foreach (var pair in result.OrderByDescending(pair => pair.Value.Count))
+            {
+                var first = pair.Value.FirstOrDefault();
+                Console.WriteLine($"{first.Base} {first.Pos} {first.Pos1} {pair.Value.Count}回");
             }
         }
     }
