@@ -15,6 +15,14 @@ namespace Chapter03.Core
     {
         private const string CategoryPrefix = "Category:";
 
+        private const string StartDoubleBrace = "{{";
+        private const string EndDoubleBrace = "}}";
+        private const string StartDoubleBracket = "[[";
+        private const string EndDoubleBracket = "]]";
+        private const string StartSingleBracket = "[";
+        private const string EndSingleBracket = "]";
+        private const string Separator = "|";
+
         private static readonly string FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             @"..\..\..\Chapter03.Core\jawiki-country.json");
 
@@ -186,14 +194,6 @@ namespace Chapter03.Core
                 }
             }
         }
-
-        private const string StartDoubleBrace = "{{";
-        private const string EndDoubleBrace = "}}";
-        private const string StartDoubleBracket = "[[";
-        private const string EndDoubleBracket = "]]";
-        private const string StartSingleBracket = "[";
-        private const string EndSingleBracket = "]";
-        private const string Separator = "|";
 
         public static IList<string> ParseBetweenBrace(string text)
         {

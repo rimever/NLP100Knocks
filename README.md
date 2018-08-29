@@ -10,5 +10,10 @@ NUnitで扱えた方が、いちいちコンソールを立ち上げずに内容
 Coreライブラリとして用意してテストコードから実行確認するようにしています。
 
 
-## 第5章
-　CaboChaについてはC#ではライブラリなさそうなので、解析したneko.txt.cabochaファイルを事前準備した状態で開始とします。
+## 第4章
+　CaboChaについてはC#ではライブラリはありません。
+　解析したneko.txt.cabochaファイルを事前準備して開始とします。
+
+### 参考サイト
+- http://taku910.github.io/mecab/
+- https://ja.stackoverflow.com/questions/42220/win10へのcabochaインストールについて
