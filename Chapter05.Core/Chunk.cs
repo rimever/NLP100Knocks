@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Chapter05.Core
 {
@@ -15,6 +11,7 @@ namespace Chapter05.Core
         /// 形態素リスト
         /// </summary>
         public IList<Morph> Morphs { get; set; } = new List<Morph>();
+
         /// <summary>
         /// 係先文節インデックス番号
         /// </summary>

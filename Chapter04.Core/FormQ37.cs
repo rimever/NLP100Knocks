@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -12,6 +11,7 @@ namespace Chapter04.Core
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -31,19 +31,20 @@ namespace Chapter04.Core
             Series series = new Series
             {
                 ChartType = SeriesChartType.Bar,
-                Name = "単語の頻出回数",                
+                Name = "単語の頻出回数",
                 XValueType = ChartValueType.String,
                 ChartArea = chartArea.Name
             };
             chartArea.AxisX.MajorGrid.Interval = 1;
-            chartArea.AxisX.LabelStyle = new LabelStyle()
+            chartArea.AxisX.LabelStyle = new LabelStyle
             {
                 Interval = 1
             };
             chart.Series.Clear();
             chart.ChartAreas.Clear();
             chart.ChartAreas.Add(chartArea);
-            foreach (var item in result.OrderByDescending(pair => pair.Value.Count).Take(10).Select((value, index) => new {value, index}))
+            foreach (var item in result.OrderByDescending(pair => pair.Value.Count).Take(10)
+                .Select((value, index) => new {value, index}))
             {
                 var first = item.value.Value.FirstOrDefault();
                 series.Points.AddXY(first.Base, item.value.Value.Count);

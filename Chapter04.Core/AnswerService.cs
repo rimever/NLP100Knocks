@@ -12,7 +12,6 @@ namespace Chapter04.Core
     /// </summary>
     public class AnswerService
     {
-
         private readonly MorphologicalAnalyzer _analyzer = new MorphologicalAnalyzer();
 
         /// <summary>
@@ -90,6 +89,7 @@ namespace Chapter04.Core
                 Console.WriteLine($"表層形 = {word.Surface}, 基本形 = {word.Base}, 品詞 = {word.Pos}, 品詞細分類1 = {word.Pos1}");
             }
         }
+
         /// <summary>
         /// 34. 「AのB」
         /// 2つの名詞が「の」で連結されている名詞句を抽出せよ．
@@ -123,10 +123,12 @@ namespace Chapter04.Core
                     {
                         Console.WriteLine($"{combinationWords[0].Surface}{combinationWords[1].Surface}{word.Surface}");
                     }
+
                     combinationWords.Clear();
                 }
             }
         }
+
         /// <summary>
         /// 35. 名詞の連接
         /// 名詞の連接（連続して出現する名詞）を最長一致で抽出せよ．
@@ -142,10 +144,12 @@ namespace Chapter04.Core
                 {
                     now.Add(word);
                 }
+
                 if (now.Count > max.Count)
                 {
                     max = new List<Word>(now.Select(s => s));
                 }
+
                 if (!isCombo)
                 {
                     now.Clear();
@@ -154,6 +158,7 @@ namespace Chapter04.Core
 
             Console.WriteLine($"{string.Join(string.Empty, max.Select(s => s.Surface))}:{max.Count}回");
         }
+
         /// <summary>
         /// 36. 単語の出現頻度
         /// 文章中に出現する単語とその出現頻度を求め，出現頻度の高い順に並べよ．
@@ -170,7 +175,6 @@ namespace Chapter04.Core
         }
 
 
-
         /// <summary>
         /// 37. 頻度上位10語
         /// 出現頻度が高い10語とその出現頻度をグラフ（例えば棒グラフなど）で表示せよ．
@@ -182,6 +186,7 @@ namespace Chapter04.Core
                 form.ShowDialog();
             }
         }
+
         /// <summary>
         /// 38. ヒストグラム
         /// 単語の出現頻度のヒストグラム（横軸に出現頻度，縦軸に出現頻度をとる単語の種類数を棒グラフで表したもの）を描け．
@@ -193,6 +198,7 @@ namespace Chapter04.Core
                 form.ShowDialog();
             }
         }
+
         /// <summary>
         /// 39. Zipfの法則
         /// 単語の出現頻度順位を横軸，その出現頻度を縦軸として，両対数グラフをプロットせよ．

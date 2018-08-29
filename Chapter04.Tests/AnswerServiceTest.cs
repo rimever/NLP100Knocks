@@ -10,6 +10,7 @@ namespace Chapter04.Tests
     public class AnswerServiceTest
     {
         private readonly AnswerService _answerService = new AnswerService();
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer30"/>を検証します。
         /// </summary>
@@ -27,6 +28,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer31();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer32"/>を検証します。
         /// </summary>
@@ -35,6 +37,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer32();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer33"/>を検証します。
         /// </summary>
@@ -43,6 +46,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer33();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer34"/>を検証します。
         /// </summary>
@@ -51,6 +55,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer34();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer35"/>を検証します。
         /// </summary>
@@ -59,6 +64,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer35();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer36"/>を検証します。
         /// </summary>
@@ -76,6 +82,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer37();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer38"/>を検証します。
         /// </summary>
@@ -84,6 +91,7 @@ namespace Chapter04.Tests
         {
             _answerService.Answer38();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer39"/>を検証します。
         /// </summary>

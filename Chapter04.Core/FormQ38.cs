@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -20,6 +14,7 @@ namespace Chapter04.Core
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// 解析を開始します。
         /// </summary>
@@ -31,8 +26,8 @@ namespace Chapter04.Core
             var resultByGroup = result.GroupBy(pair => pair.Value.Count);
             ChartArea chartArea = new ChartArea("base")
             {
-                AxisX = { Title = "出現頻度" },
-                AxisY = { Title = "種類数" }
+                AxisX = {Title = "出現頻度"},
+                AxisY = {Title = "種類数"}
             };
 
             Series series = new Series
@@ -48,10 +43,8 @@ namespace Chapter04.Core
             {
                 series.Points.AddXY(item.Key, item.Count());
             }
+
             chart.Series.Add(series);
-
         }
-
-
     }
 }

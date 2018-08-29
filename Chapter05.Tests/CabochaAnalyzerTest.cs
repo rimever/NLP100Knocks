@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Chapter05.Core;
 using NUnit.Framework;
 
@@ -17,6 +16,7 @@ namespace Chapter05.Tests
             var analyzer = new CabochaAnalyzer();
             Assert.IsNotNull(analyzer);
         }
+
         /// <summary>
         /// <seealso cref="CabochaAnalyzer.Execute"/>をテストします。
         /// </summary>

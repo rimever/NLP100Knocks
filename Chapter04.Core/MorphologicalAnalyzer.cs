@@ -71,6 +71,7 @@ namespace Chapter04.Core
                 }
             }
         }
+
         /// <summary>
         /// 単語ごとに分類します。
         /// </summary>
@@ -84,6 +85,7 @@ namespace Chapter04.Core
                 {
                     result.Add(word.Base, new List<Word>());
                 }
+
                 result[word.Base].Add(word);
             }
 

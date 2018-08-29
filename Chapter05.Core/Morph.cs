@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chapter05.Core
+﻿namespace Chapter05.Core
 {
     /// <summary>
     /// 形態素
@@ -15,6 +9,7 @@ namespace Chapter05.Core
         /// 形態素番号
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// 表層形
         /// </summary>

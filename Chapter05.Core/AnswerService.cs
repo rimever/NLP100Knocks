@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chapter05.Core
 {
@@ -14,6 +11,7 @@ namespace Chapter05.Core
     public class AnswerService
     {
         private readonly CabochaAnalyzer _analyzer = new CabochaAnalyzer();
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -21,6 +19,7 @@ namespace Chapter05.Core
         {
             _analyzer.Execute();
         }
+
         /// <summary>
         /// 41. 係り受け解析結果の読み込み（文節・係り受け）
         /// 40に加えて，文節を表すクラスChunkを実装せよ．
@@ -39,9 +38,11 @@ namespace Chapter05.Core
                 {
                     to = string.Join(string.Empty, sentence.Chunks[chunk.Dst].Morphs.Select(m => m.Surface));
                 }
+
                 Console.WriteLine($"{from} -> {to}");
             }
         }
+
         /// <summary>
         ///         40. 係り受け解析結果の読み込み（形態素）
         /// 形態素を表すクラスMorphを実装せよ．このクラスは表層形（surface），基本形（base），品詞（pos），品詞細分類1（pos1）をメンバ変数に持つこととする．さらに，CaboChaの解析結果（neko.txt.cabocha）を読み込み，各文をMorphオブジェクトのリストとして表現し，3文目の形態素列を表示せよ．
@@ -54,12 +55,13 @@ namespace Chapter05.Core
             {
                 foreach (var morph in chunk.Morphs)
                 {
-                Console.WriteLine($"表層形 = {morph.Surface}, 基本形 = {morph.Base}, 品詞 = {morph.Pos}, 品詞細分類 = {morph.Pos1}");
-                    
+                    Console.WriteLine(
+                        $"表層形 = {morph.Surface}, 基本形 = {morph.Base}, 品詞 = {morph.Pos}, 品詞細分類 = {morph.Pos1}");
                 }
             }
         }
     }
+
     /*
 
        

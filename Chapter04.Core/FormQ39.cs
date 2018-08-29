@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -19,6 +13,7 @@ namespace Chapter04.Core
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,8 +25,8 @@ namespace Chapter04.Core
 
             ChartArea chartArea = new ChartArea("base")
             {
-                AxisX = { Title = "単語頻出順位" },
-                AxisY = { Title = "頻出回数" }
+                AxisX = {Title = "単語頻出順位"},
+                AxisY = {Title = "頻出回数"}
             };
             chartArea.AxisX.IsLogarithmic = true;
             chartArea.AxisY.IsLogarithmic = true;
@@ -45,7 +40,8 @@ namespace Chapter04.Core
             chart.Series.Clear();
             chart.ChartAreas.Clear();
             chart.ChartAreas.Add(chartArea);
-            foreach (var item in result.OrderByDescending(pair => pair.Value.Count).Select((value, index) => new { value, index }))
+            foreach (var item in result.OrderByDescending(pair => pair.Value.Count)
+                .Select((value, index) => new {value, index}))
             {
                 series.Points.AddXY(item.index + 1, item.value.Value.Count);
             }

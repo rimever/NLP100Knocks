@@ -3,20 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Chapter05.Core
 {
     public class CabochaAnalyzer
     {
-
-
         private static readonly string CabochaFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             @"..\..\..\Chapter05.Core\neko.txt.cabocha");
-
-        public IList<Sentence> Sentences { get; set; } = new List<Sentence>();
 
         /// <summary>
         /// コンストラクタ
@@ -25,6 +19,8 @@ namespace Chapter05.Core
         {
             Debug.Assert(File.Exists(CabochaFileName), Path.GetFullPath(CabochaFileName));
         }
+
+        public IList<Sentence> Sentences { get; set; } = new List<Sentence>();
 
         /// <summary>
         /// 実行
@@ -36,11 +32,10 @@ namespace Chapter05.Core
 
         private IEnumerable<Sentence> EnumerableSentences()
         {
-
             var xml = XDocument.Load(CabochaFileName);
             foreach (var sentence in xml.Root.Elements("sentence"))
             {
-                yield return new Sentence()
+                yield return new Sentence
                 {
                     Chunks = EnumerableChunk(sentence).ToList()
                 };
@@ -52,7 +47,7 @@ namespace Chapter05.Core
             foreach (var chunk in sentence.Elements("chunk"))
             {
                 var morphs = EnumerableMorphs(chunk).ToList();
-                yield return new Chunk()
+                yield return new Chunk
                 {
                     Dst = int.Parse(chunk.Attribute("link").Value),
                     Srcs = morphs.Select(m => m.Id).ToList(),
@@ -66,7 +61,7 @@ namespace Chapter05.Core
             foreach (var token in chunk.Elements("tok"))
             {
                 var features = token.Attribute("feature").Value.Split(',');
-                yield return new Morph()
+                yield return new Morph
                 {
                     Id = int.Parse(token.Attribute("id").Value),
                     Surface = token.Value,
