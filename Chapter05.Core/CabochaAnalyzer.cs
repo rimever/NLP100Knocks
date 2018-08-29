@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace Chapter05.Core
+{
+    public class CabochaAnalyzer
+    {
+
+
+        private static readonly string CabochaFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            @"..\..\..\Chapter05.Core\neko.txt.cabocha");
+
+        public IList<Sentence> Sentences { get; set; } = new List<Sentence>();
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public CabochaAnalyzer()
+        {
+            Debug.Assert(File.Exists(CabochaFileName), Path.GetFullPath(CabochaFileName));
+        }
+
+        /// <summary>
+        /// 実行
+        /// </summary>
+        public void Execute()
+        {
+            Sentences = EnumerableSentences().ToList();
+        }
+
+        private IEnumerable<Sentence> EnumerableSentences()
+        {
+
+            var xml = XDocument.Load(CabochaFileName);
+            foreach (var sentence in xml.Root.Elements("sentence"))
+            {
+                yield return new Sentence()
+                {
+                    Chunks = EnumerableChunk(sentence).ToList()
+                };
+            }
+        }
+
+        private IEnumerable<Chunk> EnumerableChunk(XElement sentence)
+        {
+            foreach (var chunk in sentence.Elements("chunk"))
+            {
+                var morphs = EnumerableMorphs(chunk).ToList();
+                yield return new Chunk()
+                {
+                    Dst = int.Parse(chunk.Attribute("link").Value),
+                    Srcs = morphs.Select(m => m.Id).ToList(),
+                    Morphs = morphs
+                };
+            }
+        }
+
+        private IEnumerable<Morph> EnumerableMorphs(XElement chunk)
+        {
+            foreach (var token in chunk.Elements("tok"))
+            {
+                var features = token.Attribute("feature").Value.Split(',');
+                yield return new Morph()
+                {
+                    Id = int.Parse(token.Attribute("id").Value),
+                    Surface = token.Value,
+                    Base = features[6],
+                    Pos = features[0],
+                    Pos1 = features[1]
+                };
+            }
+        }
+    }
+}
