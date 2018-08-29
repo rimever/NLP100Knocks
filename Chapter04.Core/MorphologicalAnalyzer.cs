@@ -71,5 +71,23 @@ namespace Chapter04.Core
                 }
             }
         }
+        /// <summary>
+        /// 単語ごとに分類します。
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<string, List<Word>> GetGroupByWord()
+        {
+            IDictionary<string, List<Word>> result = new Dictionary<string, List<Word>>();
+            foreach (var word in EnumerableWords())
+            {
+                if (!result.ContainsKey(word.Base))
+                {
+                    result.Add(word.Base, new List<Word>());
+                }
+                result[word.Base].Add(word);
+            }
+
+            return result;
+        }
     }
 }

@@ -12,25 +12,7 @@ namespace Chapter04.Core
     /// </summary>
     public class AnswerService
     {
-        /*
 
-
-
-
-
-
-
-
-
-37. 頻度上位10語
-出現頻度が高い10語とその出現頻度をグラフ（例えば棒グラフなど）で表示せよ．
-
-38. ヒストグラム
-単語の出現頻度のヒストグラム（横軸に出現頻度，縦軸に出現頻度をとる単語の種類数を棒グラフで表したもの）を描け．
-
-39. Zipfの法則
-単語の出現頻度順位を横軸，その出現頻度を縦軸として，両対数グラフをプロットせよ．
-         */
         private readonly MorphologicalAnalyzer _analyzer = new MorphologicalAnalyzer();
 
         /// <summary>
@@ -178,20 +160,48 @@ namespace Chapter04.Core
         /// </summary>
         public void Answer36()
         {
-            IDictionary<string,List<Word>> result = new Dictionary<string, List<Word>>();
-            foreach (var word in _analyzer.EnumerableWords())
-            {
-                if (!result.ContainsKey(word.Base))
-                {
-                    result.Add(word.Base, new List<Word>());
-                }
-                result[word.Base].Add(word);
-            }
+            IDictionary<string, List<Word>> result = _analyzer.GetGroupByWord();
 
             foreach (var pair in result.OrderByDescending(pair => pair.Value.Count))
             {
                 var first = pair.Value.FirstOrDefault();
                 Console.WriteLine($"{first.Base} {first.Pos} {first.Pos1} {pair.Value.Count}回");
+            }
+        }
+
+
+
+        /// <summary>
+        /// 37. 頻度上位10語
+        /// 出現頻度が高い10語とその出現頻度をグラフ（例えば棒グラフなど）で表示せよ．
+        /// </summary>
+        public void Answer37()
+        {
+            using (FormQ37 form = new FormQ37())
+            {
+                form.ShowDialog();
+            }
+        }
+        /// <summary>
+        /// 38. ヒストグラム
+        /// 単語の出現頻度のヒストグラム（横軸に出現頻度，縦軸に出現頻度をとる単語の種類数を棒グラフで表したもの）を描け．
+        /// </summary>
+        public void Answer38()
+        {
+            using (FormQ38 form = new FormQ38())
+            {
+                form.ShowDialog();
+            }
+        }
+        /// <summary>
+        /// 39. Zipfの法則
+        /// 単語の出現頻度順位を横軸，その出現頻度を縦軸として，両対数グラフをプロットせよ．
+        /// </summary>
+        public void Answer39()
+        {
+            using (FormQ39 form = new FormQ39())
+            {
+                form.ShowDialog();
             }
         }
     }
