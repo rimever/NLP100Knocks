@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Chapter05.Core
 {
@@ -26,5 +27,13 @@ namespace Chapter05.Core
         /// 係元文節インデックス番号のリスト
         /// </summary>
         public IList<int> Srcs { get; set; } = new List<int>();
+
+        /// <summary>
+        /// 表層形
+        /// </summary>
+        public string Surface
+        {
+            get { return string.Join(string.Empty, Morphs.Where(m => m.Pos != "記号").Select(m => m.Surface)); }
+        }
     }
 }
