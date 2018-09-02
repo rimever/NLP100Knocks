@@ -131,7 +131,7 @@ namespace Chapter05.Core
         /// </summary>
         public void Answer45()
         {
-            foreach (var sentence in _analyzer.Sentences.Skip(7).Take(1))
+            foreach (var sentence in _analyzer.Sentences)
             {
                 foreach (var chunk in sentence.Chunks)
                 {
@@ -141,12 +141,51 @@ namespace Chapter05.Core
                         continue;
                     }
 
-                    var result = new List<string>();
-                    result.Add(firstWord.Base);
+                    var result = new List<string> {firstWord.Base};
                     foreach (var supportWords in chunk.Srcs.Select(src =>
                         sentence.Chunks[src].Morphs.Where(m => m.Pos == "助詞").Select(m => m.Base)))
                     {
                         result.AddRange(supportWords);
+                    }
+
+                    Console.WriteLine(string.Join("\t", result));
+                }
+            }
+        }
+        /// <summary>
+        ///         46. 動詞の格フレーム情報の抽出
+        /// 45のプログラムを改変し，述語と格パターンに続けて項（述語に係っている文節そのもの）をタブ区切り形式で出力せよ．45の仕様に加えて，以下の仕様を満たすようにせよ．
+        /// 
+        /// 項は述語に係っている文節の単語列とする（末尾の助詞を取り除く必要はない）
+        /// 述語に係る文節が複数あるときは，助詞と同一の基準・順序でスペース区切りで並べる
+        /// 「吾輩はここで始めて人間というものを見た」という例文（neko.txt.cabochaの8文目）を考える． この文は「始める」と「見る」の２つの動詞を含み，「始める」に係る文節は「ここで」，「見る」に係る文節は「吾輩は」と「ものを」と解析された場合は，次のような出力になるはずである．
+        /// 
+        /// 始める  で      ここで
+        /// 見る    は を   吾輩は ものを
+        /// 
+        /// </summary>
+        public void Answer46()
+        {
+            foreach (var sentence in _analyzer.Sentences)
+            {
+                foreach (var chunk in sentence.Chunks)
+                {
+                    var firstWord = chunk.Morphs.FirstOrDefault(m => m.Pos == "動詞");
+                    if (firstWord == null)
+                    {
+                        continue;
+                    }
+
+                    var result = new List<string> { firstWord.Base };
+                    foreach (var supportWords in chunk.Srcs.Select(src =>
+                        sentence.Chunks[src].Morphs.Where(m => m.Pos == "助詞").Select(m => m.Base)))
+                    {
+                        result.AddRange(supportWords);
+                    }
+                    foreach (var text in chunk.Srcs.Select(src =>
+                        sentence.Chunks[src]).Where(c => c.Morphs.Any(m => m.Pos == "助詞")).Select(c => string.Join(string.Empty, c.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface))))
+                    {
+                        result.Add(text);
                     }
 
                     Console.WriteLine(string.Join("\t", result));
@@ -163,15 +202,6 @@ namespace Chapter05.Core
        
        
        
-       46. 動詞の格フレーム情報の抽出
-       45のプログラムを改変し，述語と格パターンに続けて項（述語に係っている文節そのもの）をタブ区切り形式で出力せよ．45の仕様に加えて，以下の仕様を満たすようにせよ．
-       
-       項は述語に係っている文節の単語列とする（末尾の助詞を取り除く必要はない）
-       述語に係る文節が複数あるときは，助詞と同一の基準・順序でスペース区切りで並べる
-       「吾輩はここで始めて人間というものを見た」という例文（neko.txt.cabochaの8文目）を考える． この文は「始める」と「見る」の２つの動詞を含み，「始める」に係る文節は「ここで」，「見る」に係る文節は「吾輩は」と「ものを」と解析された場合は，次のような出力になるはずである．
-       
-       始める  で      ここで
-       見る    は を   吾輩は ものを
        47. 機能動詞構文のマイニング
        動詞のヲ格にサ変接続名詞が入っている場合のみに着目したい．46のプログラムを以下の仕様を満たすように改変せよ．
        
