@@ -60,7 +60,6 @@ namespace Chapter05.Core
                 }
             }
         }
-                    const string signPosName = "記号";
         /// <summary>
         ///         42. 係り元と係り先の文節の表示
         /// 係り元の文節と係り先の文節のテキストをタブ区切り形式ですべて抽出せよ．ただし，句読点などの記号は出力しないようにせよ．
@@ -74,15 +73,15 @@ namespace Chapter05.Core
                     var fromChunks = sentence.Chunks.Where(c => chunk.Srcs.Contains(c.Id)).ToList();
 
                     string now = string.Join(string.Empty,
-                        chunk.Morphs.Where(m => m.Pos != signPosName).Select(m => m.Surface));
+                        chunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
                     foreach (var fromChunk in fromChunks)
                     {
-                        string from = string.Join(string.Empty, fromChunk.Morphs.Where(m => m.Pos != signPosName).Select(m => m.Surface));
+                        string from = string.Join(string.Empty, fromChunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
                         string to = string.Empty;
                         if (chunk.Dst >= 0)
                         {
                             to = string.Join(string.Empty,
-                                sentence.Chunks[chunk.Dst].Morphs.Where(m => m.Pos != signPosName)
+                                sentence.Chunks[chunk.Dst].Morphs.Where(m => m.Pos != Morph.SignPosName)
                                     .Select(m => m.Surface));
                         }
 
@@ -105,9 +104,9 @@ namespace Chapter05.Core
                     if (chunk.Dst == -1) { continue;}
                     if (chunk.Morphs.All(m => m.Pos != "名詞")) { continue;}
                     if (sentence.Chunks[chunk.Dst].Morphs.All(m => m.Pos != "動詞")) { continue; }
-                    string from = string.Join(string.Empty, chunk.Morphs.Where(m => m.Pos != signPosName).Select(m => m.Surface));
+                    string from = string.Join(string.Empty, chunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
                     string to = string.Join(string.Empty,
-                        sentence.Chunks[chunk.Dst].Morphs.Where(m => m.Pos != signPosName)
+                        sentence.Chunks[chunk.Dst].Morphs.Where(m => m.Pos != Morph.SignPosName)
                             .Select(m => m.Surface));
                     Console.WriteLine($"{from} -> {to}");
                 }

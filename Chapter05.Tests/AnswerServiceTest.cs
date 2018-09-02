@@ -1,4 +1,5 @@
-﻿using Chapter05.Core;
+﻿using System.Threading;
+using Chapter05.Core;
 using NUnit.Framework;
 
 namespace Chapter05.Tests
@@ -41,6 +42,5 @@ namespace Chapter05.Tests
         {
             _answerService.Answer43();
         }
-
     }
 }

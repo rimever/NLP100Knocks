@@ -5,6 +5,8 @@
     /// </summary>
     public class Morph
     {
+        public const string SignPosName = "記号";
+
         /// <summary>
         /// 形態素番号
         /// </summary>
