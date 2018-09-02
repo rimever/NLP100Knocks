@@ -61,6 +61,7 @@ namespace Chapter05.Core
                 }
             }
         }
+
         /// <summary>
         ///         42. 係り元と係り先の文節の表示
         /// 係り元の文節と係り先の文節のテキストをタブ区切り形式ですべて抽出せよ．ただし，句読点などの記号は出力しないようにせよ．
@@ -77,7 +78,8 @@ namespace Chapter05.Core
                         chunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
                     foreach (var fromChunk in fromChunks)
                     {
-                        string from = string.Join(string.Empty, fromChunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
+                        string from = string.Join(string.Empty,
+                            fromChunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
                         string to = string.Empty;
                         if (chunk.Dst >= 0)
                         {
@@ -91,6 +93,7 @@ namespace Chapter05.Core
                 }
             }
         }
+
         /// <summary>
         /// 43. 名詞を含む文節が動詞を含む文節に係るものを抽出
         /// 名詞を含む文節が，動詞を含む文節に係るとき，これらをタブ区切り形式で抽出せよ．
@@ -102,10 +105,23 @@ namespace Chapter05.Core
             {
                 foreach (var chunk in sentence.Chunks)
                 {
-                    if (chunk.Dst == -1) { continue;}
-                    if (chunk.Morphs.All(m => m.Pos != "名詞")) { continue;}
-                    if (sentence.Chunks[chunk.Dst].Morphs.All(m => m.Pos != "動詞")) { continue; }
-                    string from = string.Join(string.Empty, chunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
+                    if (chunk.Dst == -1)
+                    {
+                        continue;
+                    }
+
+                    if (chunk.Morphs.All(m => m.Pos != "名詞"))
+                    {
+                        continue;
+                    }
+
+                    if (sentence.Chunks[chunk.Dst].Morphs.All(m => m.Pos != "動詞"))
+                    {
+                        continue;
+                    }
+
+                    string from = string.Join(string.Empty,
+                        chunk.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface));
                     string to = string.Join(string.Empty,
                         sentence.Chunks[chunk.Dst].Morphs.Where(m => m.Pos != Morph.SignPosName)
                             .Select(m => m.Surface));
@@ -113,6 +129,7 @@ namespace Chapter05.Core
                 }
             }
         }
+
         /// <summary>
         /// 45. 動詞の格パターンの抽出
         /// 今回用いている文章をコーパスと見なし，日本語の述語が取りうる格を調査したい． 動詞を述語，動詞に係っている文節の助詞を格と考え，述語と格をタブ区切り形式で出力せよ． ただし，出力は以下の仕様を満たすようにせよ．
@@ -152,6 +169,7 @@ namespace Chapter05.Core
                 }
             }
         }
+
         /// <summary>
         ///         46. 動詞の格フレーム情報の抽出
         /// 45のプログラムを改変し，述語と格パターンに続けて項（述語に係っている文節そのもの）をタブ区切り形式で出力せよ．45の仕様に加えて，以下の仕様を満たすようにせよ．
@@ -176,14 +194,17 @@ namespace Chapter05.Core
                         continue;
                     }
 
-                    var result = new List<string> { firstWord.Base };
+                    var result = new List<string> {firstWord.Base};
                     foreach (var supportWords in chunk.Srcs.Select(src =>
                         sentence.Chunks[src].Morphs.Where(m => m.Pos == "助詞").Select(m => m.Base)))
                     {
                         result.AddRange(supportWords);
                     }
+
                     foreach (var text in chunk.Srcs.Select(src =>
-                        sentence.Chunks[src]).Where(c => c.Morphs.Any(m => m.Pos == "助詞")).Select(c => string.Join(string.Empty, c.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface))))
+                        sentence.Chunks[src]).Where(c => c.Morphs.Any(m => m.Pos == "助詞")).Select(c =>
+                        string.Join(string.Empty,
+                            c.Morphs.Where(m => m.Pos != Morph.SignPosName).Select(m => m.Surface))))
                     {
                         result.Add(text);
                     }
@@ -192,30 +213,59 @@ namespace Chapter05.Core
                 }
             }
         }
+
+        /// <summary>
+        /// 47. 機能動詞構文のマイニング
+        /// 動詞のヲ格にサ変接続名詞が入っている場合のみに着目したい．46のプログラムを以下の仕様を満たすように改変せよ．
+        /// 
+        /// 「サ変接続名詞+を（助詞）」で構成される文節が動詞に係る場合のみを対象とする
+        /// 述語は「サ変接続名詞+を+動詞の基本形」とし，文節中に複数の動詞があるときは，最左の動詞を用いる
+        /// 述語に係る助詞（文節）が複数あるときは，すべての助詞をスペース区切りで辞書順に並べる
+        /// 述語に係る文節が複数ある場合は，すべての項をスペース区切りで並べる（助詞の並び順と揃えよ）
+        /// 例えば「別段くるにも及ばんさと、主人は手紙に返事をする。」という文から，以下の出力が得られるはずである．
+        /// 
+        /// 返事をする      と に は        及ばんさと 手紙に 主人は
+        /// このプログラムの出力をファイルに保存し，以下の事項をUNIXコマンドを用いて確認せよ．
+        /// 
+        /// コーパス中で頻出する述語（サ変接続名詞+を+動詞）
+        /// コーパス中で頻出する述語と助詞パターン
+        /// </summary>
+        public void Answer47()
+        {
+            foreach (var sentence in _analyzer.Sentences)
+            {
+                foreach (var chunk in sentence.Chunks)
+                {
+                    for (int i = 0; i < chunk.Morphs.Count - 1; i++)
+                    {
+                        var first = chunk.Morphs.Skip(i).First();
+                        var second = chunk.Morphs.Skip(i + 1).First();
+                        if (first.Pos1 == "サ変接続"
+                            && second.Base == "を")
+                        {
+                            var toChunk = sentence.Chunks[chunk.Dst];
+                            var to =
+                                toChunk.Morphs.FirstOrDefault(m => m.Pos == "動詞");
+                            if (to == null)
+                            {
+                                continue;
+                            }
+
+                            string target = $"{first.Surface}{second.Surface}{to.Surface}";
+                            var chunks = chunk.Srcs.Union(toChunk.Srcs).Where(s => s != chunk.Id && s != toChunk.Id)
+                                .OrderBy(s => s).Where(s => s >= 0).Select(s => sentence.Chunks[s]);
+                            var from = chunks.Where(c => c.Morphs.Any(cm => cm.Pos == "助詞"));
+                            string text =
+                                $"{target}\t{string.Join(" ", from.Select(c => c.Morphs.LastOrDefault(cm => cm.Pos == "助詞").Surface))}\t{string.Join(" ", from.Select(c => string.Join(string.Empty, c.Morphs.Select(cm => cm.Surface))))}";
+                            Console.WriteLine(text);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /*
-
-       
-       
-       
-       
-       
-       
-       47. 機能動詞構文のマイニング
-       動詞のヲ格にサ変接続名詞が入っている場合のみに着目したい．46のプログラムを以下の仕様を満たすように改変せよ．
-       
-       「サ変接続名詞+を（助詞）」で構成される文節が動詞に係る場合のみを対象とする
-       述語は「サ変接続名詞+を+動詞の基本形」とし，文節中に複数の動詞があるときは，最左の動詞を用いる
-       述語に係る助詞（文節）が複数あるときは，すべての助詞をスペース区切りで辞書順に並べる
-       述語に係る文節が複数ある場合は，すべての項をスペース区切りで並べる（助詞の並び順と揃えよ）
-       例えば「別段くるにも及ばんさと、主人は手紙に返事をする。」という文から，以下の出力が得られるはずである．
-       
-       返事をする      と に は        及ばんさと 手紙に 主人は
-       このプログラムの出力をファイルに保存し，以下の事項をUNIXコマンドを用いて確認せよ．
-       
-       コーパス中で頻出する述語（サ変接続名詞+を+動詞）
-       コーパス中で頻出する述語と助詞パターン
        48. 名詞から根へのパスの抽出
        文中のすべての名詞を含む文節に対し，その文節から構文木の根に至るパスを抽出せよ． ただし，構文木上のパスは以下の仕様を満たすものとする．
        

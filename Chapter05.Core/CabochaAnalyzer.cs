@@ -40,6 +40,7 @@ namespace Chapter05.Core
                 {
                     chunk.Srcs = list.Where(c => c.Dst == chunk.Id).Select(c => c.Id).ToList();
                 }
+
                 yield return new Sentence
                 {
                     Chunks = list

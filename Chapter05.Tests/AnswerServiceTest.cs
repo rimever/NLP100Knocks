@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Chapter05.Core;
+﻿using Chapter05.Core;
 using NUnit.Framework;
 
 namespace Chapter05.Tests
@@ -26,6 +25,7 @@ namespace Chapter05.Tests
         {
             _answerService.Answer41();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer42"/>を検証します。
         /// </summary>
@@ -34,6 +34,7 @@ namespace Chapter05.Tests
         {
             _answerService.Answer42();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer43"/>を検証します。
         /// </summary>
@@ -42,6 +43,7 @@ namespace Chapter05.Tests
         {
             _answerService.Answer43();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer45"/>を検証します。
         /// </summary>
@@ -50,6 +52,7 @@ namespace Chapter05.Tests
         {
             _answerService.Answer45();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer46"/>を検証します。
         /// </summary>
@@ -59,5 +62,13 @@ namespace Chapter05.Tests
             _answerService.Answer46();
         }
 
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer47"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer47()
+        {
+            _answerService.Answer47();
+        }
     }
 }
