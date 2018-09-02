@@ -42,5 +42,14 @@ namespace Chapter05.Tests
         {
             _answerService.Answer43();
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer45"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer45()
+        {
+            _answerService.Answer45();
+        }
+
     }
 }
