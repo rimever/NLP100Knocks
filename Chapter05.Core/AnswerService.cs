@@ -262,8 +262,8 @@ namespace Chapter05.Core
                     }
                 }
             }
-
         }
+
         /// <summary>
         ///         48. 名詞から根へのパスの抽出
         /// 文中のすべての名詞を含む文節に対し，その文節から構文木の根に至るパスを抽出せよ． ただし，構文木上のパスは以下の仕様を満たすものとする．
@@ -289,52 +289,124 @@ namespace Chapter05.Core
                         continue;
                     }
 
-                   var list = new List<Chunk> {chunk};
+                    var list = new List<Chunk> {chunk};
                     while (list.Last().Dst > 0)
                     {
                         var toChunk = sentence.Chunks[list.Last().Dst];
                         list.Add(toChunk);
                     }
+
                     Console.WriteLine(string.Join(" -> ", list.Select(c => c.Surface)));
                 }
             }
         }
-    }
 
-    /*
-       49. 名詞間の係り受けパスの抽出
-       文中のすべての名詞句のペアを結ぶ最短係り受けパスを抽出せよ．ただし，名詞句ペアの文節番号がi
-       とj
-       （i<j
-       ）のとき，係り受けパスは以下の仕様を満たすものとする．
-       
-       問題48と同様に，パスは開始文節から終了文節に至るまでの各文節の表現（表層形の形態素列）を"->"で連結して表現する
-       文節i
-       とj
-       に含まれる名詞句はそれぞれ，XとYに置換する
-       また，係り受けパスの形状は，以下の2通りが考えられる．
-       
-       文節i
-       から構文木の根に至る経路上に文節j
-       が存在する場合: 文節i
-       から文節j
-       のパスを表示
-       上記以外で，文節i
-       と文節j
-       から構文木の根に至る経路上で共通の文節k
-       で交わる場合: 文節i
-       から文節k
-       に至る直前のパスと文節j
-       から文節k
-       に至る直前までのパス，文節k
-       の内容を"|"で連結して表示
-       例えば，「吾輩はここで始めて人間というものを見た。」という文（neko.txt.cabochaの8文目）から，次のような出力が得られるはずである．
-       
-       Xは | Yで -> 始めて -> 人間という -> ものを | 見た
-       Xは | Yという -> ものを | 見た
-       Xは | Yを | 見た
-       Xで -> 始めて -> Y
-       Xで -> 始めて -> 人間という -> Y
-       Xという -> Y
-            */
+        /// <summary>
+        /// 文中のすべての名詞句のペアを結ぶ最短係り受けパスを抽出せよ．
+        /// ただし，名詞句ペアの文節番号がiとj（i＜j）のとき，係り受けパスは以下の仕様を満たすものとする．
+        /// 問題48と同様に，パスは開始文節から終了文節に至るまでの各文節の表現（表層形の形態素列）を"->"で連結して表現する
+        /// 文節iとjに含まれる名詞句はそれぞれ，XとYに置換する
+        ///
+        /// また，係り受けパスの形状は，以下の2通りが考えられる．
+        /// 文節iから構文木の根に至る経路上に文節jが存在する場合: 文節iから文節jのパスを表示
+        /// 上記以外で，文節iと文節jから構文木の根に至る経路上で共通の文節kで交わる場合: 文節iから文節kに至る直前のパスと文節j から文節kに至る直前までのパス，文節kの内容を"|"で連結して表示
+        ///
+        /// 例えば，「吾輩はここで始めて人間というものを見た。」という文（neko.txt.cabochaの8文目）から，次のような出力が得られるはずである．
+        /// 
+        /// Xは | Yで -&gt; 始めて -&gt; 人間という -&gt; ものを | 見た
+        /// Xは | Yという -&gt; ものを | 見た
+        /// Xは | Yを | 見た
+        /// Xで -&gt; 始めて -&gt; Y
+        /// Xで -&gt; 始めて -&gt; 人間という -&gt; Y
+        /// Xという -&gt; Y
+        /// </summary>
+        public void Answer49()
+        {
+            foreach (var sentence in _analyzer.Sentences)
+            {
+                var nounChunks = sentence.Chunks.Where(c => c.Morphs.Any(m => m.Pos == "名詞")).ToList();
+                for (int x = 0; x < nounChunks.Count - 1; x++)
+                {
+                    for (int y = x + 1; y < nounChunks.Count; y++)
+                    {
+                        var fromChunk = nounChunks[x];
+                        var toChunk = nounChunks[y];
+                        var fromChunkSurface = string.Join(string.Empty, fromChunk.Morphs.Select(m =>
+                            (fromChunk.Morphs.FirstOrDefault(tm => tm.Pos == "名詞").Id == m.Id ? "X" : m.Surface)));
+                        var toChunkSurface = string.Join(string.Empty,
+                            toChunk.Morphs.Select(m =>
+                                (toChunk.Morphs.FirstOrDefault(tm => tm.Pos == "名詞").Id == m.Id ? "Y" : m.Surface)));
+                        IList<int> fromChainList = Sentence.GetWordChainList(sentence, fromChunk.Id);
+
+                        if (fromChainList.Contains(toChunk.Id))
+                        {
+                            var text = new List<string>();
+                            for (int index = 0; toChunk.Id != fromChainList[index]; index++)
+                            {
+                                if (index == 0)
+                                {
+                                    text.Add(fromChunkSurface);
+                                }
+                                else
+                                {
+                                    text.Add(sentence.Chunks[fromChainList[index]].Surface);
+                                }
+                            }
+
+                            text.Add(toChunkSurface);
+                            Console.WriteLine(string.Join(" -> ", text.ToArray()));
+                        }
+                        else
+                        {
+                            IList<int> toChainList = Sentence.GetWordChainList(sentence, toChunk.Id);
+                            bool isCross = false;
+                            string line = string.Empty;
+                            foreach (var item in fromChainList.Select((value, index) => new {value, index}))
+                            {
+                                if (!isCross
+                                    && toChainList.Contains(item.value))
+                                {
+                                    line += " | " + toChunkSurface;
+                                    for (int i = 1; i < toChainList.Count - 1; i++)
+                                    {
+                                        if (fromChainList.Contains(toChainList[i]))
+                                        {
+                                            break;
+                                        }
+
+                                        line += " -> " + sentence.Chunks[toChainList[i]].Surface;
+                                    }
+
+                                    isCross = true;
+                                }
+
+                                if (item.index > 0)
+                                {
+                                    if (item.index == fromChainList.Count - 1)
+                                    {
+                                        line += " | ";
+                                    }
+                                    else
+                                    {
+                                        line += " -> ";
+                                    }
+                                }
+
+                                if (item.index == 0)
+                                {
+                                    line += fromChunkSurface;
+                                }
+                                else
+                                {
+                                    line += sentence.Chunks[item.value].Surface;
+                                }
+                            }
+
+                            Console.WriteLine(line);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

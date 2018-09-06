@@ -70,6 +70,7 @@ namespace Chapter05.Tests
         {
             _answerService.Answer47();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer48"/>を検証します。
         /// </summary>
@@ -77,6 +78,15 @@ namespace Chapter05.Tests
         public void Answer48()
         {
             _answerService.Answer48();
+        }
+
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer49"/>を検証します。
+        /// </summary>
+        [Test]
+        public void Answer49()
+        {
+            _answerService.Answer49();
         }
     }
 }
