@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace Chapter06.Core
 {
     /// <summary>
-    /// 英語のテキストに対して、以下の処理を実行せよ。
+    /// 第6章: 英語テキストの処理
+    /// 英語のテキスト（nlp.txt）に対して，以下の処理を実行せよ．
     /// </summary>
     public class AnswerService
     {
@@ -52,15 +53,38 @@ namespace Chapter06.Core
             }
             yield return _text.Substring(index);
         }
+        /// <summary>
+        /// 51. 単語の切り出し
+        /// 空白を単語の区切りとみなし，50の出力を入力として受け取り，1行1単語の形式で出力せよ．ただし，文の終端では空行を出力せよ．
+        /// 
+        /// </summary>
+        public void Answer51()
+        {
+            foreach (var sentence in SplitSentence())
+            {
+                string[] words = sentence.Split(' ');
+
+                foreach (var item in words.Select((value, index) => new {value, index}))
+                {
+                    string word = item.value;
+                    bool isEnd = item.index == words.Length - 1;
+                    if (isEnd && word.Length > 0)
+                    {
+                        word = word.Substring(0, word.Length - 1);
+                    }
+
+                    Console.WriteLine(word);
+                    if (isEnd)
+                    {
+                    Console.WriteLine();
+                    }
+                }
+            }
+        }
     }
     /*
-第6章: 英語テキストの処理
-
-英語のテキスト（nlp.txt）に対して，以下の処理を実行せよ．
 
 
-51. 単語の切り出し
-空白を単語の区切りとみなし，50の出力を入力として受け取り，1行1単語の形式で出力せよ．ただし，文の終端では空行を出力せよ．
 
 52. ステミング
 51の出力を入力として受け取り，Porterのステミングアルゴリズムを適用し，単語と語幹をタブ区切り形式で出力せよ． Pythonでは，Porterのステミングアルゴリズムの実装としてstemmingモジュールを利用するとよい．

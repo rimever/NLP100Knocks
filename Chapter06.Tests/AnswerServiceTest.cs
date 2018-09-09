@@ -17,10 +17,21 @@ namespace Chapter06.Tests
         {
             Assert.NotNull(service);
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer50"/>をテストします。
+        /// </summary>
         [Test]
         public void Answer50()
         {
             service.Answer50();
+        }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer51"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Answer51()
+        {
+            service.Answer51();
         }
     }
 }
