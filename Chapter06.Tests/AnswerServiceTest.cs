@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chapter06.Core;
+﻿using Chapter06.Core;
 using NUnit.Framework;
 
 namespace Chapter06.Tests
@@ -11,12 +6,14 @@ namespace Chapter06.Tests
     [TestFixture]
     public class AnswerServiceTest
     {
-            AnswerService service = new AnswerService();
+        readonly AnswerService service = new AnswerService();
+
         [TestCase]
         public void Constructor()
         {
             Assert.NotNull(service);
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer50"/>をテストします。
         /// </summary>
@@ -25,6 +22,7 @@ namespace Chapter06.Tests
         {
             service.Answer50();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer51"/>をテストします。
         /// </summary>
@@ -32,6 +30,14 @@ namespace Chapter06.Tests
         public void Answer51()
         {
             service.Answer51();
+        }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer52"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Answer52()
+        {
+            service.Answer52();
         }
     }
 }

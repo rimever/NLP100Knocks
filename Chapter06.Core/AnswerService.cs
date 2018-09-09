@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Poseidon.Analysis;
 
 namespace Chapter06.Core
 {
@@ -26,6 +25,7 @@ namespace Chapter06.Core
             _text = File.ReadAllText(_fileName);
             _text = _text.Replace("\n", " ");
         }
+
         /// <summary>
         /// 50. 文区切り
         /// (. or ; or : or ? or !) → 空白文字 → 英大文字というパターンを文の区切りと見なし，入力された文書を1行1文の形式で出力せよ．
@@ -37,13 +37,13 @@ namespace Chapter06.Core
                 Console.WriteLine(sentence);
             }
         }
+
         /// <summary>
         /// 文章単位で分割します。
         /// </summary>
         /// <returns></returns>
         private IEnumerable<string> SplitSentence()
         {
-
             int index = 0;
             const string pattern = @"[\.;!\?]\s[A-Z]";
             foreach (Match match in Regex.Matches(_text, pattern))
@@ -51,8 +51,10 @@ namespace Chapter06.Core
                 yield return _text.Substring(index, match.Index - index + 1);
                 index = match.Index + 2;
             }
+
             yield return _text.Substring(index);
         }
+
         /// <summary>
         /// 51. 単語の切り出し
         /// 空白を単語の区切りとみなし，50の出力を入力として受け取り，1行1単語の形式で出力せよ．ただし，文の終端では空行を出力せよ．
@@ -68,26 +70,56 @@ namespace Chapter06.Core
                 {
                     string word = item.value;
                     bool isEnd = item.index == words.Length - 1;
-                    if (isEnd && word.Length > 0)
+                    string[] signs = new[] {",", @"""", ".", "'", "?", "!"};
+                    foreach (var sign in signs)
                     {
-                        word = word.Substring(0, word.Length - 1);
+                        word = word.Replace(sign, string.Empty);
                     }
 
                     Console.WriteLine(word);
                     if (isEnd)
                     {
-                    Console.WriteLine();
+                        Console.WriteLine();
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 52. ステミング
+        /// 51の出力を入力として受け取り，Porterのステミングアルゴリズムを適用し，単語と語幹をタブ区切り形式で出力せよ． Pythonでは，Porterのステミングアルゴリズムの実装としてstemmingモジュールを利用するとよい．
+        /// </summary>
+        public void Answer52()
+        {
+            PorterStemmer porterStemmer = new PorterStemmer();
+            foreach (var sentence in SplitSentence())
+            {
+                string[] words = sentence.Split(' ');
+
+                foreach (var item in words.Select((value, index) => new { value, index }))
+                {
+                    string word = item.value;
+                    bool isEnd = item.index == words.Length - 1;
+                    string[] signs = new[] { ",", @"""", ".", "'", "?", "!","(" ,")"};
+                    foreach (var sign in signs)
+                    {
+                        word = word.Replace(sign, string.Empty);
+                    }
+
+                    var stem = porterStemmer.StemWord(word);
+                    Console.WriteLine($"{word}\t{stem}");
+                    if (isEnd)
+                    {
+                        Console.WriteLine();
                     }
                 }
             }
         }
     }
+
     /*
 
 
 
-52. ステミング
-51の出力を入力として受け取り，Porterのステミングアルゴリズムを適用し，単語と語幹をタブ区切り形式で出力せよ． Pythonでは，Porterのステミングアルゴリズムの実装としてstemmingモジュールを利用するとよい．
 
 53. Tokenization
 Stanford Core NLPを用い，入力テキストの解析結果をXML形式で得よ．また，このXMLファイルを読み込み，入力テキストを1行1単語の形式で出力せよ．
