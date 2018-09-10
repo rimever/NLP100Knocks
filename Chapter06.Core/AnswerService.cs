@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Chapter06.Core.Models;
 using Poseidon.Analysis;
 
 namespace Chapter06.Core
@@ -144,9 +146,18 @@ namespace Chapter06.Core
             }
         }
 
+        private static IEnumerable<Coreference> EnumerableCoreference(XDocument xml)
+        {
+            foreach (var element in xml.Root.Elements("document").Elements("coreference").Elements("coreference"))
+            {
+                yield return new Coreference(element);
+            }
+        }
+
         public void Answer55()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
+            var coreferences = EnumerableCoreference(xml).ToList();
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token"))
             {
                 var ner = element.Element("NER")?.Value;
@@ -158,6 +169,36 @@ namespace Chapter06.Core
                 Console.WriteLine($"{word}");
             }
         }
+        public void Answer56()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var coreferences = EnumerableCoreference(xml).ToList();
+            foreach (var sentenceElement in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
+            {
+                var sentenceId = int.Parse(sentenceElement.Attribute("id").Value);
+                var tokens = sentenceElement.Elements("tokens").Elements("token").ToList();
+                var reference = coreferences.Where(c => c.Mentions.Any(m => m.SentenceId == sentenceId)).ToList();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 1; i <= tokens.Count; i++)
+                {
+                    if (!string.IsNullOrEmpty(stringBuilder.ToString()))
+                    {
+                        stringBuilder.Append(" ");
+                    }
+
+                        stringBuilder.Append(tokens[i - 1].Element("word").Value);
+                    var coreference = reference.SingleOrDefault(r =>
+                        r.Mentions.Any(m => m.SentenceId == sentenceId && m.EndId - 1 == i && !m.Representative));                    
+                    if (coreference != null)
+                    {
+                        string representationText = coreference.Mentions.Single(s => s.Representative).Text;
+                        stringBuilder.Append($"({representationText})");
+                    }
+                }
+                    Console.WriteLine(stringBuilder.ToString());
+            }
+        }
+
     }
 
     /*

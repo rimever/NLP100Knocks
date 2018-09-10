@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnswerService.cs" />
+    <Compile Include="Models\Coreference.cs" />
+    <Compile Include="Models\Mention.cs" />
     <Compile Include="Poseidon.Analysis\PorterStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
