@@ -143,6 +143,21 @@ namespace Chapter06.Core
                 Console.WriteLine($"{word}\t{lemma}\t{pos}");
             }
         }
+
+        public void Answer55()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token"))
+            {
+                var ner = element.Element("NER")?.Value;
+                if (ner != "PERSON")
+                {
+                    continue;
+                }
+                var word = element.Element("word")?.Value;
+                Console.WriteLine($"{word}");
+            }
+        }
     }
 
     /*
