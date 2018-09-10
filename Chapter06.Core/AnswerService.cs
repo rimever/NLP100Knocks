@@ -128,18 +128,26 @@ namespace Chapter06.Core
                 Console.WriteLine(element.Value);
             }
         }
+        /// <summary>
+        /// 54. 品詞タグ付け
+        /// Stanford Core NLPの解析結果XMLを読み込み，単語，レンマ，品詞をタブ区切り形式で出力せよ．
+        /// </summary>
+        public void Answer54()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token"))
+            {
+                var word = element.Element("word")?.Value;
+                var lemma = element.Element("lemma")?.Value;
+                var pos = element.Element("POS")?.Value;
+                Console.WriteLine($"{word}\t{lemma}\t{pos}");
+            }
+        }
     }
 
     /*
 
 
-
-
-53. Tokenization
-Stanford Core NLPを用い，入力テキストの解析結果をXML形式で得よ．また，このXMLファイルを読み込み，入力テキストを1行1単語の形式で出力せよ．
-
-54. 品詞タグ付け
-Stanford Core NLPの解析結果XMLを読み込み，単語，レンマ，品詞をタブ区切り形式で出力せよ．
 
 55. 固有表現抽出
 入力文中の人名をすべて抜き出せ．
