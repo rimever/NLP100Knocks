@@ -8,7 +8,7 @@ namespace Chapter06.Tests
     {
         readonly AnswerService service = new AnswerService();
 
-        [TestCase]
+        [Test]
         public void Constructor()
         {
             Assert.NotNull(service);
@@ -38,6 +38,14 @@ namespace Chapter06.Tests
         public void Answer52()
         {
             service.Answer52();
+        }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer53"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Answer53()
+        {
+            service.Answer53();
         }
     }
 }

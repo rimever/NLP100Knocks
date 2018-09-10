@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Poseidon.Analysis;
 
 namespace Chapter06.Core
@@ -14,15 +15,18 @@ namespace Chapter06.Core
     /// </summary>
     public class AnswerService
     {
-        private readonly string _fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+        private readonly string _textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             @"..\..\..\Chapter06.Core\nlp.txt");
+        private readonly string _stanfordNLPFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            @"..\..\..\Chapter06.Core\nlp.txt.xml");
 
         private readonly string _text;
 
         public AnswerService()
         {
-            Debug.Assert(File.Exists(_fileName), _fileName);
-            _text = File.ReadAllText(_fileName);
+            Debug.Assert(File.Exists(_textFilePath), _textFilePath);
+            Debug.Assert(File.Exists(_stanfordNLPFilePath), _stanfordNLPFilePath);
+            _text = File.ReadAllText(_textFilePath);
             _text = _text.Replace("\n", " ");
         }
 
@@ -64,26 +68,36 @@ namespace Chapter06.Core
         {
             foreach (var sentence in SplitSentence())
             {
-                string[] words = sentence.Split(' ');
-
-                foreach (var item in words.Select((value, index) => new {value, index}))
+                foreach (var word in SplitWords(sentence))
                 {
-                    string word = item.value;
-                    bool isEnd = item.index == words.Length - 1;
-                    string[] signs = new[] {",", @"""", ".", "'", "?", "!"};
-                    foreach (var sign in signs)
-                    {
-                        word = word.Replace(sign, string.Empty);
-                    }
-
                     Console.WriteLine(word);
-                    if (isEnd)
-                    {
-                        Console.WriteLine();
-                    }
                 }
+                Console.WriteLine();
             }
         }
+        /// <summary>
+        /// 単語に分割します。
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
+        private IEnumerable<string> SplitWords(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+
+            foreach (var item in words.Select((value, index) => new { value, index }))
+            {
+                string word = item.value;
+                string[] signs = { ",", @"""", ".", "'", "?", "!" };
+                foreach (var sign in signs)
+                {
+                    word = word.Replace(sign, string.Empty);
+                }
+
+                yield return word;
+            }
+
+        }
+
         /// <summary>
         /// 52. ステミング
         /// 51の出力を入力として受け取り，Porterのステミングアルゴリズムを適用し，単語と語幹をタブ区切り形式で出力せよ． Pythonでは，Porterのステミングアルゴリズムの実装としてstemmingモジュールを利用するとよい．
@@ -93,25 +107,25 @@ namespace Chapter06.Core
             PorterStemmer porterStemmer = new PorterStemmer();
             foreach (var sentence in SplitSentence())
             {
-                string[] words = sentence.Split(' ');
-
-                foreach (var item in words.Select((value, index) => new { value, index }))
+                foreach (var word in SplitWords(sentence))
                 {
-                    string word = item.value;
-                    bool isEnd = item.index == words.Length - 1;
-                    string[] signs = new[] { ",", @"""", ".", "'", "?", "!","(" ,")"};
-                    foreach (var sign in signs)
-                    {
-                        word = word.Replace(sign, string.Empty);
-                    }
-
+                    
                     var stem = porterStemmer.StemWord(word);
                     Console.WriteLine($"{word}\t{stem}");
-                    if (isEnd)
-                    {
-                        Console.WriteLine();
-                    }
                 }
+                Console.WriteLine();
+            }
+        }
+        /// <summary>
+        /// 53. Tokenization
+        /// Stanford Core NLPを用い，入力テキストの解析結果をXML形式で得よ．また，このXMLファイルを読み込み，入力テキストを1行1単語の形式で出力せよ．
+        /// </summary>
+        public void Answer53()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token").Elements("word"))
+            {
+                Console.WriteLine(element.Value);
             }
         }
     }

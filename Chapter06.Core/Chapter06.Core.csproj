@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="nlp.txt" />
+    <Content Include="nlp.txt.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
