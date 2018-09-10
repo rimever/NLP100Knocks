@@ -79,5 +79,13 @@ namespace Chapter06.Tests
         {
             service.Answer58();
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer59"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Answer59()
+        {
+            service.Answer59();
+        }
     }
 }

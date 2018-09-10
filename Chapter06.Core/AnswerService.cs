@@ -159,6 +159,7 @@ namespace Chapter06.Core
                 yield return new Coreference(element);
             }
         }
+
         /// <summary>
         /// 55. 固有表現抽出
         /// 入力文中の人名をすべて抜き出せ．
@@ -179,6 +180,7 @@ namespace Chapter06.Core
                 Console.WriteLine($"{word}");
             }
         }
+
         /// <summary>
         /// 56. 共参照解析
         /// Stanford Core NLPの共参照解析の結果に基づき，文中の参照表現（mention）を代表参照表現（representative mention）に置換せよ．ただし，置換するときは，「代表参照表現（参照表現）」のように，元の参照表現が分かるように配慮せよ．
@@ -214,6 +216,7 @@ namespace Chapter06.Core
                 Console.WriteLine(stringBuilder.ToString());
             }
         }
+
         /// <summary>
         /// 57. 係り受け解析
         /// Stanford Core NLPの係り受け解析の結果（collapsed-dependencies）を有向グラフとして可視化せよ．可視化には，係り受け木をDOT言語に変換し，Graphvizを用いるとよい．また，Pythonから有向グラフを直接的に可視化するには，pydotを使うとよい．
@@ -227,9 +230,13 @@ namespace Chapter06.Core
                 yield return new Sentence(element);
             }
         }
+
         /// <summary>
         /// 58. タプルの抽出
         /// Stanford Core NLPの係り受け解析の結果（collapsed-dependencies）に基づき，「主語 述語 目的語」の組をタブ区切り形式で出力せよ．ただし，主語，述語，目的語の定義は以下を参考にせよ．
+        /// 述語: nsubj関係とdobj関係の子（dependant）を持つ単語
+        /// 主語: 述語からnsubj関係にある子（dependent）
+        /// 目的語: 述語からdobj関係にある子（dependent）
         /// </summary>
         public void Answer58()
         {
@@ -245,20 +252,32 @@ namespace Chapter06.Core
                 {
                     var nsubj = dependencies.First(d => d.DepType == "nsubj" && d.Governor.Index == item.Id);
                     var dobj = dependencies.First(d => d.DepType == "dobj" && d.Governor.Index == item.Id);
-                    Console.WriteLine($"{sentence.Words.FirstOrDefault(w => w.Id == nsubj.Dependent.Index).Value}\t{item.Value}\t{sentence.Words.FirstOrDefault(w => w.Id == dobj.Dependent.Index).Value}");
+                    Console.WriteLine(
+                        $"{sentence.Words.FirstOrDefault(w => w.Id == nsubj.Dependent.Index).Value}\t{item.Value}\t{sentence.Words.FirstOrDefault(w => w.Id == dobj.Dependent.Index).Value}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 59. S式の解析
+        /// Stanford Core NLPの句構造解析の結果（S式）を読み込み，文中のすべての名詞句（NP）を表示せよ．入れ子になっている名詞句もすべて表示すること．
+        /// </summary>
+        public void Answer59()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
+            {
+                var sentence = new Sentence(element);
+                foreach (var word in sentence.Words)
+                {
+                    if (word.POS != "NN" && word.POS != "NNP")
+                    {
+                        continue;
+                    }
+
+                    Console.WriteLine(word.Value);
                 }
             }
         }
     }
-
-    /*
-
-
-
-述語: nsubj関係とdobj関係の子（dependant）を持つ単語
-主語: 述語からnsubj関係にある子（dependent）
-目的語: 述語からdobj関係にある子（dependent）
-59. S式の解析
-Stanford Core NLPの句構造解析の結果（S式）を読み込み，文中のすべての名詞句（NP）を表示せよ．入れ子になっている名詞句もすべて表示すること．
-*/
 }
