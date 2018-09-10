@@ -42,7 +42,10 @@
   <ItemGroup>
     <Compile Include="AnswerService.cs" />
     <Compile Include="Models\Coreference.cs" />
+    <Compile Include="Models\Dependency.cs" />
     <Compile Include="Models\Mention.cs" />
+    <Compile Include="Models\Sentence.cs" />
+    <Compile Include="Models\Word.cs" />
     <Compile Include="Poseidon.Analysis\PorterStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

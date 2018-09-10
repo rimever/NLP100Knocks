@@ -17,12 +17,13 @@ namespace Chapter06.Core
     /// </summary>
     public class AnswerService
     {
-        private readonly string _textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            @"..\..\..\Chapter06.Core\nlp.txt");
         private readonly string _stanfordNLPFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             @"..\..\..\Chapter06.Core\nlp.txt.xml");
 
         private readonly string _text;
+
+        private readonly string _textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            @"..\..\..\Chapter06.Core\nlp.txt");
 
         public AnswerService()
         {
@@ -74,9 +75,11 @@ namespace Chapter06.Core
                 {
                     Console.WriteLine(word);
                 }
+
                 Console.WriteLine();
             }
         }
+
         /// <summary>
         /// 単語に分割します。
         /// </summary>
@@ -86,10 +89,10 @@ namespace Chapter06.Core
         {
             string[] words = sentence.Split(' ');
 
-            foreach (var item in words.Select((value, index) => new { value, index }))
+            foreach (var item in words.Select((value, index) => new {value, index}))
             {
                 string word = item.value;
-                string[] signs = { ",", @"""", ".", "'", "?", "!" };
+                string[] signs = {",", @"""", ".", "'", "?", "!"};
                 foreach (var sign in signs)
                 {
                     word = word.Replace(sign, string.Empty);
@@ -97,7 +100,6 @@ namespace Chapter06.Core
 
                 yield return word;
             }
-
         }
 
         /// <summary>
@@ -111,13 +113,14 @@ namespace Chapter06.Core
             {
                 foreach (var word in SplitWords(sentence))
                 {
-                    
                     var stem = porterStemmer.StemWord(word);
                     Console.WriteLine($"{word}\t{stem}");
                 }
+
                 Console.WriteLine();
             }
         }
+
         /// <summary>
         /// 53. Tokenization
         /// Stanford Core NLPを用い，入力テキストの解析結果をXML形式で得よ．また，このXMLファイルを読み込み，入力テキストを1行1単語の形式で出力せよ．
@@ -125,11 +128,13 @@ namespace Chapter06.Core
         public void Answer53()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
-            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token").Elements("word"))
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence")
+                .Elements("tokens").Elements("token").Elements("word"))
             {
                 Console.WriteLine(element.Value);
             }
         }
+
         /// <summary>
         /// 54. 品詞タグ付け
         /// Stanford Core NLPの解析結果XMLを読み込み，単語，レンマ，品詞をタブ区切り形式で出力せよ．
@@ -137,12 +142,13 @@ namespace Chapter06.Core
         public void Answer54()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
-            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token"))
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
             {
-                var word = element.Element("word")?.Value;
-                var lemma = element.Element("lemma")?.Value;
-                var pos = element.Element("POS")?.Value;
-                Console.WriteLine($"{word}\t{lemma}\t{pos}");
+                var sentence = new Sentence(element);
+                foreach (var word in sentence.Words)
+                {
+                    Console.WriteLine($"{word.Value}\t{word.Lemma}\t{word.POS}");
+                }
             }
         }
 
@@ -157,18 +163,20 @@ namespace Chapter06.Core
         public void Answer55()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
-            var coreferences = EnumerableCoreference(xml).ToList();
-            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence").Elements("tokens").Elements("token"))
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence")
+                .Elements("tokens").Elements("token"))
             {
                 var ner = element.Element("NER")?.Value;
                 if (ner != "PERSON")
                 {
                     continue;
                 }
+
                 var word = element.Element("word")?.Value;
                 Console.WriteLine($"{word}");
             }
         }
+
         public void Answer56()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
@@ -181,24 +189,34 @@ namespace Chapter06.Core
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 1; i <= tokens.Count; i++)
                 {
-                    if (!string.IsNullOrEmpty(stringBuilder.ToString()))
+                    if (i < tokens.Count
+                        && !string.IsNullOrEmpty(stringBuilder.ToString()))
                     {
                         stringBuilder.Append(" ");
                     }
 
-                        stringBuilder.Append(tokens[i - 1].Element("word").Value);
+                    stringBuilder.Append(tokens[i - 1].Element("word").Value);
                     var coreference = reference.SingleOrDefault(r =>
-                        r.Mentions.Any(m => m.SentenceId == sentenceId && m.EndId - 1 == i && !m.Representative));                    
+                        r.Mentions.Any(m => m.SentenceId == sentenceId && m.EndId - 1 == i && !m.Representative));
                     if (coreference != null)
                     {
                         string representationText = coreference.Mentions.Single(s => s.Representative).Text;
                         stringBuilder.Append($"({representationText})");
                     }
                 }
-                    Console.WriteLine(stringBuilder.ToString());
+
+                Console.WriteLine(stringBuilder.ToString());
             }
         }
 
+        public IEnumerable<Sentence> Answer57()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
+            {
+                yield return new Sentence(element);
+            }
+        }
     }
 
     /*

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Chapter06.Core.Models
 {
     public class Coreference
     {
-        public List<Mention> Mentions { get; set; }
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -19,6 +14,9 @@ namespace Chapter06.Core.Models
         {
             Mentions = EnumerableMention(element).ToList();
         }
+
+        public List<Mention> Mentions { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
