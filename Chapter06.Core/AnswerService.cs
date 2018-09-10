@@ -159,7 +159,10 @@ namespace Chapter06.Core
                 yield return new Coreference(element);
             }
         }
-
+        /// <summary>
+        /// 55. 固有表現抽出
+        /// 入力文中の人名をすべて抜き出せ．
+        /// </summary>
         public void Answer55()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
@@ -176,7 +179,10 @@ namespace Chapter06.Core
                 Console.WriteLine($"{word}");
             }
         }
-
+        /// <summary>
+        /// 56. 共参照解析
+        /// Stanford Core NLPの共参照解析の結果に基づき，文中の参照表現（mention）を代表参照表現（representative mention）に置換せよ．ただし，置換するときは，「代表参照表現（参照表現）」のように，元の参照表現が分かるように配慮せよ．
+        /// </summary>
         public void Answer56()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
@@ -208,7 +214,11 @@ namespace Chapter06.Core
                 Console.WriteLine(stringBuilder.ToString());
             }
         }
-
+        /// <summary>
+        /// 57. 係り受け解析
+        /// Stanford Core NLPの係り受け解析の結果（collapsed-dependencies）を有向グラフとして可視化せよ．可視化には，係り受け木をDOT言語に変換し，Graphvizを用いるとよい．また，Pythonから有向グラフを直接的に可視化するには，pydotを使うとよい．
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Sentence> Answer57()
         {
             var xml = XDocument.Load(_stanfordNLPFilePath);
@@ -217,23 +227,33 @@ namespace Chapter06.Core
                 yield return new Sentence(element);
             }
         }
+        /// <summary>
+        /// 58. タプルの抽出
+        /// Stanford Core NLPの係り受け解析の結果（collapsed-dependencies）に基づき，「主語 述語 目的語」の組をタブ区切り形式で出力せよ．ただし，主語，述語，目的語の定義は以下を参考にせよ．
+        /// </summary>
+        public void Answer58()
+        {
+            var xml = XDocument.Load(_stanfordNLPFilePath);
+            foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
+            {
+                var sentence = new Sentence(element);
+                var dependencies = sentence.DependencyDictionary["collapsed-dependencies"];
+                var words = sentence.Words.Where(w =>
+                    dependencies.Any(d => d.DepType == "nsubj" && d.Governor.Index == w.Id) &&
+                    dependencies.Any(d => d.DepType == "dobj" && d.Governor.Index == w.Id));
+                foreach (var item in words)
+                {
+                    var nsubj = dependencies.First(d => d.DepType == "nsubj" && d.Governor.Index == item.Id);
+                    var dobj = dependencies.First(d => d.DepType == "dobj" && d.Governor.Index == item.Id);
+                    Console.WriteLine($"{sentence.Words.FirstOrDefault(w => w.Id == nsubj.Dependent.Index).Value}\t{item.Value}\t{sentence.Words.FirstOrDefault(w => w.Id == dobj.Dependent.Index).Value}");
+                }
+            }
+        }
     }
 
     /*
 
 
-
-55. 固有表現抽出
-入力文中の人名をすべて抜き出せ．
-
-56. 共参照解析
-Stanford Core NLPの共参照解析の結果に基づき，文中の参照表現（mention）を代表参照表現（representative mention）に置換せよ．ただし，置換するときは，「代表参照表現（参照表現）」のように，元の参照表現が分かるように配慮せよ．
-
-57. 係り受け解析
-Stanford Core NLPの係り受け解析の結果（collapsed-dependencies）を有向グラフとして可視化せよ．可視化には，係り受け木をDOT言語に変換し，Graphvizを用いるとよい．また，Pythonから有向グラフを直接的に可視化するには，pydotを使うとよい．
-
-58. タプルの抽出
-Stanford Core NLPの係り受け解析の結果（collapsed-dependencies）に基づき，「主語 述語 目的語」の組をタブ区切り形式で出力せよ．ただし，主語，述語，目的語の定義は以下を参考にせよ．
 
 述語: nsubj関係とdobj関係の子（dependant）を持つ単語
 主語: 述語からnsubj関係にある子（dependent）
