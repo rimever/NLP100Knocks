@@ -11,6 +11,23 @@ namespace Chapter06.Core.Models
     {
         public List<Word> Words;
 
+
+        public string Text
+        {
+            get
+            {
+                string text = string.Empty;
+                foreach (var item in Words.Select((value, index) => new { value, index }))
+                {
+                    text += item.value.Value;
+                    if (item.index < Words.Count - 2)
+                    {
+                        text += " ";
+                    }
+                }
+                return text;
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

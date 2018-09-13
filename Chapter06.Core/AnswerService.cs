@@ -17,19 +17,17 @@ namespace Chapter06.Core
     /// </summary>
     public class AnswerService
     {
-        private readonly string _stanfordNLPFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            @"..\..\..\Chapter06.Core\nlp.txt.xml");
+        private readonly string _stanfordNlpFilePath;
 
         private readonly string _text;
 
-        private readonly string _textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            @"..\..\..\Chapter06.Core\nlp.txt");
-
-        public AnswerService()
+        public AnswerService(string relativePath = @"..\..\..\Chapter06.Core")
         {
-            Debug.Assert(File.Exists(_textFilePath), _textFilePath);
-            Debug.Assert(File.Exists(_stanfordNLPFilePath), _stanfordNLPFilePath);
-            _text = File.ReadAllText(_textFilePath);
+            _stanfordNlpFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,relativePath, "nlp.txt.xml");
+            var textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,relativePath, "nlp.txt");
+            Debug.Assert(File.Exists(textFilePath), textFilePath);
+            Debug.Assert(File.Exists(_stanfordNlpFilePath), _stanfordNlpFilePath);
+            _text = File.ReadAllText(textFilePath);
             _text = _text.Replace("\n", " ");
         }
 
@@ -127,7 +125,7 @@ namespace Chapter06.Core
         /// </summary>
         public void Answer53()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence")
                 .Elements("tokens").Elements("token").Elements("word"))
             {
@@ -141,7 +139,7 @@ namespace Chapter06.Core
         /// </summary>
         public void Answer54()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
             {
                 var sentence = new Sentence(element);
@@ -166,7 +164,7 @@ namespace Chapter06.Core
         /// </summary>
         public void Answer55()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence")
                 .Elements("tokens").Elements("token"))
             {
@@ -187,7 +185,7 @@ namespace Chapter06.Core
         /// </summary>
         public void Answer56()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             var coreferences = EnumerableCoreference(xml).ToList();
             foreach (var sentenceElement in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
             {
@@ -224,7 +222,7 @@ namespace Chapter06.Core
         /// <returns></returns>
         public IEnumerable<Sentence> Answer57()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
             {
                 yield return new Sentence(element);
@@ -240,7 +238,7 @@ namespace Chapter06.Core
         /// </summary>
         public void Answer58()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
             {
                 var sentence = new Sentence(element);
@@ -264,7 +262,7 @@ namespace Chapter06.Core
         /// </summary>
         public void Answer59()
         {
-            var xml = XDocument.Load(_stanfordNLPFilePath);
+            var xml = XDocument.Load(_stanfordNlpFilePath);
             foreach (var element in xml.Root.Elements("document").Elements("sentences").Elements("sentence"))
             {
                 var sentence = new Sentence(element);
