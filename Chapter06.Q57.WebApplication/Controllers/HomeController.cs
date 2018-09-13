@@ -50,7 +50,7 @@ namespace Chapter06.Q57.WebApplication.Controllers
             var nodes = sentence.Words.Select(s => new {label = s.Value}).ToList();
             var dependencies = sentence.DependencyDictionary["collapsed-dependencies"];
             var links = dependencies.Where(d => d.Governor.Index > 0).Select(d => new
-                {source = d.Governor.Index - 1, target = d.Dependent.Index - 1});
+                {target = d.Governor.Index - 1, source = d.Dependent.Index - 1});
 
             return new JsonResult(new Dictionary<string, object>()
             {
