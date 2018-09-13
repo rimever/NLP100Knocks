@@ -21,6 +21,13 @@ CaboChaについてはC#では適切なライブラリが見つからなかっ�
 - http://taku910.github.io/mecab/
 - https://ja.stackoverflow.com/questions/42220/win10へのcabochaインストールについて
 
-## スクリーンショット
+### スクリーンショット
 
 ![スクリーンショット](https://github.com/rimever/NLP100Knocks/blob/master/Chapter05.Q44/ScreenShots/Q44.PNG)
+
+
+## 第6章
+
+### スクリーンショット
+
+![スクリーンショット](https://github.com/rimever/NLP100Knocks/blob/master/Chapter06.Q57.WebApplication/ScreenShots/ScreenShot001.PNG)
