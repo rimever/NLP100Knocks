@@ -45,7 +45,7 @@ namespace Chapter07.Migrator
                     // Add SQLite support to FluentMigrator
                     .AddPostgres()
                     // Set the connection string
-                    .WithGlobalConnectionString(connectionString).ScanIn(typeof(FirstMigration).Assembly).For.Migrations())
+                    .WithGlobalConnectionString(connectionString).ScanIn(typeof(CreateTableMigration).Assembly).For.Migrations())
                 // Enable logging to console in the FluentMigrator way
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 // Build the service provider

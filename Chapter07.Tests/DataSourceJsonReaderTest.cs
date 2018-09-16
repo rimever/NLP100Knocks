@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Chapter07.Core;
 using NUnit.Framework;
 
@@ -32,6 +34,27 @@ namespace Chapter07.Tests
             foreach (var json in list)
             {
                 Console.WriteLine(json);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test]
+        public void EnumerableDictionary()
+        {
+            var reader = new DataSourceJsonReader();
+            var list = reader.EnumerableDictionary().Take(1).ToList();
+            Assert.IsTrue(list.Any());
+            foreach (var json in list)
+            {
+                List<string> array = new List<string>();
+                foreach (var keyPair in json)
+                {
+                    var value = keyPair.Value.ToString().Replace(@"""",@"`""").Replace("'","`'");
+                    array.Add($@"""{keyPair.Key}"" => ""{value}""");
+                }
+
+                Console.WriteLine($"'{string.Join(",", array.ToArray())}'");
             }
         }
     }

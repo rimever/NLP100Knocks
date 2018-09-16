@@ -26,6 +26,21 @@ namespace Chapter07.Core
         /// json情報を列挙します。
         /// </summary>
         /// <returns></returns>
+        public IEnumerable<string> EnumerableLine()
+        {
+            using (var reader = new StreamReader(_textFilePath, Encoding.UTF8))
+            {
+                while (reader.Peek() >= 0)
+                {
+                    string line = reader.ReadLine();
+                    yield return line;
+                }
+            }
+        }
+        /// <summary>
+        /// json情報を列挙します。
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<JObject> EnumerableJson()
         {
             using (var reader = new StreamReader(_textFilePath, Encoding.UTF8))
@@ -36,6 +51,20 @@ namespace Chapter07.Core
                     yield return JObject.Parse(line);
                 }
             }
+        }
+
+        public IEnumerable<IDictionary<string, object>> EnumerableDictionary()
+        {
+            using (var reader = new StreamReader(_textFilePath, Encoding.UTF8))
+            {
+                while (reader.Peek() >= 0)
+                {
+                    string line = reader.ReadLine();
+                    var jobj = JObject.Parse(line);
+                    yield return jobj.ToObject<Dictionary<string, object>>();
+                }
+            }
+
         }
     }
 }
