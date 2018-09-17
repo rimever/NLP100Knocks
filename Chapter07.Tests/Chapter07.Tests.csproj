@@ -48,7 +48,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnswerServiceTest.cs" />
     <Compile Include="DataSourceJsonReaderTest.cs" />
+    <Compile Include="KeyValueStoreAccessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
