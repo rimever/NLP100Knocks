@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Chapter07.Core;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,12 +15,8 @@ namespace Chapter07.Migrator
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("起動引数に接続識別子を指定してください。");
-                Console.ReadKey();
-            }
-            var serviceProvider = CreateServices(args[0]);
+            var connectionString = new ConnectionString();
+            var serviceProvider = CreateServices(connectionString.Value);
 
             // Put the database update into a scope to ensure
             // that all resources will be disposed.
@@ -45,7 +38,8 @@ namespace Chapter07.Migrator
                     // Add SQLite support to FluentMigrator
                     .AddPostgres()
                     // Set the connection string
-                    .WithGlobalConnectionString(connectionString).ScanIn(typeof(CreateTableMigration).Assembly).For.Migrations())
+                    .WithGlobalConnectionString(connectionString).ScanIn(typeof(CreateTableMigration).Assembly).For
+                    .Migrations())
                 // Enable logging to console in the FluentMigrator way
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 // Build the service provider

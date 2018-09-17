@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Chapter07.Core;
 using NUnit.Framework;
 
@@ -22,20 +21,7 @@ namespace Chapter07.Tests
             var reader = new DataSourceJsonReader();
             Assert.NotNull(reader);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test]
-        public void EnumerableJson()
-        {
-            var reader = new DataSourceJsonReader();
-            var list = reader.EnumerableJson().ToList();
-            Assert.IsTrue(list.Any());
-            foreach (var json in list)
-            {
-                Console.WriteLine(json);
-            }
-        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -50,11 +36,26 @@ namespace Chapter07.Tests
                 List<string> array = new List<string>();
                 foreach (var keyPair in json)
                 {
-                    var value = keyPair.Value.ToString().Replace(@"""",@"`""").Replace("'","`'");
+                    var value = keyPair.Value.ToString().Replace(@"""", @"`""").Replace("'", "`'");
                     array.Add($@"""{keyPair.Key}"" => ""{value}""");
                 }
 
                 Console.WriteLine($"'{string.Join(",", array.ToArray())}'");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test]
+        public void EnumerableJson()
+        {
+            var reader = new DataSourceJsonReader();
+            var list = reader.EnumerableJson().ToList();
+            Assert.IsTrue(list.Any());
+            foreach (var json in list)
+            {
+                Console.WriteLine(json);
             }
         }
     }

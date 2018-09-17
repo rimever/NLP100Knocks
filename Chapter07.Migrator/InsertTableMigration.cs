@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Chapter07.Core;
 using FluentMigrator;
 using Newtonsoft.Json.Linq;
@@ -10,7 +6,7 @@ using Newtonsoft.Json.Linq;
 namespace Chapter07.Migrator
 {
     [Migration(2)]
-    public class InsertTableMigration:Migration
+    public class InsertTableMigration : Migration
     {
         public override void Up()
         {
@@ -21,7 +17,6 @@ namespace Chapter07.Migrator
                 string sql = $@"INSERT INTO artist (kvs,json) VALUES ('{ConvertHstoreValue(line)}' , '{jsonLine}')";
                 Execute.Sql(sql);
             }
-
         }
 
         /// <summary>

@@ -56,7 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnswerService.cs" />
+    <Compile Include="ConnectionString.cs" />
     <Compile Include="DataSourceJsonReader.cs" />
+    <Compile Include="JsonAccessor.cs" />
     <Compile Include="KeyValueStoreAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

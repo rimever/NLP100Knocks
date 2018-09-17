@@ -5,23 +5,23 @@ using NpgsqlTypes;
 namespace Chapter07.Core
 {
     /// <summary>
-    /// KeyValueStoreデータへのアクセスを行うためのクラスです。
+    /// Jsonデータへのアクセスを行うクラスです。
     /// </summary>
-    public class KeyValueStoreAccessor
+    public class JsonAccessor
     {
         private readonly ConnectionString _connectionString = new ConnectionString();
 
         /// <summary>
-        /// アーティスト名から場所を取得します。
+        /// アーティスト名でレコードを取得します。
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IList<string> GetAreaByArtistName(string name)
+        public IList<string> GetRecordsByArtistName(string name)
         {
             using (var connection = new NpgsqlConnection(_connectionString.Value))
             {
                 connection.Open();
-                string sql = "select kvs -> 'area'  as area from artist where kvs -> 'name' = :name";
+                string sql = "select json from artist where json->>'name' = :name";
                 NpgsqlCommand command = new NpgsqlCommand(sql, connection);
                 command.Parameters.Add(new NpgsqlParameter("name", NpgsqlDbType.Varchar));
                 command.Parameters["name"].Value = name;
@@ -29,59 +29,56 @@ namespace Chapter07.Core
                 var results = new List<string>();
                 while (dataReader.Read())
                 {
-                    results.Add((dataReader["area"] ?? "(不明)").ToString());
+                    results.Add(dataReader["json"].ToString());
                 }
 
                 return results;
             }
         }
-
         /// <summary>
-        /// 場所からアーティストを取得します。
+        /// 指定の活動場所に該当するデータを取得します。
         /// </summary>
         /// <param name="area"></param>
         /// <returns></returns>
-        public IEnumerable<string> GetArtistNameByArea(string area)
+        public IList<string> GetRecordsByArea(string area)
         {
             using (var connection = new NpgsqlConnection(_connectionString.Value))
             {
                 connection.Open();
-                string sql = "select kvs -> 'name'  as name from artist where kvs -> 'area' = :area";
+                string sql = "select json from artist where json->>'area' = :area";
                 NpgsqlCommand command = new NpgsqlCommand(sql, connection);
                 command.Parameters.Add(new NpgsqlParameter("area", NpgsqlDbType.Varchar));
                 command.Parameters["area"].Value = area;
-                var results = new List<string>();
                 var dataReader = command.ExecuteReader();
+                var results = new List<string>();
                 while (dataReader.Read())
                 {
-                    results.Add(dataReader["name"].ToString());
+                    results.Add(dataReader["json"].ToString());
                 }
 
                 return results;
             }
         }
-
         /// <summary>
-        /// アーティスト名に対するタグ情報を取得します。
+        /// 指定された別名のアーティストを取得します。
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="alias"></param>
         /// <returns></returns>
-        public IList<string> GetTagsByArtistName(string name)
+        public IList<string> GetRecordsByAlias(string alias)
         {
             using (var connection = new NpgsqlConnection(_connectionString.Value))
             {
                 connection.Open();
-                string sql = "select kvs -> 'tags'  as tags from artist where kvs -> 'name' = :name";
+                string sql = @"select json from artist where json->>'aliases' LIKE :alias";
                 NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-                command.Parameters.Add(new NpgsqlParameter("name", NpgsqlDbType.Varchar));
-                command.Parameters["name"].Value = name;
+                command.Parameters.Add(new NpgsqlParameter("alias", NpgsqlDbType.Varchar));
+                command.Parameters["alias"].Value = $@"%\""name\""%:%\""{alias}\""%";
                 var dataReader = command.ExecuteReader();
                 var results = new List<string>();
                 while (dataReader.Read())
                 {
-                    results.Add(dataReader["tags"].ToString());
+                    results.Add(dataReader["json"].ToString());
                 }
-
                 return results;
             }
         }

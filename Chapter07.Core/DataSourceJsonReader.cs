@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Chapter07.Core
@@ -22,6 +19,7 @@ namespace Chapter07.Core
         {
             Debug.Assert(File.Exists(_textFilePath));
         }
+
         /// <summary>
         /// json情報を列挙します。
         /// </summary>
@@ -37,6 +35,7 @@ namespace Chapter07.Core
                 }
             }
         }
+
         /// <summary>
         /// json情報を列挙します。
         /// </summary>
@@ -64,7 +63,6 @@ namespace Chapter07.Core
                     yield return jobj.ToObject<Dictionary<string, object>>();
                 }
             }
-
         }
     }
 }
