@@ -82,5 +82,25 @@ namespace Chapter07.Core
                 return results;
             }
         }
+        /// <summary>
+        /// ダンスのタグを持つアーティストをレーティング投票数の多い順で並び替えた結果を取得します。
+        /// </summary>
+        /// <returns></returns>
+        public IList<string> GetRecordsOrderByRatingCountWithDanceTag()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString.Value))
+            {
+                connection.Open();
+                string sql = @"select json from artist where json->>'tags' LIKE '%\""value\""%:%\""dance\""%' ORDER BY COALESCE(json#>>'{rating,count}','-1')::int DESC";
+                NpgsqlCommand command = new NpgsqlCommand(sql, connection);
+                var dataReader = command.ExecuteReader();
+                var results = new List<string>();
+                while (dataReader.Read())
+                {
+                    results.Add(dataReader["json"].ToString());
+                }
+                return results;
+            }
+        }
     }
 }

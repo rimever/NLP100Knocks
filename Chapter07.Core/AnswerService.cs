@@ -88,5 +88,17 @@ namespace Chapter07.Core
             }
 
         }
+        /// <summary>
+        /// 68. ソート
+        /// "dance"というタグを付与されたアーティストの中でレーティングの投票数が多いアーティスト・トップ10を求めよ．
+        /// </summary>
+        public void Answer68()
+        {
+            JsonAccessor accessor = new JsonAccessor();
+            foreach (var json in accessor.GetRecordsOrderByRatingCountWithDanceTag().Take(10))
+            {
+                Console.WriteLine(json);
+            }
+        }
     }
 }

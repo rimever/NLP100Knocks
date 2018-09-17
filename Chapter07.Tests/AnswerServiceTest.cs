@@ -66,5 +66,14 @@ namespace Chapter07.Tests
             AnswerService service = new AnswerService();
             service.Answer67("オアシス");
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer68"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Answer68()
+        {
+            AnswerService service = new AnswerService();
+            service.Answer68();
+        }
     }
 }
