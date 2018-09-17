@@ -37,15 +37,16 @@
 		$(window).load(function() {
 			$('#button-keyword').on('click',function() {
 				var keyword = $('#input-keyword').val();
-				var is_artist = $('#checkbox-name').prop('checked');
-				var is_alias = $('#checkbox-alias').prop('checked');
-				var is_tags = $('#checkbox-tags').prop('checked');
+				var isArtist = $('#checkbox-name').prop('checked');
+				var isAlias = $('#checkbox-alias').prop('checked');
+				var isTags = $('#checkbox-tags').prop('checked');
+				$("#result").html('');
 				$.ajax({
 					type: "GET",
 					url: "http://localhost:5000/Home/Search?keyword=" + keyword +
-						"&isArtist=" + is_artist +
-						"&isAlias=" + is_alias +
-						"&isTags=" + is_tags
+						"&isArtist=" + isArtist +
+						"&isAlias=" + isAlias +
+						"&isTags=" + isTags
 			}).done(function(html) {
 					$("#result").html(html);
 				});

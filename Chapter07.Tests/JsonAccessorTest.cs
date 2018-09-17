@@ -18,7 +18,7 @@ namespace Chapter07.Tests
         [TestCase("Fonograff", Description = "何も取得されない場合")]
         public void GetRecordsByArtistName(string name)
         {
-            JsonAccessor accessor = new JsonAccessor();
+            JsonAccessor accessor = new JsonAccessor(new ConnectionString());
             foreach (var record in accessor.GetRecordsByArtistName(name))
             {
                 Console.WriteLine(record);
@@ -32,7 +32,7 @@ namespace Chapter07.Tests
         [TestCase("Dummy")]
         public void GetRecordsByArea(string name)
         {
-            JsonAccessor accessor = new JsonAccessor();
+            JsonAccessor accessor = new JsonAccessor(new ConnectionString());
             foreach (var record in accessor.GetRecordsByArea(name))
             {
                 Console.WriteLine(record);

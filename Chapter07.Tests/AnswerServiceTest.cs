@@ -15,7 +15,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer61()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer61("Pink Floyd");
         }
 
@@ -25,7 +25,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer62()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer62();
         }
 
@@ -35,7 +35,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer63()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer63("Pink Floyd");
         }
 
@@ -45,7 +45,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer65()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer65("Queen");
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer66()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer66("Japan");
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer67()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer67("オアシス");
         }
         /// <summary>
@@ -72,7 +72,7 @@ namespace Chapter07.Tests
         [Test]
         public void Answer68()
         {
-            AnswerService service = new AnswerService();
+            AnswerService service = new AnswerService(new ConnectionString());
             service.Answer68();
         }
     }

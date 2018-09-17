@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Chapter07.Core
@@ -8,6 +9,17 @@ namespace Chapter07.Core
     /// </summary>
     public class AnswerService
     {
+        private readonly JsonAccessor _jsonAccessor;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public AnswerService(ConnectionString connectionString)
+        {
+            _jsonAccessor = new JsonAccessor(connectionString);
+        }
+
         /// <summary>
         /// 61. KVSの検索
         /// 60で構築したデータベースを用い，特定の（指定された）アーティストの活動場所を取得せよ．
@@ -56,8 +68,7 @@ namespace Chapter07.Core
         /// <param name="name"></param>
         public void Answer65(string name)
         {
-            JsonAccessor accessor = new JsonAccessor();
-            foreach (var json in accessor.GetRecordsByArtistName(name))
+            foreach (var json in _jsonAccessor.GetRecordsByArtistName(name))
             {
                 Console.WriteLine(json);
             }
@@ -70,8 +81,7 @@ namespace Chapter07.Core
         /// <param name="area"></param>
         public void Answer66(string area)
         {
-            JsonAccessor accessor = new JsonAccessor();
-            int count = accessor.GetRecordsByArea(area).Count;
+            int count = _jsonAccessor.GetRecordsByArea(area).Count;
             Console.WriteLine($"{area}:{count}件");
         }
         /// <summary>
@@ -81,8 +91,7 @@ namespace Chapter07.Core
         /// <param name="aliases"></param>
         public void Answer67(string aliases)
         {
-            JsonAccessor accessor = new JsonAccessor();
-            foreach (var json in accessor.GetRecordsByAlias(aliases))
+            foreach (var json in _jsonAccessor.GetRecordsByAlias(aliases))
             {
                 Console.WriteLine(json);
             }
@@ -94,11 +103,23 @@ namespace Chapter07.Core
         /// </summary>
         public void Answer68()
         {
-            JsonAccessor accessor = new JsonAccessor();
-            foreach (var json in accessor.GetRecordsOrderByRatingCountWithDanceTag().Take(10))
+            foreach (var json in _jsonAccessor.GetRecordsOrderByRatingCountWithDanceTag().Take(10))
             {
                 Console.WriteLine(json);
             }
+        }
+        /// <summary>
+        /// 69. Webアプリケーションの作成
+        /// ユーザから入力された検索条件に合致するアーティストの情報を表示するWebアプリケーションを作成せよ．アーティスト名，アーティストの別名，タグ等で検索条件を指定し，アーティスト情報のリストをレーティングの高い順などで整列して表示せよ．
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="isArtist"></param>
+        /// <param name="isAlias"></param>
+        /// <param name="isTags"></param>
+        /// <returns></returns>
+        public IList<string> Answer69(string keyword, bool isArtist, bool isAlias, bool isTags)
+        {
+            return _jsonAccessor.GetRecords(keyword, isArtist, isAlias, isTags);
         }
     }
 }

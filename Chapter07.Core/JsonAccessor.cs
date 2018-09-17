@@ -9,7 +9,12 @@ namespace Chapter07.Core
     /// </summary>
     public class JsonAccessor
     {
-        private readonly ConnectionString _connectionString = new ConnectionString();
+        private readonly ConnectionString _connectionString;
+
+        public JsonAccessor(ConnectionString connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         /// <summary>
         /// アーティスト名でレコードを取得します。
@@ -93,6 +98,52 @@ namespace Chapter07.Core
                 connection.Open();
                 string sql = @"select json from artist where json->>'tags' LIKE '%\""value\""%:%\""dance\""%' ORDER BY COALESCE(json#>>'{rating,count}','-1')::int DESC";
                 NpgsqlCommand command = new NpgsqlCommand(sql, connection);
+                var dataReader = command.ExecuteReader();
+                var results = new List<string>();
+                while (dataReader.Read())
+                {
+                    results.Add(dataReader["json"].ToString());
+                }
+                return results;
+            }
+        }
+
+        public IList<string> GetRecords(string keyword, bool isArtist, bool isAlias, bool isTags)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString.Value))
+            {
+                connection.Open();
+                string sql = @"select json from artist where 1 = 0 ";
+                if (isArtist)
+                {
+                    sql += " OR json->>'name' LIKE :name";
+                }
+                if (isAlias)
+                {
+                    sql += " OR json->>'aliases' LIKE :alias";
+                }
+
+                if (isTags)
+                {
+                    sql += " OR  json->>'tags' LIKE :tags";
+                }
+                NpgsqlCommand command = new NpgsqlCommand(sql, connection);
+                if (isArtist)
+                {
+                    command.Parameters.Add(new NpgsqlParameter("name", NpgsqlDbType.Varchar));
+                    command.Parameters["name"].Value = $@"%{keyword}%";
+                }
+                if (isAlias)
+                {
+                    command.Parameters.Add(new NpgsqlParameter("alias", NpgsqlDbType.Varchar));
+                    command.Parameters["alias"].Value = $@"%\""name\""%:%\""{keyword}\""%";
+                }
+
+                if (isTags)
+                {
+                    command.Parameters.Add(new NpgsqlParameter("tags", NpgsqlDbType.Varchar));
+                    command.Parameters["tags"].Value = $@"%\""value\""%:%\""%{keyword}%\""%";
+                }
                 var dataReader = command.ExecuteReader();
                 var results = new List<string>();
                 while (dataReader.Read())
