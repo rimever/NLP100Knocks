@@ -53,6 +53,7 @@
     <Compile Include="DataSourceJsonReaderTest.cs" />
     <Compile Include="JsonAccessorTest.cs" />
     <Compile Include="KeyValueStoreAccessorTest.cs" />
+    <Compile Include="Models\ArtistTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Chapter07.Core;
+using Chapter07.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Chapter07.Q69.WebApplication.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Chapter07.Q69.WebApplication.Controllers
 {
@@ -43,9 +45,12 @@ namespace Chapter07.Q69.WebApplication.Controllers
         }
     }
 
+    /// <summary>
+    /// 検索結果ViewModel
+    /// </summary>
     public class SearchViewModel
     {
-        public IList<string> Results { get; set; }
+        public IList<Artist> Results { get; set; }
 
         /// <summary>
         /// コンストラクタ
@@ -53,7 +58,16 @@ namespace Chapter07.Q69.WebApplication.Controllers
         /// <param name="results"></param>
         public SearchViewModel(IList<string> results)
         {
-            Results = results;
+            Results = EnumerableArtists(results).ToList();
         }
+
+        private IEnumerable<Artist> EnumerableArtists(IList<string> results)
+        {
+            foreach (string result in results)
+            {
+                yield return new Artist(JObject.Parse(result));
+            }
+        }
+        
     }
 }

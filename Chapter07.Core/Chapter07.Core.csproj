@@ -60,6 +60,7 @@
     <Compile Include="DataSourceJsonReader.cs" />
     <Compile Include="JsonAccessor.cs" />
     <Compile Include="KeyValueStoreAccessor.cs" />
+    <Compile Include="Models\Artist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

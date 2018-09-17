@@ -25,6 +25,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
+		<br/><br/>
 		<div id="result">
 
 		</div>
@@ -40,7 +41,7 @@
 				var isArtist = $('#checkbox-name').prop('checked');
 				var isAlias = $('#checkbox-alias').prop('checked');
 				var isTags = $('#checkbox-tags').prop('checked');
-				$("#result").html('');
+				$("#result").html('検索中です...');
 				$.ajax({
 					type: "GET",
 					url: "http://localhost:5000/Home/Search?keyword=" + keyword +
