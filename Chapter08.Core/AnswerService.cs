@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -48,6 +49,7 @@ namespace Chapter08.Core
                 writer.Flush();
             }
         }
+        
 
         public class SentimentSentence
         {
@@ -65,6 +67,49 @@ namespace Chapter08.Core
 
                 }
             }
+        }
+        /// <summary>
+        /// 71. ストップワード
+        /// 英語のストップワードのリスト（ストップリスト）を適当に作成せよ．さらに，引数に与えられた単語（文字列）がストップリストに含まれている場合は真，それ以外は偽を返す関数を実装せよ．さらに，その関数に対するテストを記述せよ
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public bool Answer71(string word)
+        {
+            var stopWords = new[]
+            {
+                "the",
+                "of",
+                "to",
+                "a",
+                "and",
+                "is",
+                "in",
+                "that",
+                "on",
+                "which",
+                "with",
+                "for",
+                "or",
+                "The",
+                "are",
+                "from",
+                "as",
+                "were",
+                "by",
+                "can",
+                "be",
+                "into",
+                "was",
+                "when",
+                "been",
+                "than",
+                "there",
+                "at",
+                "an",
+                "this",
+            };
+            return stopWords.Contains(word.ToLower());
         }
     }
 }

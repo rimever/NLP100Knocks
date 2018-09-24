@@ -32,6 +32,14 @@ namespace Chapter06.Tests
             service.Answer51();
         }
         /// <summary>
+        /// <seealso cref="AnswerService.GroupByWord"/>をテストします。
+        /// </summary>
+        [Test]
+        public void GroupByWord()
+        {
+            service.GroupByWord();
+        }
+        /// <summary>
         /// <seealso cref="AnswerService.Answer52"/>をテストします。
         /// </summary>
         [Test]

@@ -77,6 +77,30 @@ namespace Chapter06.Core
                 Console.WriteLine();
             }
         }
+        /// <summary>
+        /// Chapter08でStopWord(意味を持たない言葉)必要なため、単語の頻出回数をリストアップします。
+        /// </summary>
+        public void GroupByWord()
+        {
+            Dictionary<string,int> countByWord = new Dictionary<string, int>();
+            foreach (var sentence in SplitSentence())
+            {
+                foreach (var word in SplitWords(sentence))
+                {
+                    if (!countByWord.ContainsKey(word))
+                    {
+                        countByWord.Add(word, 0);
+                    }
+
+                    countByWord[word]++;
+                }
+            }
+
+            foreach (var item in countByWord.OrderByDescending(pair => pair.Value))
+            {
+                Console.WriteLine($"{item.Key}:{item.Value}");
+            }
+        }
 
         /// <summary>
         /// 単語に分割します。
