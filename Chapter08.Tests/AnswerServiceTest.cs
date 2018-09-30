@@ -1,20 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Chapter08.Core;
-using Xunit;
+using NUnit.Framework;
 
 namespace Chapter08.Tests
 {
     /// <summary>
     /// <seealso cref="AnswerService"/>をテストするクラスです。
     /// </summary>
+    [TestFixture]
     public class AnswerServiceTest
     {
         /// <summary>
         /// <seealso cref="AnswerService.Answer70"/>をテストします。
         /// </summary>
-        [Fact]
+        [Test]
         public void Answer70()
         {
             AnswerService answerService = new AnswerService();
@@ -23,26 +25,30 @@ namespace Chapter08.Tests
         /// <summary>
         /// <seealso cref="AnswerService.Answer71"/>をテストします。
         /// </summary>
-        [Theory]
-        [ClassData(typeof(Answer71TestData))]
-        public void Answer71(string word, bool expected)
+       [TestCaseSource(nameof(Answer71TestCaseSource))]
+        public bool Answer71(string word)
         {
             AnswerService answerService = new AnswerService();
-            Assert.Equal(answerService.Answer71(word), expected);
+            return answerService.Answer71(word);
         }
-    }
-    /// <summary>
-    /// <seealso cref="AnswerServiceTest.Answer71"/>のテストケースです。
-    /// </summary>
-    public class Answer71TestData : IEnumerable<object[]>
-    {
-        public IEnumerator<object[]> GetEnumerator()
+        /// <summary>
+        /// <seealso cref="Answer71"/>のテストケースです。
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerable<TestCaseData> Answer71TestCaseSource()
         {
-            yield return new object[] { "as", true };
-            yield return new object[] { "The", true };
-            yield return new object[] { "machine", false };
+            yield return new TestCaseData("as").Returns(true);
+            yield return new TestCaseData("The").Returns(true);
+            yield return new TestCaseData("machine").Returns(false);
         }
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer72"/>をテストします。
+        /// </summary>
+        [Test]
+        public async Task Answer72()
+        {
+            AnswerService answerService = new AnswerService();
+            await answerService.Answer72();
+        }
     }
 }
