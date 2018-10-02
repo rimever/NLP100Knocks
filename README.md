@@ -31,3 +31,11 @@ CaboChaについてはC#では適切なライブラリが見つからなかっ�
 ### スクリーンショット
 
 ![スクリーンショット](https://github.com/rimever/NLP100Knocks/blob/master/Chapter06.Q57.WebApplication/ScreenShots/ScreenShot001.PNG)
+
+## 第8章
+
+行けるところまでC＃で行ってしまえ！と言うことで、機械学習にもML.NETを
+
+### スクリーンショット
+
+![スクリーンショット](https://github.com/rimever/NLP100Knocks/blob/master/Chapter08.Core/ScreenShots/Answer75.PNG)
