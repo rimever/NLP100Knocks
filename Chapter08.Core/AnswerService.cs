@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.ML;
 using Microsoft.ML.Data;
@@ -23,7 +20,10 @@ namespace Chapter08.Core
     {
         private const string RootDir = @"..\..\..\..\Chapter08.Core";
 
-        readonly string _dataSourceDirectoryPath = Path.GetFullPath(Path.Combine(RootDir, @"rt-polaritydata\rt-polaritydata"));
+        readonly string _dataSourceDirectoryPath =
+            Path.GetFullPath(Path.Combine(RootDir, @"rt-polaritydata\rt-polaritydata"));
+
+        readonly PorterStemmer _stemmer = new PorterStemmer();
 
         /// <summary>
         /// 70. データの入手・整形
@@ -36,7 +36,6 @@ namespace Chapter08.Core
         /// </summary>
         public void Answer70()
         {
-
             if (!Directory.Exists(_dataSourceDirectoryPath))
             {
                 throw new DirectoryNotFoundException();
@@ -44,9 +43,10 @@ namespace Chapter08.Core
 
             string negativePath = Path.Combine(_dataSourceDirectoryPath, "rt-polarity.neg");
             string positivePath = Path.Combine(_dataSourceDirectoryPath, "rt-polarity.pos");
-            var list = EnumerableLine(negativePath).Select(s => new SentimentSentence() {Point = -1, Sentence = s})
+            var list = EnumerableLine(negativePath).Select(s => new SentimentSentence {Point = -1, Sentence = s})
                 .Union(EnumerableLine(positivePath)
-                    .Select(s => new SentimentSentence() {Point = 1, Sentence = s})).OrderBy(i => Guid.NewGuid()).ToList();
+                    .Select(s => new SentimentSentence {Point = 1, Sentence = s})).OrderBy(i => Guid.NewGuid())
+                .ToList();
             string resultPath = GetSentimentTextFilePath();
             using (var writer = new StreamWriter(resultPath))
             {
@@ -54,20 +54,14 @@ namespace Chapter08.Core
                 {
                     writer.WriteLine($"{sentimentSentence.Point},{sentimentSentence.Sentence}");
                 }
+
                 writer.Flush();
             }
         }
 
         private static string GetSentimentTextFilePath()
         {
-            return Path.Combine(RootDir,"Data","sentiment.txt");
-        }
-
-
-        public class SentimentSentence
-        {
-            public int Point { get; set; }
-            public string Sentence { get; set; }
+            return Path.Combine(RootDir, "Data", "sentiment.txt");
         }
 
         private static IEnumerable<string> EnumerableLine(string fileName)
@@ -77,10 +71,10 @@ namespace Chapter08.Core
                 while (reader.Peek() >= 0)
                 {
                     yield return reader.ReadLine();
-
                 }
             }
         }
+
         /// <summary>
         /// 71. ストップワード
         /// 英語のストップワードのリスト（ストップリスト）を適当に作成せよ．さらに，引数に与えられた単語（文字列）がストップリストに含まれている場合は真，それ以外は偽を返す関数を実装せよ．さらに，その関数に対するテストを記述せよ
@@ -125,13 +119,13 @@ namespace Chapter08.Core
             };
             return stopWords.Contains(word.ToLower());
         }
+
         /*
 
 
 
 
-76. ラベル付け
-学習データに対してロジスティック回帰モデルを適用し，正解のラベル，予測されたラベル，予測確率をタブ区切り形式で出力せよ．
+
 
 77. 正解率の計測
 76の出力を受け取り，予測の正解率，正例に関する適合率，再現率，F1スコアを求めるプログラムを作成せよ．
@@ -154,8 +148,8 @@ namespace Chapter08.Core
             string fileName = Path.Combine(RootDir, "Data", "sentimentCleaning.txt");
             WriteSentimentCleaningText(fileName);
             // STEP 1: Create a model
-            string modelPath = Path.Combine(RootDir, "Data","Answer72.zip");
-            var model = await TrainAnswer72Async(fileName,modelPath);
+            string modelPath = Path.Combine(RootDir, "Data", "Answer72.zip");
+            var model = await TrainAnswer72Async(fileName, modelPath);
 
             // STEP2: Test accuracy
             EvaluateAnswer72(model, fileName);
@@ -171,6 +165,7 @@ namespace Chapter08.Core
                     $"Sentiment: {item.sentiment.SentimentText} | Prediction: {(item.prediction.Sentiment ? "Positive" : "Negative")} sentiment");
             }
         }
+
         /// <summary>
         /// 74. 予測
         /// 73で学習したロジスティック回帰モデルを用い，与えられた文の極性ラベル（正例なら"+1"，負例なら"-1"）と，その予測確率を計算するプログラムを実装せよ．
@@ -192,6 +187,36 @@ namespace Chapter08.Core
                     $"Sentiment: {item.sentiment.SentimentText} | Prediction: {item.prediction.Sentiment}");
             }
         }
+
+        /// <summary>
+        /// 76. ラベル付け
+        /// 学習データに対してロジスティック回帰モデルを適用し，正解のラベル，予測されたラベル，予測確率をタブ区切り形式で出力せよ．
+        /// </summary>
+        /// <returns></returns>
+        public async Task Answer76()
+        {
+            string fileName = Path.Combine(RootDir, "Data", "sentimentCleaning.txt");
+            WriteSentimentCleaningText(fileName);
+            string modelPath = Path.Combine(RootDir, "Data", "Answer73.zip");
+            var model = await TrainAnswer74Async(fileName, modelPath);
+            EvaluateAnswer74(model, fileName);
+            var sentiments = EnumerableSentimentData().ToList();
+            var predictions = model.Predict(sentiments);
+            var sentimentsAndPredictions =
+                sentiments.Zip(predictions, (sentiment, prediction) => (sentiment, prediction)).ToList();
+            using (var writer = new StreamWriter(Path.Combine(RootDir, "Data", "Answer76.txt")))
+            {
+                writer.WriteLine("正解のラベル\t予測されたラベル\t予測確率\t文章");
+                foreach (var item in sentimentsAndPredictions.OrderBy(s => s.prediction.Sentiment))
+                {
+                    writer.WriteLine(
+                        $"{item.sentiment.Sentiment}\t{(item.prediction.Sentiment > 0 ? 1 : -1)}\t{item.prediction.Sentiment}\t{item.sentiment.SentimentText}");
+                }
+
+                writer.Flush();
+            }
+        }
+
         /// <summary>
         /// 75. 素性の重み
         ///73で学習したロジスティック回帰モデルの中で，重みの高い素性トップ10と，重みの低い素性トップ10を確認せよ．
@@ -213,6 +238,7 @@ namespace Chapter08.Core
             {
                 Console.WriteLine($"{item.prediction.Sentiment}:{item.sentiment.SentimentText}");
             }
+
             Console.WriteLine("=== Worst10 ===");
             foreach (var item in sentimentsAndPredictions.OrderBy(s => s.prediction.Sentiment).Take(10))
             {
@@ -227,16 +253,21 @@ namespace Chapter08.Core
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
+                    int commaIndex = line.IndexOf(",", StringComparison.Ordinal);
+                    string value = line.Substring(0, commaIndex);
+                    string text = line.Substring(commaIndex + 1);
                     yield return new SentimentData
                     {
-                        SentimentText = line
+                        SentimentText = text,
+                        Sentiment = float.Parse(value)
                     };
                 }
             }
         }
 
 
-        public static async Task<PredictionModel<SentimentData, SentimentPrediction>> TrainAnswer72Async(string trainDataPath,string modelPath)
+        public static async Task<PredictionModel<SentimentData, SentimentPrediction>> TrainAnswer72Async(
+            string trainDataPath, string modelPath)
         {
             var pipeline = new LearningPipeline();
             pipeline.Add(new TextLoader(trainDataPath).CreateFrom<SentimentData>());
@@ -253,7 +284,9 @@ namespace Chapter08.Core
 
             return model;
         }
-        public static async Task<PredictionModel<SentimentData, SentimentWeightPrediction>> TrainAnswer74Async(string trainDataPath, string modelPath)
+
+        public static async Task<PredictionModel<SentimentData, SentimentWeightPrediction>> TrainAnswer74Async(
+            string trainDataPath, string modelPath)
         {
             var pipeline = new LearningPipeline();
 
@@ -272,7 +305,8 @@ namespace Chapter08.Core
             return model;
         }
 
-        private static void EvaluateAnswer72(PredictionModel<SentimentData, SentimentPrediction> model,string testDataPath)
+        private static void EvaluateAnswer72(PredictionModel<SentimentData, SentimentPrediction> model,
+            string testDataPath)
         {
             var testData = new TextLoader(testDataPath).CreateFrom<SentimentData>();
 
@@ -288,7 +322,8 @@ namespace Chapter08.Core
             Console.WriteLine();
         }
 
-        private static void EvaluateAnswer74(PredictionModel<SentimentData, SentimentWeightPrediction> model, string testDataPath)
+        private static void EvaluateAnswer74(PredictionModel<SentimentData, SentimentWeightPrediction> model,
+            string testDataPath)
         {
             var testData = new TextLoader(testDataPath).CreateFrom<SentimentData>();
 
@@ -318,6 +353,7 @@ namespace Chapter08.Core
                         writer.WriteLine(CleaningSentimentLine(line));
                     }
                 }
+
                 writer.Flush();
             }
         }
@@ -335,8 +371,6 @@ namespace Chapter08.Core
             return $"{value}\t{CleanText(text)}";
         }
 
-        readonly PorterStemmer _stemmer = new PorterStemmer();
-
         /// <summary>
         /// 文章を解析しやすい形に前処理します。
         /// </summary>
@@ -350,7 +384,6 @@ namespace Chapter08.Core
         /// <returns></returns>
         private string CleanText(string text)
         {
-            
             string[] words = text.Split(" ");
             var cleanWords = EnumerableValidWords(words).Select(word => _stemmer.StemWord(word));
             return string.Join(" ", cleanWords.ToArray());
@@ -373,27 +406,32 @@ namespace Chapter08.Core
                 yield return word;
             }
         }
+
+
+        public class SentimentSentence
+        {
+            public int Point { get; set; }
+            public string Sentence { get; set; }
+        }
     }
 
     public class SentimentWeightPrediction
     {
-        [ColumnName("Score")]
-        public float Sentiment;
+        [ColumnName("Score")] public float Sentiment;
     }
 
     public class SentimentData
     {
-        [Column(ordinal: "0", name: "Label")]
-        public float Sentiment;
-        [Column(ordinal: "1")]
-        public string SentimentText;
+        [Column(ordinal: "0", name: "Label")] public float Sentiment;
+
+        [Column(ordinal: "1")] public string SentimentText;
     }
 
     public class SentimentPrediction
     {
-        [ColumnName("PredictedLabel")]
-        public bool Sentiment;
+        [ColumnName("PredictedLabel")] public bool Sentiment;
     }
+
     internal class TestSentimentData
     {
         internal static readonly IEnumerable<SentimentData> Sentiments = new[]

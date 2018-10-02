@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Chapter08.Core;
@@ -14,23 +12,15 @@ namespace Chapter08.Tests
     public class AnswerServiceTest
     {
         /// <summary>
-        /// <seealso cref="AnswerService.Answer70"/>をテストします。
-        /// </summary>
-        [Test]
-        public void Answer70()
-        {
-            AnswerService answerService = new AnswerService();
-            answerService.Answer70();
-        }
-        /// <summary>
         /// <seealso cref="AnswerService.Answer71"/>をテストします。
         /// </summary>
-       [TestCaseSource(nameof(Answer71TestCaseSource))]
+        [TestCaseSource(nameof(Answer71TestCaseSource))]
         public bool Answer71(string word)
         {
             AnswerService answerService = new AnswerService();
             return answerService.Answer71(word);
         }
+
         /// <summary>
         /// <seealso cref="Answer71"/>のテストケースです。
         /// </summary>
@@ -41,6 +31,17 @@ namespace Chapter08.Tests
             yield return new TestCaseData("The").Returns(true);
             yield return new TestCaseData("machine").Returns(false);
         }
+
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer70"/>をテストします。
+        /// </summary>
+        [Test]
+        public void Answer70()
+        {
+            AnswerService answerService = new AnswerService();
+            answerService.Answer70();
+        }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer72"/>をテストします。
         /// </summary>
@@ -50,6 +51,7 @@ namespace Chapter08.Tests
             AnswerService answerService = new AnswerService();
             await answerService.Answer72();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer74"/>をテストします。
         /// </summary>
@@ -59,6 +61,7 @@ namespace Chapter08.Tests
             AnswerService answerService = new AnswerService();
             await answerService.Answer74();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer75"/>をテストします。
         /// </summary>
@@ -67,6 +70,16 @@ namespace Chapter08.Tests
         {
             AnswerService answerService = new AnswerService();
             await answerService.Answer75();
+        }
+
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer76"/>をテストします。
+        /// </summary>
+        [Test]
+        public async Task Answer76()
+        {
+            AnswerService answerService = new AnswerService();
+            await answerService.Answer76();
         }
     }
 }

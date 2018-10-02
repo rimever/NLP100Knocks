@@ -1,8 +1,8 @@
 ﻿using System;
+
 // https://tartarus.org/martin/PorterStemmer/csharp3.txt
 namespace Poseidon.Analysis
 {
-
     /// <summary>
     /// The Stemmer class transforms a word into its root form.
     /// Implementing the Porter Stemming Algorithm
@@ -16,17 +16,16 @@ namespace Poseidon.Analysis
     /// </example>
     public class PorterStemmer
     {
-
-        // The passed in word turned into a char array. 
-        // Quicker to use to rebuilding strings each time a change is made.
-        private char[] wordArray;
-
         // Current index to the end of the word in the character array. This will
         // change as the end of the string gets modified.
         private int endIndex;
 
         // Index of the (potential) end of the stem word in the char array.
         private int stemIndex;
+
+        // The passed in word turned into a char array. 
+        // Quicker to use to rebuilding strings each time a change is made.
+        private char[] wordArray;
 
 
         /// <summary>
@@ -36,7 +35,6 @@ namespace Poseidon.Analysis
         /// <returns></returns>
         public string StemWord(string word)
         {
-
             // Do nothing for empty strings or short words.
             if (string.IsNullOrWhiteSpace(word) || word.Length <= 2) return word;
 
@@ -93,6 +91,7 @@ namespace Poseidon.Analysis
                     endIndex--;
                 }
             }
+
             if (EndsWith("eed"))
             {
                 if (MeasureConsontantSequence() > 0)
@@ -135,44 +134,138 @@ namespace Poseidon.Analysis
             switch (wordArray[endIndex - 1])
             {
                 case 'a':
-                    if (EndsWith("ational")) { ReplaceEnd("ate"); break; }
-                    if (EndsWith("tional")) { ReplaceEnd("tion"); }
+                    if (EndsWith("ational"))
+                    {
+                        ReplaceEnd("ate");
+                        break;
+                    }
+
+                    if (EndsWith("tional"))
+                    {
+                        ReplaceEnd("tion");
+                    }
+
                     break;
                 case 'c':
-                    if (EndsWith("enci")) { ReplaceEnd("ence"); break; }
-                    if (EndsWith("anci")) { ReplaceEnd("ance"); }
+                    if (EndsWith("enci"))
+                    {
+                        ReplaceEnd("ence");
+                        break;
+                    }
+
+                    if (EndsWith("anci"))
+                    {
+                        ReplaceEnd("ance");
+                    }
+
                     break;
                 case 'e':
-                    if (EndsWith("izer")) { ReplaceEnd("ize"); }
+                    if (EndsWith("izer"))
+                    {
+                        ReplaceEnd("ize");
+                    }
+
                     break;
                 case 'l':
-                    if (EndsWith("bli")) { ReplaceEnd("ble"); break; }
-                    if (EndsWith("alli")) { ReplaceEnd("al"); break; }
-                    if (EndsWith("entli")) { ReplaceEnd("ent"); break; }
-                    if (EndsWith("eli")) { ReplaceEnd("e"); break; }
-                    if (EndsWith("ousli")) { ReplaceEnd("ous"); }
+                    if (EndsWith("bli"))
+                    {
+                        ReplaceEnd("ble");
+                        break;
+                    }
+
+                    if (EndsWith("alli"))
+                    {
+                        ReplaceEnd("al");
+                        break;
+                    }
+
+                    if (EndsWith("entli"))
+                    {
+                        ReplaceEnd("ent");
+                        break;
+                    }
+
+                    if (EndsWith("eli"))
+                    {
+                        ReplaceEnd("e");
+                        break;
+                    }
+
+                    if (EndsWith("ousli"))
+                    {
+                        ReplaceEnd("ous");
+                    }
+
                     break;
                 case 'o':
-                    if (EndsWith("ization")) { ReplaceEnd("ize"); break; }
-                    if (EndsWith("ation")) { ReplaceEnd("ate"); break; }
-                    if (EndsWith("ator")) { ReplaceEnd("ate"); }
+                    if (EndsWith("ization"))
+                    {
+                        ReplaceEnd("ize");
+                        break;
+                    }
+
+                    if (EndsWith("ation"))
+                    {
+                        ReplaceEnd("ate");
+                        break;
+                    }
+
+                    if (EndsWith("ator"))
+                    {
+                        ReplaceEnd("ate");
+                    }
+
                     break;
                 case 's':
-                    if (EndsWith("alism")) { ReplaceEnd("al"); break; }
-                    if (EndsWith("iveness")) { ReplaceEnd("ive"); break; }
-                    if (EndsWith("fulness")) { ReplaceEnd("ful"); break; }
-                    if (EndsWith("ousness")) { ReplaceEnd("ous"); }
+                    if (EndsWith("alism"))
+                    {
+                        ReplaceEnd("al");
+                        break;
+                    }
+
+                    if (EndsWith("iveness"))
+                    {
+                        ReplaceEnd("ive");
+                        break;
+                    }
+
+                    if (EndsWith("fulness"))
+                    {
+                        ReplaceEnd("ful");
+                        break;
+                    }
+
+                    if (EndsWith("ousness"))
+                    {
+                        ReplaceEnd("ous");
+                    }
+
                     break;
                 case 't':
-                    if (EndsWith("aliti")) { ReplaceEnd("al"); break; }
-                    if (EndsWith("iviti")) { ReplaceEnd("ive"); break; }
-                    if (EndsWith("biliti")) { ReplaceEnd("ble"); }
+                    if (EndsWith("aliti"))
+                    {
+                        ReplaceEnd("al");
+                        break;
+                    }
+
+                    if (EndsWith("iviti"))
+                    {
+                        ReplaceEnd("ive");
+                        break;
+                    }
+
+                    if (EndsWith("biliti"))
+                    {
+                        ReplaceEnd("ble");
+                    }
+
                     break;
                 case 'g':
                     if (EndsWith("logi"))
                     {
                         ReplaceEnd("log");
                     }
+
                     break;
             }
         }
@@ -183,19 +276,50 @@ namespace Poseidon.Analysis
             switch (wordArray[endIndex])
             {
                 case 'e':
-                    if (EndsWith("icate")) { ReplaceEnd("ic"); break; }
-                    if (EndsWith("ative")) { ReplaceEnd(""); break; }
-                    if (EndsWith("alize")) { ReplaceEnd("al"); }
+                    if (EndsWith("icate"))
+                    {
+                        ReplaceEnd("ic");
+                        break;
+                    }
+
+                    if (EndsWith("ative"))
+                    {
+                        ReplaceEnd("");
+                        break;
+                    }
+
+                    if (EndsWith("alize"))
+                    {
+                        ReplaceEnd("al");
+                    }
+
                     break;
                 case 'i':
-                    if (EndsWith("iciti")) { ReplaceEnd("ic"); }
+                    if (EndsWith("iciti"))
+                    {
+                        ReplaceEnd("ic");
+                    }
+
                     break;
                 case 'l':
-                    if (EndsWith("ical")) { ReplaceEnd("ic"); break; }
-                    if (EndsWith("ful")) { ReplaceEnd(""); }
+                    if (EndsWith("ical"))
+                    {
+                        ReplaceEnd("ic");
+                        break;
+                    }
+
+                    if (EndsWith("ful"))
+                    {
+                        ReplaceEnd("");
+                    }
+
                     break;
                 case 's':
-                    if (EndsWith("ness")) { ReplaceEnd(""); }
+                    if (EndsWith("ness"))
+                    {
+                        ReplaceEnd("");
+                    }
+
                     break;
             }
         }
@@ -208,42 +332,56 @@ namespace Poseidon.Analysis
             switch (wordArray[endIndex - 1])
             {
                 case 'a':
-                    if (EndsWith("al")) break; return;
+                    if (EndsWith("al")) break;
+                    return;
                 case 'c':
                     if (EndsWith("ance")) break;
-                    if (EndsWith("ence")) break; return;
+                    if (EndsWith("ence")) break;
+                    return;
                 case 'e':
-                    if (EndsWith("er")) break; return;
+                    if (EndsWith("er")) break;
+                    return;
                 case 'i':
-                    if (EndsWith("ic")) break; return;
+                    if (EndsWith("ic")) break;
+                    return;
                 case 'l':
                     if (EndsWith("able")) break;
-                    if (EndsWith("ible")) break; return;
+                    if (EndsWith("ible")) break;
+                    return;
                 case 'n':
                     if (EndsWith("ant")) break;
                     if (EndsWith("ement")) break;
                     if (EndsWith("ment")) break;
                     /* element etc. not stripped before the m */
-                    if (EndsWith("ent")) break; return;
+                    if (EndsWith("ent")) break;
+                    return;
                 case 'o':
-                    if (EndsWith("ion") && stemIndex >= 0 && (wordArray[stemIndex] == 's' || wordArray[stemIndex] == 't')) break;
+                    if (EndsWith("ion") && stemIndex >= 0 &&
+                        (wordArray[stemIndex] == 's' || wordArray[stemIndex] == 't')) break;
                     /* j >= 0 fixes Bug 2 */
-                    if (EndsWith("ou")) break; return;
+                    if (EndsWith("ou")) break;
+                    return;
                 /* takes care of -ous */
                 case 's':
-                    if (EndsWith("ism")) break; return;
+                    if (EndsWith("ism")) break;
+                    return;
                 case 't':
                     if (EndsWith("ate")) break;
-                    if (EndsWith("iti")) break; return;
+                    if (EndsWith("iti")) break;
+                    return;
                 case 'u':
-                    if (EndsWith("ous")) break; return;
+                    if (EndsWith("ous")) break;
+                    return;
                 case 'v':
-                    if (EndsWith("ive")) break; return;
+                    if (EndsWith("ive")) break;
+                    return;
                 case 'z':
-                    if (EndsWith("ize")) break; return;
+                    if (EndsWith("ize")) break;
+                    return;
                 default:
                     return;
             }
+
             if (MeasureConsontantSequence() > 1)
                 endIndex = stemIndex;
         }
@@ -259,6 +397,7 @@ namespace Poseidon.Analysis
                 if (a > 1 || a == 1 && !IsCVC(endIndex - 1))
                     endIndex--;
             }
+
             if (wordArray[endIndex] == 'l' && IsDoubleConsontant(endIndex) && MeasureConsontantSequence() > 1)
                 endIndex--;
         }
@@ -288,8 +427,10 @@ namespace Poseidon.Analysis
             while (true)
             {
                 if (index > stemIndex) return n;
-                if (!IsConsonant(index)) break; index++;
+                if (!IsConsonant(index)) break;
+                index++;
             }
+
             index++;
             while (true)
             {
@@ -299,6 +440,7 @@ namespace Poseidon.Analysis
                     if (IsConsonant(index)) break;
                     index++;
                 }
+
                 index++;
                 n++;
                 while (true)
@@ -307,6 +449,7 @@ namespace Poseidon.Analysis
                     if (!IsConsonant(index)) break;
                     index++;
                 }
+
                 index++;
             }
         }
@@ -319,6 +462,7 @@ namespace Poseidon.Analysis
             {
                 if (!IsConsonant(i)) return true;
             }
+
             return false;
         }
 
@@ -353,6 +497,7 @@ namespace Poseidon.Analysis
             {
                 if (wordArray[index + i] != s[i]) return false;
             }
+
             stemIndex = endIndex - length;
             return true;
         }
@@ -367,6 +512,7 @@ namespace Poseidon.Analysis
             {
                 wordArray[index + i] = s[i];
             }
+
             // Set the end pointer to the new end of the word.
             endIndex = stemIndex + length;
         }
