@@ -50,5 +50,23 @@ namespace Chapter08.Tests
             AnswerService answerService = new AnswerService();
             await answerService.Answer72();
         }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer74"/>をテストします。
+        /// </summary>
+        [Test]
+        public async Task Answer74()
+        {
+            AnswerService answerService = new AnswerService();
+            await answerService.Answer74();
+        }
+        /// <summary>
+        /// <seealso cref="AnswerService.Answer75"/>をテストします。
+        /// </summary>
+        [Test]
+        public async Task Answer75()
+        {
+            AnswerService answerService = new AnswerService();
+            await answerService.Answer75();
+        }
     }
 }

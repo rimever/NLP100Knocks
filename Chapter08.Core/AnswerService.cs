@@ -127,14 +127,8 @@ namespace Chapter08.Core
         }
         /*
 
-73. 学習
-72で抽出した素性を用いて，ロジスティック回帰モデルを学習せよ．
 
-74. 予測
-73で学習したロジスティック回帰モデルを用い，与えられた文の極性ラベル（正例なら"+1"，負例なら"-1"）と，その予測確率を計算するプログラムを実装せよ．
 
-75. 素性の重み
-73で学習したロジスティック回帰モデルの中で，重みの高い素性トップ10と，重みの低い素性トップ10を確認せよ．
 
 76. ラベル付け
 学習データに対してロジスティック回帰モデルを適用し，正解のラベル，予測されたラベル，予測確率をタブ区切り形式で出力せよ．
@@ -152,18 +146,19 @@ namespace Chapter08.Core
         /// 72. 素性抽出
         /// 極性分析に有用そうな素性を各自で設計し，学習データから素性を抽出せよ．
         /// 素性としては，レビューからストップワードを除去し，各単語をステミング処理したものが最低限のベースラインとなるであろう．
-        /// 
+        /// 73. 学習
+        /// 72で抽出した素性を用いて，ロジスティック回帰モデルを学習せよ．
         /// </summary>
         public async Task Answer72()
         {
             string fileName = Path.Combine(RootDir, "Data", "sentimentCleaning.txt");
             WriteSentimentCleaningText(fileName);
             // STEP 1: Create a model
-            string modelPath = Path.Combine(RootDir, "Data","SentimentModel.zip");
-            var model = await TrainAsync(fileName,modelPath);
+            string modelPath = Path.Combine(RootDir, "Data","Answer72.zip");
+            var model = await TrainAnswer72Async(fileName,modelPath);
 
             // STEP2: Test accuracy
-            Evaluate(model, fileName);
+            EvaluateAnswer72(model, fileName);
 
             // STEP 3: Make a prediction
             var predictions = model.Predict(TestSentimentData.Sentiments);
@@ -175,29 +170,82 @@ namespace Chapter08.Core
                 Console.WriteLine(
                     $"Sentiment: {item.sentiment.SentimentText} | Prediction: {(item.prediction.Sentiment ? "Positive" : "Negative")} sentiment");
             }
-
         }
-        public static async Task<PredictionModel<SentimentData, SentimentPrediction>> TrainAsync(string trainDataPath,string modelPath)
+        /// <summary>
+        /// 74. 予測
+        /// 73で学習したロジスティック回帰モデルを用い，与えられた文の極性ラベル（正例なら"+1"，負例なら"-1"）と，その予測確率を計算するプログラムを実装せよ．
+        /// </summary>
+        /// <returns></returns>
+        public async Task Answer74()
         {
-            // LearningPipeline holds all steps of the learning process: data, transforms, learners.  
+            string fileName = Path.Combine(RootDir, "Data", "sentimentCleaning.txt");
+            WriteSentimentCleaningText(fileName);
+            string modelPath = Path.Combine(RootDir, "Data", "Answer73.zip");
+            var model = await TrainAnswer74Async(fileName, modelPath);
+            EvaluateAnswer74(model, fileName);
+            var predictions = model.Predict(TestSentimentData.Sentiments);
+            var sentimentsAndPredictions =
+                TestSentimentData.Sentiments.Zip(predictions, (sentiment, prediction) => (sentiment, prediction));
+            foreach (var item in sentimentsAndPredictions)
+            {
+                Console.WriteLine(
+                    $"Sentiment: {item.sentiment.SentimentText} | Prediction: {item.prediction.Sentiment}");
+            }
+        }
+        /// <summary>
+        /// 75. 素性の重み
+        ///73で学習したロジスティック回帰モデルの中で，重みの高い素性トップ10と，重みの低い素性トップ10を確認せよ．
+        /// </summary>
+        /// <returns></returns>
+        public async Task Answer75()
+        {
+            string fileName = Path.Combine(RootDir, "Data", "sentimentCleaning.txt");
+            WriteSentimentCleaningText(fileName);
+            string modelPath = Path.Combine(RootDir, "Data", "Answer73.zip");
+            var model = await TrainAnswer74Async(fileName, modelPath);
+            EvaluateAnswer74(model, fileName);
+            var sentiments = EnumerableSentimentData().ToList();
+            var predictions = model.Predict(sentiments);
+            var sentimentsAndPredictions =
+                sentiments.Zip(predictions, (sentiment, prediction) => (sentiment, prediction)).ToList();
+            Console.WriteLine("=== Top10 ===");
+            foreach (var item in sentimentsAndPredictions.OrderByDescending(s => s.prediction.Sentiment).Take(10))
+            {
+                Console.WriteLine($"{item.prediction.Sentiment}:{item.sentiment.SentimentText}");
+            }
+            Console.WriteLine("=== Worst10 ===");
+            foreach (var item in sentimentsAndPredictions.OrderBy(s => s.prediction.Sentiment).Take(10))
+            {
+                Console.WriteLine($"{item.prediction.Sentiment}:{item.sentiment.SentimentText}");
+            }
+        }
+
+        private static IEnumerable<SentimentData> EnumerableSentimentData()
+        {
+            using (var reader = new StreamReader(GetSentimentTextFilePath()))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return new SentimentData
+                    {
+                        SentimentText = line
+                    };
+                }
+            }
+        }
+
+
+        public static async Task<PredictionModel<SentimentData, SentimentPrediction>> TrainAnswer72Async(string trainDataPath,string modelPath)
+        {
             var pipeline = new LearningPipeline();
-
-            // The TextLoader loads a dataset. The schema of the dataset is specified by passing a class containing
-            // all the column names and their types.
             pipeline.Add(new TextLoader(trainDataPath).CreateFrom<SentimentData>());
-
-            // TextFeaturizer is a transform that will be used to featurize an input column to format and clean the data.
             pipeline.Add(new TextFeaturizer("Features", "SentimentText"));
-
-            // FastTreeBinaryClassifier is an algorithm that will be used to train the model.
-            // It has three hyperparameters for tuning decision tree performance. 
             pipeline.Add(new LogisticRegressionBinaryClassifier());
 
             Console.WriteLine("=============== Training model ===============");
-            // The pipeline is trained on the dataset that has been loaded and transformed.
             var model = pipeline.Train<SentimentData, SentimentPrediction>();
 
-            // Saving the model as a .zip file.
             await model.WriteAsync(modelPath);
 
             Console.WriteLine("=============== End training ===============");
@@ -205,32 +253,34 @@ namespace Chapter08.Core
 
             return model;
         }
-
-        private static void Evaluate(PredictionModel<SentimentData, SentimentPrediction> model,string testDataPath)
+        public static async Task<PredictionModel<SentimentData, SentimentWeightPrediction>> TrainAnswer74Async(string trainDataPath, string modelPath)
         {
-            // To evaluate how good the model predicts values, the model is ran against new set
-            // of data (test data) that was not involved in training.
+            var pipeline = new LearningPipeline();
+
+            pipeline.Add(new TextLoader(trainDataPath).CreateFrom<SentimentData>());
+
+            pipeline.Add(new TextFeaturizer("Features", "SentimentText"));
+
+            pipeline.Add(new LogisticRegressionBinaryClassifier());
+
+            Console.WriteLine("=============== Training model ===============");
+            var model = pipeline.Train<SentimentData, SentimentWeightPrediction>();
+            await model.WriteAsync(modelPath);
+            Console.WriteLine("=============== End training ===============");
+            Console.WriteLine("The model is saved to {0}", modelPath);
+
+            return model;
+        }
+
+        private static void EvaluateAnswer72(PredictionModel<SentimentData, SentimentPrediction> model,string testDataPath)
+        {
             var testData = new TextLoader(testDataPath).CreateFrom<SentimentData>();
 
-            // BinaryClassificationEvaluator performs evaluation for Binary Classification type of ML problems.
             var evaluator = new BinaryClassificationEvaluator();
 
             Console.WriteLine("=============== Evaluating model ===============");
 
             var metrics = evaluator.Evaluate(model, testData);
-            // BinaryClassificationMetrics contains the overall metrics computed by binary classification evaluators
-            // The Accuracy metric gets the accuracy of a classifier which is the proportion 
-            //of correct predictions in the test set.
-
-            // The Auc metric gets the area under the ROC curve.
-            // The area under the ROC curve is equal to the probability that the classifier ranks
-            // a randomly chosen positive instance higher than a randomly chosen negative one
-            // (assuming 'positive' ranks higher than 'negative').
-
-            // The F1Score metric gets the classifier's F1 score.
-            // The F1 score is the harmonic mean of precision and recall:
-            //  2 * precision * recall / (precision + recall).
-
             Console.WriteLine($"Accuracy: {metrics.Accuracy:P2}");
             Console.WriteLine($"Auc: {metrics.Auc:P2}");
             Console.WriteLine($"F1Score: {metrics.F1Score:P2}");
@@ -238,6 +288,22 @@ namespace Chapter08.Core
             Console.WriteLine();
         }
 
+        private static void EvaluateAnswer74(PredictionModel<SentimentData, SentimentWeightPrediction> model, string testDataPath)
+        {
+            var testData = new TextLoader(testDataPath).CreateFrom<SentimentData>();
+
+            var evaluator = new BinaryClassificationEvaluator();
+
+            Console.WriteLine("=============== Evaluating model ===============");
+
+            var metrics = evaluator.Evaluate(model, testData);
+
+            Console.WriteLine($"Accuracy: {metrics.Accuracy:P2}");
+            Console.WriteLine($"Auc: {metrics.Auc:P2}");
+            Console.WriteLine($"F1Score: {metrics.F1Score:P2}");
+            Console.WriteLine("=============== End evaluating ===============");
+            Console.WriteLine();
+        }
 
         private void WriteSentimentCleaningText(string fileName)
         {
@@ -308,6 +374,13 @@ namespace Chapter08.Core
             }
         }
     }
+
+    public class SentimentWeightPrediction
+    {
+        [ColumnName("Score")]
+        public float Sentiment;
+    }
+
     public class SentimentData
     {
         [Column(ordinal: "0", name: "Label")]
