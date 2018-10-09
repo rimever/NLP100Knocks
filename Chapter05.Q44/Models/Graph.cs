@@ -1,4 +1,8 @@
+#region
+
 using QuickGraph;
+
+#endregion
 
 namespace Chapter05.Q44.Models
 {

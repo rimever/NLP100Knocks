@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+
+#endregion
 
 namespace Chapter06.Core.Models
 {
@@ -11,23 +15,6 @@ namespace Chapter06.Core.Models
     {
         public List<Word> Words;
 
-
-        public string Text
-        {
-            get
-            {
-                string text = string.Empty;
-                foreach (var item in Words.Select((value, index) => new { value, index }))
-                {
-                    text += item.value.Value;
-                    if (item.index < Words.Count - 2)
-                    {
-                        text += " ";
-                    }
-                }
-                return text;
-            }
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -45,6 +32,25 @@ namespace Chapter06.Core.Models
                 }
 
                 DependencyDictionary.Add(type, list);
+            }
+        }
+
+
+        public string Text
+        {
+            get
+            {
+                string text = string.Empty;
+                foreach (var item in Words.Select((value, index) => new {value, index}))
+                {
+                    text += item.value.Value;
+                    if (item.index < Words.Count - 2)
+                    {
+                        text += " ";
+                    }
+                }
+
+                return text;
             }
         }
 

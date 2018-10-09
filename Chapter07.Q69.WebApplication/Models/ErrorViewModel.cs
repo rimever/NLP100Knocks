@@ -1,5 +1,3 @@
-using System;
-
 namespace Chapter07.Q69.WebApplication.Models
 {
     public class ErrorViewModel

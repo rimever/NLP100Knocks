@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using Npgsql;
 using NpgsqlTypes;
+
+#endregion
 
 namespace Chapter07.Core
 {
@@ -40,6 +44,7 @@ namespace Chapter07.Core
                 return results;
             }
         }
+
         /// <summary>
         /// 指定の活動場所に該当するデータを取得します。
         /// </summary>
@@ -64,6 +69,7 @@ namespace Chapter07.Core
                 return results;
             }
         }
+
         /// <summary>
         /// 指定された別名のアーティストを取得します。
         /// </summary>
@@ -84,9 +90,11 @@ namespace Chapter07.Core
                 {
                     results.Add(dataReader["json"].ToString());
                 }
+
                 return results;
             }
         }
+
         /// <summary>
         /// ダンスのタグを持つアーティストをレーティング投票数の多い順で並び替えた結果を取得します。
         /// </summary>
@@ -96,7 +104,8 @@ namespace Chapter07.Core
             using (var connection = new NpgsqlConnection(_connectionString.Value))
             {
                 connection.Open();
-                string sql = @"select json from artist where json->>'tags' LIKE '%\""value\""%:%\""dance\""%' ORDER BY COALESCE(json#>>'{rating,count}','-1')::int DESC";
+                string sql =
+                    @"select json from artist where json->>'tags' LIKE '%\""value\""%:%\""dance\""%' ORDER BY COALESCE(json#>>'{rating,count}','-1')::int DESC";
                 NpgsqlCommand command = new NpgsqlCommand(sql, connection);
                 var dataReader = command.ExecuteReader();
                 var results = new List<string>();
@@ -104,6 +113,7 @@ namespace Chapter07.Core
                 {
                     results.Add(dataReader["json"].ToString());
                 }
+
                 return results;
             }
         }
@@ -118,6 +128,7 @@ namespace Chapter07.Core
                 {
                     sql += " OR json->>'name' LIKE :name";
                 }
+
                 if (isAlias)
                 {
                     sql += " OR json->>'aliases' LIKE :alias";
@@ -127,12 +138,14 @@ namespace Chapter07.Core
                 {
                     sql += " OR  json->>'tags' LIKE :tags";
                 }
+
                 NpgsqlCommand command = new NpgsqlCommand(sql, connection);
                 if (isArtist)
                 {
                     command.Parameters.Add(new NpgsqlParameter("name", NpgsqlDbType.Varchar));
                     command.Parameters["name"].Value = $@"%{keyword}%";
                 }
+
                 if (isAlias)
                 {
                     command.Parameters.Add(new NpgsqlParameter("alias", NpgsqlDbType.Varchar));
@@ -144,12 +157,14 @@ namespace Chapter07.Core
                     command.Parameters.Add(new NpgsqlParameter("tags", NpgsqlDbType.Varchar));
                     command.Parameters["tags"].Value = $@"%\""value\""%:%\""%{keyword}%\""%";
                 }
+
                 var dataReader = command.ExecuteReader();
                 var results = new List<string>();
                 while (dataReader.Read())
                 {
                     results.Add(dataReader["json"].ToString());
                 }
+
                 return results;
             }
         }

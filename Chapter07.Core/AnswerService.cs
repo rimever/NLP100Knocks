@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
+#endregion
 
 namespace Chapter07.Core
 {
@@ -84,6 +88,7 @@ namespace Chapter07.Core
             int count = _jsonAccessor.GetRecordsByArea(area).Count;
             Console.WriteLine($"{area}:{count}件");
         }
+
         /// <summary>
         /// 67. 複数のドキュメントの取得
         /// 特定の（指定した）別名を持つアーティストを検索せよ．
@@ -95,8 +100,8 @@ namespace Chapter07.Core
             {
                 Console.WriteLine(json);
             }
-
         }
+
         /// <summary>
         /// 68. ソート
         /// "dance"というタグを付与されたアーティストの中でレーティングの投票数が多いアーティスト・トップ10を求めよ．
@@ -108,6 +113,7 @@ namespace Chapter07.Core
                 Console.WriteLine(json);
             }
         }
+
         /// <summary>
         /// 69. Webアプリケーションの作成
         /// ユーザから入力された検索条件に合致するアーティストの情報を表示するWebアプリケーションを作成せよ．アーティスト名，アーティストの別名，タグ等で検索条件を指定し，アーティスト情報のリストをレーティングの高い順などで整列して表示せよ．

@@ -1,5 +1,9 @@
+#region
+
 using GraphX.PCL.Logic.Models;
 using QuickGraph;
+
+#endregion
 
 namespace Chapter05.Q44.Models
 {

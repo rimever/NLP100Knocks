@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+
+#endregion
 
 namespace Chapter06.Core.Models
 {

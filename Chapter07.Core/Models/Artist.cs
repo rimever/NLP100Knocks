@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
+
 using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace Chapter07.Core.Models
 {
@@ -13,11 +11,6 @@ namespace Chapter07.Core.Models
     /// </summary>
     public class Artist
     {
-        /// <summary>
-        /// 名前
-        /// </summary>
-        public string Name { get; set; }
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -28,6 +21,12 @@ namespace Chapter07.Core.Models
             Area = TryGetString(jObject, "area");
             BeginYear = GetBeginYear(jObject);
         }
+
+        /// <summary>
+        /// 名前
+        /// </summary>
+        public string Name { get; set; }
+
         /// <summary>
         /// 活動開始年
         /// </summary>
@@ -56,6 +55,7 @@ namespace Chapter07.Core.Models
 
             return string.Empty;
         }
+
         /// <summary>
         /// 活動開始日時を取得します。
         /// </summary>
@@ -67,6 +67,7 @@ namespace Chapter07.Core.Models
             {
                 return int.Parse(outToken["year"].ToString());
             }
+
             return 0;
         }
     }

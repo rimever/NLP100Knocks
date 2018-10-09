@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using Chapter03.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter03.Tests
 {

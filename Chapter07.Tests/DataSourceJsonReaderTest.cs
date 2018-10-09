@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Chapter07.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter07.Tests
 {

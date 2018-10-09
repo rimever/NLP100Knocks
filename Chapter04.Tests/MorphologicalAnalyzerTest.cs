@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿#region
+
+using System.Linq;
 using Chapter04.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter04.Tests
 {

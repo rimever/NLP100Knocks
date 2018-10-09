@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using CsvHelper;
 using NMeCab;
+
+#endregion
 
 namespace Chapter04.Core
 {

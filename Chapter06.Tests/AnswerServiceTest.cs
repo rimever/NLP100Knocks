@@ -1,5 +1,9 @@
-﻿using Chapter06.Core;
+﻿#region
+
+using Chapter06.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter06.Tests
 {
@@ -7,12 +11,6 @@ namespace Chapter06.Tests
     public class AnswerServiceTest
     {
         readonly AnswerService service = new AnswerService();
-
-        [Test]
-        public void Constructor()
-        {
-            Assert.NotNull(service);
-        }
 
         /// <summary>
         /// <seealso cref="AnswerService.Answer50"/>をテストします。
@@ -31,14 +29,7 @@ namespace Chapter06.Tests
         {
             service.Answer51();
         }
-        /// <summary>
-        /// <seealso cref="AnswerService.GroupByWord"/>をテストします。
-        /// </summary>
-        [Test]
-        public void GroupByWord()
-        {
-            service.GroupByWord();
-        }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer52"/>をテストします。
         /// </summary>
@@ -47,6 +38,7 @@ namespace Chapter06.Tests
         {
             service.Answer52();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer53"/>をテストします。
         /// </summary>
@@ -55,6 +47,7 @@ namespace Chapter06.Tests
         {
             service.Answer53();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer54"/>をテストします。
         /// </summary>
@@ -63,6 +56,7 @@ namespace Chapter06.Tests
         {
             service.Answer54();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer55"/>をテストします。
         /// </summary>
@@ -71,6 +65,7 @@ namespace Chapter06.Tests
         {
             service.Answer55();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer56"/>をテストします。
         /// </summary>
@@ -79,6 +74,7 @@ namespace Chapter06.Tests
         {
             service.Answer56();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer58"/>をテストします。
         /// </summary>
@@ -87,6 +83,7 @@ namespace Chapter06.Tests
         {
             service.Answer58();
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer59"/>をテストします。
         /// </summary>
@@ -94,6 +91,21 @@ namespace Chapter06.Tests
         public void Answer59()
         {
             service.Answer59();
+        }
+
+        [Test]
+        public void Constructor()
+        {
+            Assert.NotNull(service);
+        }
+
+        /// <summary>
+        /// <seealso cref="AnswerService.GroupByWord"/>をテストします。
+        /// </summary>
+        [Test]
+        public void GroupByWord()
+        {
+            service.GroupByWord();
         }
     }
 }

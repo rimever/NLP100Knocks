@@ -1,5 +1,9 @@
+#region
+
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+#endregion
 
 [assembly: AssemblyTitle("Chapter06.Tests")]
 [assembly: AssemblyDescription("")]

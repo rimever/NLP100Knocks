@@ -1,4 +1,8 @@
-﻿using GraphX.PCL.Common.Models;
+﻿#region
+
+using GraphX.PCL.Common.Models;
+
+#endregion
 
 namespace Chapter05.Q44.Models
 {

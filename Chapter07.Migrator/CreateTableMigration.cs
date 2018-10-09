@@ -1,4 +1,8 @@
-﻿using FluentMigrator;
+﻿#region
+
+using FluentMigrator;
+
+#endregion
 
 namespace Chapter07.Migrator
 {

@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using Chapter07.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter07.Tests
 {
@@ -24,6 +28,7 @@ namespace Chapter07.Tests
                 Console.WriteLine(record);
             }
         }
+
         /// <summary>
         /// <seealso cref="JsonAccessor.GetRecordsByArea"/>をテストします。
         /// </summary>

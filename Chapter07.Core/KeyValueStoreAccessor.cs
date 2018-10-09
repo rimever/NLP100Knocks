@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using Npgsql;
 using NpgsqlTypes;
+
+#endregion
 
 namespace Chapter07.Core
 {

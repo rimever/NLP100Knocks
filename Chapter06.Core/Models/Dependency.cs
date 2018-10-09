@@ -1,4 +1,8 @@
-﻿using System.Xml.Linq;
+﻿#region
+
+using System.Xml.Linq;
+
+#endregion
 
 namespace Chapter06.Core.Models
 {

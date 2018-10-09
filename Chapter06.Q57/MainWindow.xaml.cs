@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -9,6 +11,8 @@ using Chapter06.Q57.Models;
 using GraphX.Controls;
 using GraphX.PCL.Common.Enums;
 using GraphX.PCL.Logic.Algorithms.LayoutAlgorithms;
+
+#endregion
 
 namespace Chapter06.Q57
 {

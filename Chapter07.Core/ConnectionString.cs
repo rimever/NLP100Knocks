@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Diagnostics;
 using System.IO;
+
+#endregion
 
 namespace Chapter07.Core
 {

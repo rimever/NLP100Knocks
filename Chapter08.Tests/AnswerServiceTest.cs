@@ -1,7 +1,11 @@
+#region
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Chapter08.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter08.Tests
 {

@@ -1,19 +1,23 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Chapter07.Core;
 using Chapter07.Core.Models;
-using Microsoft.AspNetCore.Mvc;
 using Chapter07.Q69.WebApplication.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace Chapter07.Q69.WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private AnswerService _service = new AnswerService(new ConnectionString(@"..\..\..\..\Chapter07.Core"));
+        private readonly AnswerService
+            _service = new AnswerService(new ConnectionString(@"..\..\..\..\Chapter07.Core"));
+
         public IActionResult Index()
         {
             return View();
@@ -35,7 +39,7 @@ namespace Chapter07.Q69.WebApplication.Controllers
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
         public IActionResult Search(string keyword, bool isArtist, bool isAlias, bool isTags)
@@ -50,8 +54,6 @@ namespace Chapter07.Q69.WebApplication.Controllers
     /// </summary>
     public class SearchViewModel
     {
-        public IList<Artist> Results { get; set; }
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -61,6 +63,8 @@ namespace Chapter07.Q69.WebApplication.Controllers
             Results = EnumerableArtists(results).ToList();
         }
 
+        public IList<Artist> Results { get; set; }
+
         private IEnumerable<Artist> EnumerableArtists(IList<string> results)
         {
             foreach (string result in results)
@@ -68,6 +72,5 @@ namespace Chapter07.Q69.WebApplication.Controllers
                 yield return new Artist(JObject.Parse(result));
             }
         }
-        
     }
 }

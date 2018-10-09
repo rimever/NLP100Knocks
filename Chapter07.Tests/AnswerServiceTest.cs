@@ -1,5 +1,9 @@
-﻿using Chapter07.Core;
+﻿#region
+
+using Chapter07.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter07.Tests
 {
@@ -48,6 +52,7 @@ namespace Chapter07.Tests
             AnswerService service = new AnswerService(new ConnectionString());
             service.Answer65("Queen");
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer66"/>をテストします。
         /// </summary>
@@ -57,6 +62,7 @@ namespace Chapter07.Tests
             AnswerService service = new AnswerService(new ConnectionString());
             service.Answer66("Japan");
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer67"/>をテストします。
         /// </summary>
@@ -66,6 +72,7 @@ namespace Chapter07.Tests
             AnswerService service = new AnswerService(new ConnectionString());
             service.Answer67("オアシス");
         }
+
         /// <summary>
         /// <seealso cref="AnswerService.Answer68"/>をテストします。
         /// </summary>

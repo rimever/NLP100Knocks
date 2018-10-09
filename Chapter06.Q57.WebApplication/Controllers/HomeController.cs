@@ -1,13 +1,14 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Chapter06.Core;
 using Chapter06.Core.Models;
-using Microsoft.AspNetCore.Mvc;
 using Chapter06.Q57.WebApplication.Models;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
+
+#endregion
 
 namespace Chapter06.Q57.WebApplication.Controllers
 {
@@ -36,6 +37,7 @@ namespace Chapter06.Q57.WebApplication.Controllers
 
             return View(new TextViewModel(sentences));
         }
+
         /// <summary>
         /// 文章の係り受け情報を取得します。
         /// </summary>
@@ -52,7 +54,7 @@ namespace Chapter06.Q57.WebApplication.Controllers
             var links = dependencies.Where(d => d.Governor.Index > 0).Select(d => new
                 {target = d.Governor.Index - 1, source = d.Dependent.Index - 1});
 
-            return new JsonResult(new Dictionary<string, object>()
+            return new JsonResult(new Dictionary<string, object>
             {
                 {"nodes", nodes},
                 {"links", links}
@@ -75,7 +77,7 @@ namespace Chapter06.Q57.WebApplication.Controllers
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

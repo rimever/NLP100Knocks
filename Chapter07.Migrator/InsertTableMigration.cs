@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using Chapter07.Core;
 using FluentMigrator;
 using Newtonsoft.Json.Linq;
+
+#endregion
 
 namespace Chapter07.Migrator
 {

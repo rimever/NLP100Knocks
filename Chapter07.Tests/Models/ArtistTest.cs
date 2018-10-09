@@ -1,12 +1,13 @@
-﻿using System;
+﻿#region
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Chapter07.Core;
 using Chapter07.Core.Models;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter07.Tests.Models
 {

@@ -1,17 +1,16 @@
 ﻿<div class="panel-group">
-@for (int i = 0; i < @Model.Results.Count; i++)
-{
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#collapse@i">@Model.Results[i].Name / @Model.Results[i].Area</a>
-			</h4>
-		</div>
-		<div id="collapse@i" class="panel-collapse collapse">
-			<div class="panel-body">Panel Body</div>
-			<div class="panel-footer">Panel Footer</div>
-		</div>
-	</div>
-}
-</div>	
-
+    @for (int i = 0; i < Model.Results.Count; i++)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse@i">@Model.Results[i].Name / @Model.Results[i].Area</a>
+                </h4>
+            </div>
+            <div id="collapse@i" class="panel-collapse collapse">
+                <div class="panel-body">Panel Body</div>
+                <div class="panel-footer">Panel Footer</div>
+            </div>
+        </div>
+    }
+</div>

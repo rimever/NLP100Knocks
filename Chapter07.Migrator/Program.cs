@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using Chapter07.Core;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
+
+#endregion
 
 namespace Chapter07.Migrator
 {

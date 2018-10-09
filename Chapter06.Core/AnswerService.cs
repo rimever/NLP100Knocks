@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,6 +10,8 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Chapter06.Core.Models;
 using Poseidon.Analysis;
+
+#endregion
 
 namespace Chapter06.Core
 {
@@ -23,8 +27,8 @@ namespace Chapter06.Core
 
         public AnswerService(string relativePath = @"..\..\..\Chapter06.Core")
         {
-            _stanfordNlpFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,relativePath, "nlp.txt.xml");
-            var textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,relativePath, "nlp.txt");
+            _stanfordNlpFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath, "nlp.txt.xml");
+            var textFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath, "nlp.txt");
             Debug.Assert(File.Exists(textFilePath), textFilePath);
             Debug.Assert(File.Exists(_stanfordNlpFilePath), _stanfordNlpFilePath);
             _text = File.ReadAllText(textFilePath);
@@ -77,12 +81,13 @@ namespace Chapter06.Core
                 Console.WriteLine();
             }
         }
+
         /// <summary>
         /// Chapter08でStopWord(意味を持たない言葉)必要なため、単語の頻出回数をリストアップします。
         /// </summary>
         public void GroupByWord()
         {
-            Dictionary<string,int> countByWord = new Dictionary<string, int>();
+            Dictionary<string, int> countByWord = new Dictionary<string, int>();
             foreach (var sentence in SplitSentence())
             {
                 foreach (var word in SplitWords(sentence))

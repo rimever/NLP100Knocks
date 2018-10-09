@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region
+
+using System;
+
+#endregion
 
 // https://tartarus.org/martin/PorterStemmer/csharp3.txt
 namespace Poseidon.Analysis

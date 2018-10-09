@@ -6,52 +6,58 @@
 <br>
 <br>
 <div class="row">
-	<div class="col-md-12">
-		<div class="form-group">
-				<label for="input-keyword">キーワード</label>
-				<input type="text" class="form-control" id="input-keyword" aria-describedby="keywordHelp" placeholder="キーワードを入力してください。">
-				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox-name" id="checkbox-name" checked>アーティスト名
-				</label>
-				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox-alias" id="checkbox-alias">アーティスト別名
-				</label>
-				<label class="checkbox-inline">
-					<input type="checkbox" name="checkbox-tags" id="checkbox-tags">タグ
-				</label>
-		</div>
-		<button type="button" class="btn btn-primary" id="button-keyword">検索</button>
-	</div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="input-keyword">キーワード</label>
+            <input type="text" class="form-control" id="input-keyword" aria-describedby="keywordHelp" placeholder="キーワードを入力してください。">
+            <label class="checkbox-inline">
+                <input type="checkbox" name="checkbox-name" id="checkbox-name" checked>アーティスト名
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="checkbox-alias" id="checkbox-alias">アーティスト別名
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="checkbox-tags" id="checkbox-tags">タグ
+            </label>
+        </div>
+        <button type="button" class="btn btn-primary" id="button-keyword">検索</button>
+    </div>
 </div>
 <div class="row">
-	<div class="col-md-12">
-		<br/><br/>
-		<div id="result">
+    <div class="col-md-12">
+        <br/><br/>
+        <div id="result">
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
+
 @section Scripts
 {
-	<script type="text/javascript">
+    <script type="text/javascript">
 
-		$(window).load(function() {
-			$('#button-keyword').on('click',function() {
-				var keyword = $('#input-keyword').val();
-				var isArtist = $('#checkbox-name').prop('checked');
-				var isAlias = $('#checkbox-alias').prop('checked');
-				var isTags = $('#checkbox-tags').prop('checked');
-				$("#result").html('検索中です...');
-				$.ajax({
-					type: "GET",
-					url: "http://localhost:5000/Home/Search?keyword=" + keyword +
-						"&isArtist=" + isArtist +
-						"&isAlias=" + isAlias +
-						"&isTags=" + isTags
-			}).done(function(html) {
-					$("#result").html(html);
-				});
-			});
-		});	
-	</script>	
+        $(window).load(function() {
+            $('#button-keyword').on('click',
+                function() {
+                    var keyword = $('#input-keyword').val();
+                    var isArtist = $('#checkbox-name').prop('checked');
+                    var isAlias = $('#checkbox-alias').prop('checked');
+                    var isTags = $('#checkbox-tags').prop('checked');
+                    $("#result").html('検索中です...');
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:5000/Home/Search?keyword=" +
+                            keyword +
+                            "&isArtist=" +
+                            isArtist +
+                            "&isAlias=" +
+                            isAlias +
+                            "&isTags=" +
+                            isTags
+                    }).done(function(html) {
+                        $("#result").html(html);
+                    });
+                });
+        });
+    </script>
 }

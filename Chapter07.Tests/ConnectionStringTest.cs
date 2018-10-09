@@ -1,5 +1,9 @@
-﻿using Chapter07.Core;
+﻿#region
+
+using Chapter07.Core;
 using NUnit.Framework;
+
+#endregion
 
 namespace Chapter07.Tests
 {
