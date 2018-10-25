@@ -9,6 +9,7 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Models;
 using Microsoft.ML.Runtime.Api;
+using Microsoft.ML.Runtime.LightGBM;
 using Microsoft.ML.Trainers;
 using Microsoft.ML.Transforms;
 using Poseidon.Analysis;
@@ -22,10 +23,10 @@ namespace Chapter08.Core
     /// </summary>
     public class AnswerService
     {
-        private const string RootDir = @"..\..\..\..\Chapter08.Core";
+        private const string RootDir = @"../../../../Chapter08.Core";
 
         readonly string _dataSourceDirectoryPath =
-            Path.GetFullPath(Path.Combine(RootDir, @"rt-polaritydata\rt-polaritydata"));
+            Path.GetFullPath(Path.Combine(RootDir, @"rt-polaritydata/rt-polaritydata"));
 
         readonly PorterStemmer _stemmer = new PorterStemmer();
 
@@ -388,7 +389,7 @@ namespace Chapter08.Core
         /// <returns></returns>
         private string CleanText(string text)
         {
-            string[] words = text.Split(" ");
+            string[] words = text.Split(' ');
             var cleanWords = EnumerableValidWords(words).Select(word => _stemmer.StemWord(word));
             return string.Join(" ", cleanWords.ToArray());
         }
@@ -416,6 +417,58 @@ namespace Chapter08.Core
         {
             public int Point { get; set; }
             public string Sentence { get; set; }
+        }
+
+        /// <summary>
+        /// <see cref="LightGbmRegressor"/>を試行するためのメソッドです。
+        /// </summary>
+        /// <returns></returns>
+        public async Task TryLightGbm()
+        {
+            new LightGbmArguments();
+            string fileName = Path.Combine(RootDir, "Data", "sentimentCleaning.txt");
+            WriteSentimentCleaningText(fileName);
+            // STEP 1: Create a model
+            string modelPath = Path.Combine(RootDir, "Data", $"{nameof(TryLightGbm)}.zip");
+            var model = await TrainLightGbmAsync(fileName, modelPath);
+
+            // STEP2: Test accuracy
+            EvaluateAnswer72(model, fileName);
+
+            // STEP 3: Make a prediction
+            var predictions = model.Predict(TestSentimentData.Sentiments);
+
+            var sentimentsAndPredictions =
+                TestSentimentData.Sentiments.Zip(predictions, (sentiment, prediction) => (sentiment, prediction));
+            foreach (var item in sentimentsAndPredictions)
+            {
+                Console.WriteLine(
+                    $"Sentiment: {item.sentiment.SentimentText} | Prediction: {(item.prediction.Sentiment ? "Positive" : "Negative")} sentiment");
+            }
+        }
+        /// <summary>
+        /// <see cref="LightGbmRegressor"/>でトレーニングします。
+        /// </summary>
+        /// <param name="trainDataPath"></param>
+        /// <param name="modelPath"></param>
+        /// <returns></returns>
+        public static async Task<PredictionModel<SentimentData, SentimentPrediction>> TrainLightGbmAsync(
+            string trainDataPath, string modelPath)
+        {
+            var pipeline = new LearningPipeline();
+            pipeline.Add(new TextLoader(trainDataPath).CreateFrom<SentimentData>());
+            pipeline.Add(new TextFeaturizer("Features", "SentimentText"));
+            pipeline.Add(new LightGbmBinaryClassifier() { NumLeaves = 5, NumBoostRound = 5, MinDataPerLeaf = 2 });
+            
+            Console.WriteLine("=============== Training model ===============");
+            var model = pipeline.Train<SentimentData, SentimentPrediction>();
+
+            await model.WriteAsync(modelPath);
+
+            Console.WriteLine("=============== End training ===============");
+            Console.WriteLine("The model is saved to {0}", modelPath);
+
+            return model;
         }
     }
 
