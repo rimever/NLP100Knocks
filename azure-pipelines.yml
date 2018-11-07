@@ -12,6 +12,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- script: |
+    Install-Package NUnitTestAdapter
+
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
