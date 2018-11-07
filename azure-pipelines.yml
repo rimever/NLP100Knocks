@@ -13,9 +13,6 @@ variables:
 
 steps:
 
-- script: |
-    Install-Package NUnitTestAdapter
-
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
@@ -27,6 +24,9 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- script: |
+    nuget install NUnitTestAdapter
 
 - task: VSTest@2
   inputs:
