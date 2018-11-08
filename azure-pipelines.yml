@@ -26,7 +26,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - script: |
-    nuget install NUnitTestAdapter
+    nuget install NUnit3TestAdapter
 
 - task: VSTest@2
   inputs:
