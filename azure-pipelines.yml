@@ -32,3 +32,8 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    testSelection: 'testAssembly' # Options: testAssembly, testPlan
+    #testPlan: # Required when testSelection == TestPlan
+    #testSuite: # Required when testSelection == TestPlan
+    #testConfiguration: # Required when testSelection == TestPlan
+    sourcefilters: '**\*test*.dll' # Required when testSelection == TestAssembly
