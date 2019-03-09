@@ -7,7 +7,7 @@
         xmlns:graphx="http://schemas.panthernet.ru/graphx/"
         xmlns:models="clr-namespace:Chapter05.Q44.Models"
         mc:Ignorable="d"
-        Title="Q44" Height="800" Width="1024" FontFamily="Meiryo UI">
+        Title="Q44" Height="600" Width="800" FontFamily="Meiryo UI">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
