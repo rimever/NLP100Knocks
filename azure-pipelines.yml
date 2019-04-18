@@ -17,8 +17,12 @@ steps:
 
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(solution)'
-
+    command: 'restore'
+    restoreSolution: '$(PROJECT_NAME).sln'
+    #feedsToUse: 'config'
+    #nugetConfigPath: 'NuGet.config'
+  displayName: 'Restore NuGet packages'
+  
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
