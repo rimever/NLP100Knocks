@@ -33,7 +33,7 @@ steps:
     nuget install NUnit3TestAdapter
     nuget install System.Xml.XPath.XDocument
     
-- task: VSTest@2
+- task: PublishTestResults@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    testResultsFormat: 'NUnit'
+  displayName: 'Publish test results'
